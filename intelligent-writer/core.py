@@ -2,14 +2,14 @@
 🧠 هوش نگار - سیستم تولید محتوای هوشمند
 """
 
-class هوش_نگار:
+class IntelligentWriter:
     def __init__(self):
-        self.قالب‌ها = ['گزارش', 'مقاله', 'داستان']
+        self.templates = ['گزارش', 'مقاله', 'داستان']
     
-    def تولید_محتوا(self, موضوع, قالب):
-        return f"محتوای {قالب} درباره {موضوع}"
+    def generate_content(self, topic, template):
+        return f"محتوای {template} درباره {topic}"
 
-سیستم = هوش_نگار()
-نتیجه = سیستم.تولید_محتوا("هوش مصنوعی", "مقاله")
+system = IntelligentWriter()
+result = system.generate_content("هوش مصنوعی", "مقاله")
 print("🧠 هوش نگار فعال شد")
-print(f"✅ نتیجه: {نتیجه}")
+print(f"✅ نتیجه: {result}")
