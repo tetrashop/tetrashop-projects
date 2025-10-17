@@ -1,9 +1,12 @@
-print("⚛️ نگار کوانتا")
-print("سیستم تولید متن کوانتومی")
+print("⚛️ نگار کوانتا - سیستم تولید متن کوانتومی")
 
 class QuantumWriter:
     def generate_text(self, topic):
         return f"متن کوانتومی درباره {topic}"
     
-writer = QuantumWriter()
-print(writer.generate_text("هوش مصنوعی"))
+    def multi_verse_story(self, theme):
+        return f"داستان چندجهانی: {theme}"
+
+qw = QuantumWriter()
+print(qw.generate_text("هوش مصنوعی"))
+print(qw.multi_verse_story("سفر در زمان"))
