@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetrashop - پروژه‌های کامل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .project-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+        .project-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        .project-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .project-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .project-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 پروژه‌های Tetrashop</h1>
+            <p>مدیریت و مشاهده تمام زیرپروژه‌ها</p>
+        </header>
+        
+        <div class="projects-grid" id="projectsContainer">
+            <!-- پروژه‌ها اینجا لود می‌شوند -->
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="showPrevProject()">⬅️ پروژه قبلی</button>
+            <button class="nav-btn" onclick="showNextProject()">پروژه بعدی ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        // لیست پروژه‌های شما
+        const projects = [
+            {
+                name: "♟️ Chess Engine",
+                description: "موتور شطرنج هوشمند با قابلیت تحلیل پیشرفته",
+                link: "https://github.com/your-username/tetrashop/tree/main/chess-engine",
+                status: "تکمیل شده"
+            },
+            {
+                name: "✍️ Intelligent Writer",
+                description: "سیستم هوشمند تولید محتوا و نویسندگی خودکار",
+                link: "https://github.com/your-username/tetrashop/tree/main/intelligent-writer", 
+                status: "تکمیل شده"
+            },
+            {
+                name: "🔮 Quantum Writer",
+                description: "نویسنده کوانتومی با الگوریتم‌های پیشرفته",
+                link: "https://github.com/your-username/tetrashop/tree/main/quantum-writer",
+                status: "فعال"
+            },
+            {
+                name: "🛡️ Secret Guardian",
+                description: "سیستم امنیتی و محافظت از اطلاعات محرمانه",
+                link: "https://github.com/your-username/tetrashop/tree/main/secret-guardian",
+                status: "تکمیل شده"
+            },
+            {
+                name: "🎤 Speech Processor",
+                description: "پردازشگر صدا و گفتار با قابلیت‌های پیشرفته",
+                link: "https://github.com/your-username/tetrashop/tree/main/speech-processor",
+                status: "در حال توسعه"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function displayProjects() {
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '';
+
+            projects.forEach((project, index) => {
+                const projectCard = `
+                    <div class="project-card">
+                        <h3>${project.name}</h3>
+                        <p>${project.description}</p>
+                        <p><strong>وضعیت:</strong> ${project.status}</p>
+                        <a href="${project.link}" target="_blank" class="project-link">
+                            مشاهده پروژه
+                        </a>
+                    </div>
+                `;
+                container.innerHTML += projectCard;
+            });
+        }
+
+        function showNextProject() {
+            // منطق نمایش پروژه بعدی
+            alert('پروژه بعدی: ' + projects[(currentIndex + 1) % projects.length].name);
+        }
+
+        function showPrevProject() {
+            // منطق نمایش پروژه قبلی  
+            alert('پروژه قبلی: ' + projects[(currentIndex - 1 + projects.length) % projects.length].name);
+        }
+
+        // راه‌اندازی اولیه
+        displayProjects();
+    </script>
+</body>
+</html>
