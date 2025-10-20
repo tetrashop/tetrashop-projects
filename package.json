@@ -1,0 +1,14 @@
+// 📁 package.json (ریشه)
+{
+  "name": "tetrashop-projects",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:*\"",
+    "dev:chess": "cd chess-engine && npm run dev",
+    "dev:writer": "cd intelligent-writer && npm run dev",
+    "dev:quantum": "cd quantum-writer && npm run dev",
+    "dev:security": "cd secret-guardian && npm run dev",
+    "dev:speech": "cd speech-processor && npm run dev",
+    "build:all": "npm run build:*",
+    "build:chess": "cd chess-engine && npm run build"
+  }
+}
