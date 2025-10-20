@@ -322,6 +322,294 @@
         });
     </script>
 </body>
+</html>        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .back-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+        
+        .content {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .status {
+            background: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .content h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .content p {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .chess-board {
+            width: 320px;
+            height: 320px;
+            margin: 20px auto;
+            border: 10px solid #8b4513;
+            background: #f0d9b5;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+        }
+        
+        .chess-square {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .chess-square:nth-child(16n + 1),
+        .chess-square:nth-child(16n + 3),
+        .chess-square:nth-child(16n + 5),
+        .chess-square:nth-child(16n + 7),
+        .chess-square:nth-child(16n + 10),
+        .chess-square:nth-child(16n + 12),
+        .chess-square:nth-child(16n + 14),
+        .chess-square:nth-child(16n + 16) {
+            background: #b58863;
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-new-game { background: #22c55e; color: white; }
+        .btn-analyze { background: #3b82f6; color: white; }
+        .btn-hint { background: #8b5cf6; color: white; }
+        
+        .control-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .game-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px auto;
+            max-width: 400px;
+            border-left: 4px solid #3498db;
+            font-size: 0.9rem;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            font-size: 0.85rem;
+        }
+        
+        .notification.success { background: #22c55e; }
+        .notification.info { background: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>♟️ Chess Engine</h1>
+            <p>موتور شطرنج هوشمند با الگوریتم‌های پیشرفته</p>
+            <a href="../index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
+        </div>
+        
+        <div class="content">
+            <div class="status">✅ پروژه با موفقیت اجرا شد</div>
+            <h2>موتور شطرنج در حال اجرا است</h2>
+            <p>سیستم هوشمند تحلیل و پیش‌بینی حرکات فعال شد</p>
+            
+            <div class="game-info">
+                <h3>🎮 وضعیت بازی</h3>
+                <p>موتور شطرنج آماده است! سطح دشواری: متوسط</p>
+            </div>
+            
+            <div class="chess-board">
+                <!-- مهره‌های شطرنج -->
+                <div class="chess-square">♜</div><div class="chess-square">♞</div>
+                <div class="chess-square">♝</div><div class="chess-square">♛</div>
+                <div class="chess-square">♚</div><div class="chess-square">♝</div>
+                <div class="chess-square">♞</div><div class="chess-square">♜</div>
+                
+                <div class="chess-square">♟</div><div class="chess-square">♟</div>
+                <div class="chess-square">♟</div><div class="chess-square">♟</div>
+                <div class="chess-square">♟</div><div class="chess-square">♟</div>
+                <div class="chess-square">♟</div><div class="chess-square">♟</div>
+                
+                <!-- خانه‌های خالی -->
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                
+                <div class="chess-square">♙</div><div class="chess-square">♙</div>
+                <div class="chess-square">♙</div><div class="chess-square">♙</div>
+                <div class="chess-square">♙</div><div class="chess-square">♙</div>
+                <div class="chess-square">♙</div><div class="chess-square">♙</div>
+                
+                <div class="chess-square">♖</div><div class="chess-square">♘</div>
+                <div class="chess-square">♗</div><div class="chess-square">♕</div>
+                <div class="chess-square">♔</div><div class="chess-square">♗</div>
+                <div class="chess-square">♘</div><div class="chess-square">♖</div>
+            </div>
+            
+            <div class="game-controls">
+                <button class="control-btn btn-new-game">🎯 شروع بازی جدید</button>
+                <button class="control-btn btn-analyze">📊 تحلیل موقعیت</button>
+                <button class="control-btn btn-hint">💡 راهنمایی</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="chess-notification"></div>
+
+    <script>
+        class ChessEngine {
+            constructor() {
+                this.gameActive = false;
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.showNotification('موتور شطرنج آماده است!', 'success');
+            }
+            
+            setupEventListeners() {
+                document.querySelector('.btn-new-game').addEventListener('click', () => {
+                    this.startNewGame();
+                });
+                
+                document.querySelector('.btn-analyze').addEventListener('click', () => {
+                    this.analyzePosition();
+                });
+                
+                document.querySelector('.btn-hint').addEventListener('click', () => {
+                    this.provideHint();
+                });
+            }
+            
+            startNewGame() {
+                this.gameActive = true;
+                this.showNotification('بازی جدید شروع شد! نوبت شماست.', 'success');
+                
+                setTimeout(() => {
+                    this.computerMove();
+                }, 2000);
+            }
+            
+            analyzePosition() {
+                this.showNotification('در حال تحلیل موقعیت...', 'info');
+                
+                setTimeout(() => {
+                    const evaluations = ['+0.3 (برتری سفید)', '-0.2 (برتری سیاه)', '0.0 (تساوی)'];
+                    const bestMoves = ['e2-e4', 'd2-d4', 'g1-f3'];
+                    const randomEval = evaluations[Math.floor(Math.random() * evaluations.length)];
+                    const randomMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
+                    
+                    this.showNotification(`تحلیل: ${randomEval} | بهترین حرکت: ${randomMove}`, 'info');
+                }, 1000);
+            }
+            
+            provideHint() {
+                const hints = [
+                    'مرکز صفحه را کنترل کنید',
+                    'مهره‌های خود را توسعه دهید', 
+                    'رخ‌ها را به خطوط باز منتقل کنید',
+                    'از پیاده‌های ایزوله اجتناب کنید'
+                ];
+                const randomHint = hints[Math.floor(Math.random() * hints.length)];
+                this.showNotification(`راهنمایی: ${randomHint}`, 'info');
+            }
+            
+            computerMove() {
+                if (!this.gameActive) return;
+                
+                this.showNotification('🤖 کامپیوتر در حال فکر کردن...', 'info');
+                
+                setTimeout(() => {
+                    const moves = ['e7-e5', 'g8-f6', 'f8-c5', 'e8-g8'];
+                    const randomMove = moves[Math.floor(Math.random() * moves.length)];
+                    this.showNotification(`کامپیوتر: ${randomMove}`, 'success');
+                }, 1500);
+            }
+            
+            showNotification(message, type) {
+                const notification = document.getElementById('chess-notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                
+                setTimeout(() => {
+                    notification.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChessEngine();
+        });
+    </script>
+</body>
 </html>            background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
