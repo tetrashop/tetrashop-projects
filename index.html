@@ -15,101 +15,92 @@
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            padding: 20px;
         }
         
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 2rem;
+            margin-bottom: 8px;
         }
         
         .header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
         }
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 15px;
         }
         
         .project-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 1px solid #e0e0e0;
             text-align: center;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            height: fit-content;
         }
         
         .project-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
         }
         
         .project-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .project-card p {
             color: #7f8c8d;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            font-size: 0.9rem;
+            height: 60px;
+            overflow: hidden;
         }
         
         .status {
-            display: inline-block;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
         }
         
-        .status.completed {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status.active {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        
-        .status.development {
-            background: #fff3cd;
-            color: #856404;
-        }
+        .status.completed { background: #d4edda; color: #155724; }
+        .status.active { background: #d1ecf1; color: #0c5460; }
+        .status.development { background: #fff3cd; color: #856404; }
         
         .run-btn {
             background: #22c55e;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
@@ -118,54 +109,47 @@
         
         .run-btn:hover:not(:disabled) {
             background: #16a34a;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .run-btn:disabled {
             background: #9ca3af;
             cursor: not-allowed;
-            transform: none;
         }
         
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 8px;
+            top: 15px;
+            right: 15px;
+            padding: 12px 20px;
+            border-radius: 6px;
             color: white;
             font-weight: bold;
             z-index: 1000;
             transform: translateX(400px);
             transition: transform 0.3s ease;
+            font-size: 0.9rem;
         }
         
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification.success {
-            background: #22c55e;
-        }
-        
-        .notification.error {
-            background: #ef4444;
-        }
+        .notification.show { transform: translateX(0); }
+        .notification.success { background: #22c55e; }
+        .notification.error { background: #ef4444; }
+        .notification.info { background: #3b82f6; }
         
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
         }
         
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #22c55e;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #22c55e;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 8px;
         }
         
         @keyframes spin {
@@ -181,9 +165,7 @@
             <p>مدیریت و اجرای هوشمند پروژه‌های نرم‌افزاری</p>
         </div>
         
-        <div class="projects-grid" id="projects-container">
-            <!-- پروژه‌ها با JavaScript لود می‌شوند -->
-        </div>
+        <div class="projects-grid" id="projects-container"></div>
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
@@ -194,51 +176,44 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        // داده‌های پروژه‌ها
         const projects = [
             {
                 id: 'chess-engine',
                 title: '♟️ Chess Engine',
-                description: 'موتور شطرنج هوشمند با الگوریتم‌های پیشرفته و تحلیل مینی‌مکس',
+                description: 'موتور شطرنج هوشمند با الگوریتم‌های پیشرفته',
                 status: 'completed',
-                path: './chess-engine/index.html',
-                features: ['هوش مصنوعی پیشرفته', 'تحلیل موقعیت', 'پیش‌بینی حرکات']
+                path: './chess-engine/index.html'
             },
             {
                 id: 'intelligent-writer',
                 title: '✍️ Intelligent Writer',
-                description: 'سیستم هوشمند تولید محتوا با پردازش زبان طبیعی (NLP)',
-                status: 'completed',
-                path: './intelligent-writer/index.html',
-                features: ['تولید محتوا', 'ویرایش هوشمند', 'تحلیل متن']
+                description: 'سیستم هوشمند تولید محتوا با پردازش زبان طبیعی',
+                status: 'completed', 
+                path: './intelligent-writer/index.html'
             },
             {
                 id: 'quantum-writer',
                 title: '⚛️ Quantum Writer',
                 description: 'نویسنده کوانتومی با الگوریتم‌های محاسبات کوانتومی',
                 status: 'active',
-                path: './quantum-writer/index.html',
-                features: ['محاسبات کوانتومی', 'بهینه‌سازی پیشرفته', 'الگوریتم‌های QML']
+                path: './quantum-writer/index.html'
             },
             {
-                id: 'secret-guardian',
+                id: 'secret-guardian', 
                 title: '🛡️ Secret Guardian',
-                description: 'سیستم امنیتی پیشرفته برای محافظت از اطلاعات محرمانه',
+                description: 'سیستم امنیتی پیشرفته برای محافظت از اطلاعات',
                 status: 'completed',
-                path: './secret-guardian/index.html',
-                features: ['رمزنگاری پیشرفته', 'احراز هویت', 'مانیتورینگ امنیتی']
+                path: './secret-guardian/index.html'
             },
             {
                 id: 'speech-processor',
-                title: '🎤 Speech Processor',
-                description: 'پردازشگر صدا و گفتار با قابلیت‌های تشخیص و تبدیل گفتار',
+                title: '🎤 Speech Processor', 
+                description: 'پردازشگر صدا و گفتار با قابلیت تشخیص و تبدیل',
                 status: 'development',
-                path: './speech-processor/index.html',
-                features: ['تشخیص گفتار', 'تبدیل متن به گفتار', 'پردازش سیگنال']
+                path: './speech-processor/index.html'
             }
         ];
 
-        // سیستم مدیریت پروژه‌ها
         class ProjectManager {
             constructor() {
                 this.projects = projects;
@@ -252,8 +227,7 @@
 
             renderProjects() {
                 const container = document.getElementById('projects-container');
-                container.innerHTML = '';
-
+                
                 this.projects.forEach(project => {
                     const projectCard = document.createElement('div');
                     projectCard.className = 'project-card';
@@ -265,9 +239,11 @@
             createProjectHTML(project) {
                 const statusText = {
                     'completed': 'تکمیل شده',
-                    'active': 'فعال',
+                    'active': 'فعال', 
                     'development': 'در حال توسعه'
                 };
+
+                const isDisabled = project.status === 'development';
 
                 return `
                     <div class="project-icon">${project.title.split(' ')[0]}</div>
@@ -276,16 +252,15 @@
                     <div class="status ${project.status}">
                         ${statusText[project.status]}
                     </div>
-                    <button class="run-btn" data-project="${project.id}" 
-                            ${project.status === 'development' ? 'disabled' : ''}>
-                        🚀 تأیید و اجرای پروژه
+                    <button class="run-btn" data-project="${project.id}" ${isDisabled ? 'disabled' : ''}>
+                        ${isDisabled ? '⏳ در حال توسعه' : '🚀 اجرای پروژه'}
                     </button>
                 `;
             }
 
             setupEventListeners() {
                 document.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('run-btn')) {
+                    if (e.target.classList.contains('run-btn') && !e.target.disabled) {
                         const projectId = e.target.getAttribute('data-project');
                         this.handleProjectRun(projectId);
                     }
@@ -296,17 +271,15 @@
                 const project = this.projects.find(p => p.id === projectId);
                 if (!project) return;
 
-                // نمایش loading
                 this.showLoading();
+                this.showNotification(`در حال راه‌اندازی ${project.title}...`, 'info');
 
                 try {
-                    // شبیه‌سازی تأخیر اجرای پروژه
                     await this.simulateProjectStart(project);
                     
-                    // هدایت به صفحه پروژه
                     setTimeout(() => {
                         this.hideLoading();
-                        this.showNotification(`پروژه ${project.title} با موفقیت اجرا شد`, 'success');
+                        this.showNotification(`پروژه ${project.title} اجرا شد`, 'success');
                         window.location.href = project.path;
                     }, 1500);
 
@@ -318,16 +291,14 @@
 
             simulateProjectStart(project) {
                 return new Promise((resolve) => {
-                    // شبیه‌سازی عملیات مختلف بر اساس نوع پروژه
                     const operations = {
-                        'chess-engine': 'راه‌اندازی موتور شطرنج و الگوریتم‌های هوش مصنوعی...',
-                        'intelligent-writer': 'بارگذاری مدل‌های پردازش زبان طبیعی...',
-                        'quantum-writer': 'آماده‌سازی محیط محاسبات کوانتومی...',
-                        'secret-guardian': 'فعال‌سازی سیستم‌های امنیتی و رمزنگاری...',
-                        'speech-processor': 'راه‌اندازی موتور تشخیص گفتار...'
+                        'chess-engine': 'راه‌اندازی موتور شطرنج...',
+                        'intelligent-writer': 'بارگذاری مدل‌های NLP...',
+                        'quantum-writer': 'آماده‌سازی محیط کوانتومی...',
+                        'secret-guardian': 'فعال‌سازی سیستم امنیتی...',
+                        'speech-processor': 'راه‌اندازی پردازشگر صدا...'
                     };
-
-                    console.log(`🚀 ${operations[project.id]}`);
+                    console.log(operations[project.id]);
                     setTimeout(resolve, 1000);
                 });
             }
@@ -347,828 +318,13 @@
                 
                 setTimeout(() => {
                     notification.classList.remove('show');
-                }, 3000);
+                }, 2500);
             }
         }
 
-        // راه‌اندازی سیستم
         document.addEventListener('DOMContentLoaded', () => {
             new ProjectManager();
         });
-    </script>
-</body>
-</html>                status: 'completed',
-                path: './chess-engine/index.html'
-            },
-            {
-                id: 'intelligent-writer',
-                title: '✍️ Intelligent Writer', 
-                description: 'سیستم هوشمند تولید محتوا',
-                status: 'completed',
-                path: './intelligent-writer/index.html'
-            },
-            {
-                id: 'quantum-writer',
-                title: '⚛️ Quantum Writer',
-                description: 'نویسنده کوانتومی پیشرفته',
-                status: 'active', 
-                path: './quantum-writer/index.html'
-            },
-            {
-                id: 'secret-guardian',
-                title: '🛡️ Secret Guardian',
-                description: 'سیستم امنیتی پیشرفته',
-                status: 'completed',
-                path: './secret-guardian/index.html'
-            },
-            {
-                id: 'speech-processor', 
-                title: '🎤 Speech Processor',
-                description: 'پردازشگر صدا و گفتار',
-                status: 'development',
-                path: './speech-processor/index.html'
-            }
-        ];
-
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            
-            projects.forEach(project => {
-                const projectCard = document.createElement('div');
-                projectCard.className = 'project-card';
-                
-                projectCard.innerHTML = `
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <div class="status ${project.status === 'completed' ? 'completed' : 'development'}">
-                        ${project.status === 'completed' ? 'تکمیل شده' : 'در حال توسعه'}
-                    </div>
-                    <a href="${project.path}" class="run-btn">
-                        🚀 تأیید و اجرای پروژه
-                    </a>
-                `;
-                
-                container.appendChild(projectCard);
-            });
-        }
-
-        // لود پروژه‌ها هنگام لود صفحه
-        document.addEventListener('DOMContentLoaded', renderProjects);
-    </script>
-</body>
-</html>        }
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .project-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        .project-card h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .project-card p {
-            color: #5a6c7d;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .project-status {
-            display: inline-block;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-bottom: 20px;
-        }
-        .status-completed { background: #e8f5e8; color: #2e7d32; }
-        .status-active { background: #e3f2fd; color: #1565c0; }
-        .status-development { background: #fff3e0; color: #ef6c00; }
-        
-        .confirm-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .confirm-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
-        }
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-        }
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            backdrop-filter: blur(10px);
-        }
-        .nav-btn:hover {
-            background: white;
-            transform: scale(1.05);
-        }
-        .login-section {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .login-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .login-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🚀 نمایشگاه پروژه‌های Tetrashop</h1>
-            <p>مدیریت و دسترسی به تمام پروژه‌های شما در یک نگاه</p>
-        </header>
-        
-        <div class="projects-grid" id="projectsContainer">
-            <!-- پروژه‌ها اینجا لود می‌شوند -->
-        </div>
-
-        <div class="navigation">
-            <button class="nav-btn" onclick="navigateProjects('prev')">⬅️ پروژه قبلی</button>
-            <button class="nav-btn" onclick="navigateProjects('next')">پروژه بعدی ➡️</button>
-        </div>
-
-        <div class="login-section">
-            <a href="login.html" class="login-btn">🔐 ورود به پنل مدیریت</a>
-        </div>
-    </div>
-
-    <script>
-        const projects = [
-            {
-                id: 1,
-                name: "♟️ Chess Engine",
-                description: "موتور شطرنج هوشمند با قابلیت تحلیل پیشرفته و الگوریتم‌های مینی‌مکس",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                page: "chess-engine.html"
-            },
-            {
-                id: 2,
-                name: "✍️ Intelligent Writer", 
-                description: "سیستم هوشمند تولید محتوا و نویسندگی خودکار با پردازش زبان طبیعی",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                page: "intelligent-writer.html"
-            },
-            {
-                id: 3,
-                name: "🔮 Quantum Writer",
-                description: "نویسنده کوانتومی با الگوریتم‌های پیشرفته و محاسبات کوانتومی",
-                status: "فعال", 
-                statusClass: "status-active",
-                page: "quantum-writer.html"
-            },
-            {
-                id: 4,
-                name: "🛡️ Secret Guardian",
-                description: "سیستم امنیتی پیشرفته برای محافظت از اطلاعات محرمانه و داده‌های حساس",
-                status: "تکمیل شده",
-                statusClass: "status-completed", 
-                page: "secret-guardian.html"
-            },
-            {
-                id: 5,
-                name: "🎤 Speech Processor",
-                description: "پردازشگر صدا و گفتار با قابلیت‌های تشخیص و تبدیل گفتار به متن",
-                status: "در حال توسعه",
-                statusClass: "status-development",
-                page: "speech-processor.html"
-            }
-        ];
-
-        function displayProjects() {
-            const container = document.getElementById('projectsContainer');
-            container.innerHTML = '';
-
-            projects.forEach((project, index) => {
-                const projectCard = `
-                    <div class="project-card">
-                        <h3>${project.name}</h3>
-                        <p>${project.description}</p>
-                        <span class="project-status ${project.statusClass}">${project.status}</span>
-                        <br>
-                        <a href="${project.page}" class="confirm-btn">
-                            ✅ تأیید و اجرای پروژه
-                        </a>
-                    </div>
-                `;
-                container.innerHTML += projectCard;
-            });
-        }
-
-        function navigateProjects(direction) {
-            const cards = document.querySelectorAll('.project-card');
-            let currentVisible = 0;
-            
-            cards.forEach(card => {
-                if (card.style.display !== 'none') currentVisible++;
-            });
-
-            // منطق ساده برای نمایش پروژه‌ها
-            alert(direction === 'next' ? 'در حال نمایش پروژه بعدی...' : 'در حال بازگشت به پروژه قبلی...');
-        }
-
-        // راه‌اندازی اولیه
-        displayProjects();
-    </script>
-</body>
-</html>        }
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .project-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        .project-card h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .project-card p {
-            color: #5a6c7d;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .project-status {
-            display: inline-block;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-bottom: 20px;
-        }
-        .status-completed { background: #e8f5e8; color: #2e7d32; }
-        .status-active { background: #e3f2fd; color: #1565c0; }
-        .status-development { background: #fff3e0; color: #ef6c00; }
-        
-        .confirm-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .confirm-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
-        }
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-        }
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            backdrop-filter: blur(10px);
-        }
-        .nav-btn:hover {
-            background: white;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🚀 نمایشگاه پروژه‌های Tetrashop</h1>
-            <p>مدیریت و دسترسی به تمام پروژه‌های شما در یک نگاه</p>
-        </header>
-        
-        <div class="projects-grid" id="projectsContainer">
-            <!-- پروژه‌ها اینجا لود می‌شوند -->
-        </div>
-
-        <div class="navigation">
-            <button class="nav-btn" onclick="navigateProjects('prev')">⬅️ پروژه قبلی</button>
-            <button class="nav-btn" onclick="navigateProjects('next')">پروژه بعدی ➡️</button>
-        </div>
-    </div>
-
-    <script>
-        const projects = [
-            {
-                id: 1,
-                name: "♟️ Chess Engine",
-                description: "موتور شطرنج هوشمند با قابلیت تحلیل پیشرفته و الگوریتم‌های مینی‌مکس",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                page: "chess-engine.html"
-            },
-            {
-                id: 2,
-                name: "✍️ Intelligent Writer", 
-                description: "سیستم هوشمند تولید محتوا و نویسندگی خودکار با پردازش زبان طبیعی",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                page: "intelligent-writer.html"
-            },
-            {
-                id: 3,
-                name: "🔮 Quantum Writer",
-                description: "نویسنده کوانتومی با الگوریتم‌های پیشرفته و محاسبات کوانتومی",
-                status: "فعال", 
-                statusClass: "status-active",
-                page: "quantum-writer.html"
-            },
-            {
-                id: 4,
-                name: "🛡️ Secret Guardian",
-                description: "سیستم امنیتی پیشرفته برای محافظت از اطلاعات محرمانه و داده‌های حساس",
-                status: "تکمیل شده",
-                statusClass: "status-completed", 
-                page: "secret-guardian.html"
-            },
-            {
-                id: 5,
-                name: "🎤 Speech Processor",
-                description: "پردازشگر صدا و گفتار با قابلیت‌های تشخیص و تبدیل گفتار به متن",
-                status: "در حال توسعه",
-                statusClass: "status-development",
-                page: "speech-processor.html"
-            }
-        ];
-
-        function displayProjects() {
-            const container = document.getElementById('projectsContainer');
-            container.innerHTML = '';
-
-            projects.forEach((project, index) => {
-                const projectCard = `
-                    <div class="project-card">
-                        <h3>${project.name}</h3>
-                        <p>${project.description}</p>
-                        <span class="project-status ${project.statusClass}">${project.status}</span>
-                        <br>
-                        <button class="confirm-btn" onclick="openProject(${index})">
-                            ✅ تأیید و اجرای پروژه
-                        </button>
-                    </div>
-                `;
-                container.innerHTML += projectCard;
-            });
-        }
-
-        function openProject(index) {
-            const project = projects[index];
-            window.location.href = project.page;
-        }
-
-        function navigateProjects(direction) {
-            // منطق ناوبری بین پروژه‌ها
-            const currentUrl = window.location.href;
-            if (!currentUrl.includes('#')) {
-                window.location.href = '#project-0';
-            }
-        }
-
-        // راه‌اندازی اولیه
-        displayProjects();
-    </script>
-</body>
-</html>        }
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .project-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-        }
-        .project-card h3 {
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 1.3em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .project-card p {
-            color: #5a6c7d;
-            margin-bottom: 15px;
-            line-height: 1.6;
-            font-size: 0.95em;
-        }
-        .project-status {
-            display: inline-block;
-            background: #e8f5e8;
-            color: #2e7d32;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-bottom: 15px;
-        }
-        .project-link {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        .project-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            backdrop-filter: blur(10px);
-        }
-        .nav-btn:hover {
-            background: white;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .status-active { background: #e8f5e8; color: #2e7d32; }
-        .status-completed { background: #e3f2fd; color: #1565c0; }
-        .status-development { background: #fff3e0; color: #ef6c00; }
-        /* بقیه استایل‌های شما... */
-
-/* استایل‌های جدید کنترل‌ها - اینجا اضافه کنید */
-.project-controls {
-    margin: 15px 0;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.input-field {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: inherit;
-}
-
-.run-btn {
-    background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.run-btn:hover {
-    transform: scale(1.05);
-}
-
-.output-box {
-    margin-top: 15px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-}
-
-.loading {
-    color: #667eea;
-    text-align: center;
-}
-
-.success-output {
-    color: #2e7d32;
-}
-
-.error-output {
-    color: #d32f2f;
-    }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🚀 نمایشگاه پروژه‌های Tetrashop</h1>
-            <p>مدیریت و دسترسی به تمام پروژه‌های شما در یک نگاه</p>
-        </header>
-        
-        <div class="projects-grid" id="projectsContainer">
-            <!-- پروژه‌ها اینجا لود می‌شوند -->
-        </div>
-
-        <div class="navigation">
-            <button class="nav-btn" onclick="navigateProjects('prev')">⬅️ پروژه قبلی</button>
-            <button class="nav-btn" onclick="navigateProjects('next')">پروژه بعدی ➡️</button>
-        </div>
-    </div>
-
-    <script>
-        // داده‌های پروژه‌ها - بعداً با لینک‌های واقعی پر می‌کنیم
-        const projects = [
-            {
-                name: "♟️ Chess Engine",
-                description: "موتور شطرنج هوشمند با قابلیت تحلیل پیشرفته و الگوریتم‌های مینی‌مکس",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                icon: "♟️"
-            },
-            {
-                name: "✍️ Intelligent Writer", 
-                description: "سیستم هوشمند تولید محتوا و نویسندگی خودکار با پردازش زبان طبیعی",
-                status: "تکمیل شده",
-                statusClass: "status-completed",
-                icon: "✍️"
-            },
-            {
-                name: "🔮 Quantum Writer",
-                description: "نویسنده کوانتومی با الگوریتم‌های پیشرفته و محاسبات کوانتومی",
-                status: "فعال", 
-                statusClass: "status-active",
-                icon: "🔮"
-            },
-            {
-                name: "🛡️ Secret Guardian",
-                description: "سیستم امنیتی پیشرفته برای محافظت از اطلاعات محرمانه و داده‌های حساس",
-                status: "تکمیل شده",
-                statusClass: "status-completed", 
-                icon: "🛡️"
-            },
-            {
-                name: "🎤 Speech Processor",
-                description: "پردازشگر صدا و گفتار با قابلیت‌های تشخیص و تبدیل گفتار به متن",
-                status: "در حال توسعه",
-                statusClass: "status-development",
-                icon: "🎤"
-            }
-        ];
-
-        let currentDisplayMode = 'all'; // all, current, filtered
-
-        function displayProjects() {
-            const container = document.getElementById('projectsContainer');
-            container.innerHTML = '';
-
-            projects.forEach((project, index) => {
-                const projectCard = `
-                    <div class="project-card">
-                        <h3>${project.icon} ${project.name}</h3>
-                        <p>${project.description}</p>
-                        <span class="project-status ${project.statusClass}">${project.status}</span>
-                        <br>
-                        <a href="#" class="project-link" onclick="openProject(${index})">
-                            مشاهده جزئیات پروژه
-                        </a>
-                    </div>
-                `;
-                container.innerHTML += projectCard;
-            });
-        }
-
-        function navigateProjects(direction) {
-            // اینجا می‌توانید منطق ناوبری بین پروژه‌ها را پیاده‌سازی کنید
-            const message = direction === 'next' ? 
-                'در حال رفتن به پروژه بعدی...' : 
-                'در حال بازگشت به پروژه قبلی...';
-            alert(message);
-        }
-
-        function openProject(index) {
-            alert(`در حال باز کردن پروژه: ${projects[index].name}`);
-            // اینجا می‌توانید به صفحه اختصاصی پروژه هدایت شوید
-        }
-
-        // راه‌اندازی اولیه
-        displayProjects();
-    </script>
-</body>
-</html>        }
-        .project-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-        .project-card h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-        }
-        .project-card p {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .project-link {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .project-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-        }
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .nav-btn:hover {
-            background: white;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🚀 پروژه‌های Tetrashop</h1>
-            <p>مدیریت و مشاهده تمام زیرپروژه‌ها</p>
-        </header>
-        
-        <div class="projects-grid" id="projectsContainer">
-            <!-- پروژه‌ها اینجا لود می‌شوند -->
-        </div>
-
-        <div class="nav-buttons">
-            <button class="nav-btn" onclick="showPrevProject()">⬅️ پروژه قبلی</button>
-            <button class="nav-btn" onclick="showNextProject()">پروژه بعدی ➡️</button>
-        </div>
-    </div>
-
-    <script>
-        // لیست پروژه‌های شما
-        const projects = [
-            {
-                name: "♟️ Chess Engine",
-                description: "موتور شطرنج هوشمند با قابلیت تحلیل پیشرفته",
-                link: "https://github.com/your-username/tetrashop/tree/main/chess-engine",
-                status: "تکمیل شده"
-            },
-            {
-                name: "✍️ Intelligent Writer",
-                description: "سیستم هوشمند تولید محتوا و نویسندگی خودکار",
-                link: "https://github.com/your-username/tetrashop/tree/main/intelligent-writer", 
-                status: "تکمیل شده"
-            },
-            {
-                name: "🔮 Quantum Writer",
-                description: "نویسنده کوانتومی با الگوریتم‌های پیشرفته",
-                link: "https://github.com/your-username/tetrashop/tree/main/quantum-writer",
-                status: "فعال"
-            },
-            {
-                name: "🛡️ Secret Guardian",
-                description: "سیستم امنیتی و محافظت از اطلاعات محرمانه",
-                link: "https://github.com/your-username/tetrashop/tree/main/secret-guardian",
-                status: "تکمیل شده"
-            },
-            {
-                name: "🎤 Speech Processor",
-                description: "پردازشگر صدا و گفتار با قابلیت‌های پیشرفته",
-                link: "https://github.com/your-username/tetrashop/tree/main/speech-processor",
-                status: "در حال توسعه"
-            }
-        ];
-
-        let currentIndex = 0;
-
-        function displayProjects() {
-            const container = document.getElementById('projectsContainer');
-            container.innerHTML = '';
-
-            projects.forEach((project, index) => {
-                const projectCard = `
-                    <div class="project-card">
-                        <h3>${project.name}</h3>
-                        <p>${project.description}</p>
-                        <p><strong>وضعیت:</strong> ${project.status}</p>
-                        <a href="${project.link}" target="_blank" class="project-link">
-                            مشاهده پروژه
-                        </a>
-                    </div>
-                `;
-                container.innerHTML += projectCard;
-            });
-        }
-
-        function showNextProject() {
-            // منطق نمایش پروژه بعدی
-            alert('پروژه بعدی: ' + projects[(currentIndex + 1) % projects.length].name);
-        }
-
-        function showPrevProject() {
-            // منطق نمایش پروژه قبلی  
-            alert('پروژه قبلی: ' + projects[(currentIndex - 1 + projects.length) % projects.length].name);
-        }
-
-        // راه‌اندازی اولیه
-        displayProjects();
     </script>
 </body>
 </html>
