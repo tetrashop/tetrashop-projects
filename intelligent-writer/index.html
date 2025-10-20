@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intelligent Writer - Tetrashop</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .back-btn { 
-            background: #6b7280; 
-            color: white; 
-            padding: 10px 20px; 
-            text-decoration: none; 
-            border-radius: 5px; 
-            margin-bottom: 20px;
-            display: inline-block;
+        /* استایل‌های مشابه با تغییر رنگ */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
-    <h1>✍️ Intelligent Writer</h1>
-    <p>سیستم نویسندگی هوشمند در حال اجرا است...</p>
-    <!-- محتوای خاص پروژه نویسنده -->
+    <div class="container">
+        <div class="header">
+            <h1>✍️ Intelligent Writer</h1>
+            <p>سیستم هوشمند تولید محتوا و نویسندگی خودکار</p>
+            <a href="../index.html" class="back-btn">← بازگشت به صفحه اصلی</a>
+        </div>
+        
+        <div class="content">
+            <div class="status">✅ پروژه با موفقیت اجرا شد</div>
+            <h2>نویسنده هوشمند فعال شد</h2>
+            <p>سیستم پردازش زبان طبیعی آماده کار است</p>
+            
+            <textarea style="width: 80%; height: 150px; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; margin: 20px 0;" placeholder="موضوع مورد نظر برای تولید محتوا را وارد کنید..."></textarea>
+            
+            <button style="background: #e67e22; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 16px; cursor: pointer;">
+                🚀 تولید محتوا
+            </button>
+        </div>
+    </div>
 </body>
 </html>
