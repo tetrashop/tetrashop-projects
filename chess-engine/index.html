@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Engine - Tetrashop</title>
     <style>
+        /* Reset و استایل‌های پایه */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            line-height: 1.6;
         }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -24,12 +28,25 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
         }
+        
         .header {
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
             padding: 30px;
             text-align: center;
         }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
         .back-btn {
             background: #e74c3c;
             color: white;
@@ -40,34 +57,19 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            font-weight: bold;
         }
+        
         .back-btn:hover {
             background: #c0392b;
             transform: translateY(-2px);
         }
+        
         .content {
             padding: 40px;
             text-align: center;
         }
-        .chess-board {
-            width: 400px;
-            height: 400px;
-            margin: 20px auto;
-            border: 10px solid #8b4513;
-            background: #f0d9b5;
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            grid-template-rows: repeat(8, 1fr);
-        }
-        .chess-square {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-        }
-        .chess-square:nth-child(odd) {
-            background: #b58863;
-        }
+        
         .status {
             background: #2ecc71;
             color: white;
@@ -76,127 +78,116 @@
             display: inline-block;
             margin: 20px 0;
             font-weight: bold;
+            font-size: 1.1rem;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>♟️ Chess Engine</h1>
-            <p>موتور شطرنج هوشمند با الگوریتم‌های پیشرفته</p>
-            <a href="../index.html" class="back-btn">
-                ← بازگشت به صفحه اصلی
-            </a>
-        </div>
         
-        <div class="content">
-            <div class="status">✅ پروژه با موفقیت اجرا شد</div>
-            <h2>موتور شطرنج در حال اجرا است</h2>
-            <p>سیستم هوشمند تحلیل و پیش‌بینی حرکات فعال شد</p>
-            
-            <!-- شطرنج نمونه -->
-            <div class="chess-board">
-                <!-- ردیف 1 -->
-                <div class="chess-square" style="color: black;">♜</div>
-                <div class="chess-square" style="color: black;">♞</div>
-                <div class="chess-square" style="color: black;">♝</div>
-                <div class="chess-square" style="color: black;">♛</div>
-                <div class="chess-square" style="color: black;">♚</div>
-                <div class="chess-square" style="color: black;">♝</div>
-                <div class="chess-square" style="color: black;">♞</div>
-                <div class="chess-square" style="color: black;">♜</div>
-                
-                <!-- ردیف 2 - مهره‌های سرباز -->
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                
-                <!-- خانه‌های خالی -->
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                
-                <!-- ردیف 7 - مهره‌های سرباز سفید -->
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                
-                <!-- ردیف 8 -->
-                <div class="chess-square" style="color: white;">♖</div>
-                <div class="chess-square" style="color: white;">♘</div>
-                <div class="chess-square" style="color: white;">♗</div>
-                <div class="chess-square" style="color: white;">♕</div>
-                <div class="chess-square" style="color: white;">♔</div>
-                <div class="chess-square" style="color: white;">♗</div>
-                <div class="chess-square" style="color: white;">♘</div>
-                <div class="chess-square" style="color: white;">♖</div>
-            </div>
-            
-            <div style="margin-top: 30px;">
-                <button style="background: #27ae60; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 16px; cursor: pointer;">
-                    🎯 شروع بازی جدید
-                </button>
-            </div>
-        </div>
-    </div>
-</body>
-</html>            text-decoration: none;
-            border-radius: 25px;
-            display: inline-flex;
+        .content h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .content p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        /* صفحه شطرنج */
+        .chess-board {
+            width: 400px;
+            height: 400px;
+            margin: 30px auto;
+            border: 15px solid #8b4513;
+            background: #f0d9b5;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .chess-square {
+            display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-size: 30px;
+            transition: all 0.2s ease;
+        }
+        
+        /* رنگ‌های متناوب برای خانه‌های شطرنج */
+        .chess-square:nth-child(16n + 1),
+        .chess-square:nth-child(16n + 3),
+        .chess-square:nth-child(16n + 5),
+        .chess-square:nth-child(16n + 7),
+        .chess-square:nth-child(16n + 10),
+        .chess-square:nth-child(16n + 12),
+        .chess-square:nth-child(16n + 14),
+        .chess-square:nth-child(16n + 16) {
+            background: #b58863;
+        }
+        
+        .chess-square:nth-child(16n + 2),
+        .chess-square:nth-child(16n + 4),
+        .chess-square:nth-child(16n + 6),
+        .chess-square:nth-child(16n + 8),
+        .chess-square:nth-child(16n + 9),
+        .chess-square:nth-child(16n + 11),
+        .chess-square:nth-child(16n + 13),
+        .chess-square:nth-child(16n + 15) {
+            background: #f0d9b5;
+        }
+        
+        .start-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 20px;
         }
-        .back-btn:hover {
-            background: #c0392b;
+        
+        .start-btn:hover {
+            background: #219a52;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
         }
-        .content {
-            padding: 40px;
+        
+        /* نمایش اطلاعات بازی */
+        .game-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .game-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
         }
-        .chess-board {
-            width: 400px;
-            height: 400px;
-            margin: 20px auto;
-            border: 10px solid #8b4513;
-            background: #f0d9b5;
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            grid-template-rows: repeat(8, 1fr);
-        }
-        .chess-square {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-        }
-        .chess-square:nth-child(odd) {
-            background: #b58863;
-        }
-        .status {
-            background: #2ecc71;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            display: inline-block;
-            margin: 20px 0;
-            font-weight: bold;
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -215,124 +206,122 @@
             <h2>موتور شطرنج در حال اجرا است</h2>
             <p>سیستم هوشمند تحلیل و پیش‌بینی حرکات فعال شد</p>
             
-            <!-- شطرنج نمونه -->
-            <div class="chess-board">
-                <!-- ردیف 1 -->
-                <div class="chess-square" style="color: black;">♜</div>
-                <div class="chess-square" style="color: black;">♞</div>
-                <div class="chess-square" style="color: black;">♝</div>
-                <div class="chess-square" style="color: black;">♛</div>
-                <div class="chess-square" style="color: black;">♚</div>
-                <div class="chess-square" style="color: black;">♝</div>
-                <div class="chess-square" style="color: black;">♞</div>
-                <div class="chess-square" style="color: black;">♜</div>
-                
-                <!-- ردیف 2 - مهره‌های سرباز -->
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                <div class="chess-square" style="color: black;">♟</div>
-                
-                <!-- خانه‌های خالی -->
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                <div class="chess-square"></div><div class="chess-square"></div>
-                
-                <!-- ردیف 7 - مهره‌های سرباز سفید -->
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                <div class="chess-square" style="color: white;">♙</div>
-                
-                <!-- ردیف 8 -->
-                <div class="chess-square" style="color: white;">♖</div>
-                <div class="chess-square" style="color: white;">♘</div>
-                <div class="chess-square" style="color: white;">♗</div>
-                <div class="chess-square" style="color: white;">♕</div>
-                <div class="chess-square" style="color: white;">♔</div>
-                <div class="chess-square" style="color: white;">♗</div>
-                <div class="chess-square" style="color: white;">♘</div>
-                <div class="chess-square" style="color: white;">♖</div>
+            <!-- اطلاعات بازی -->
+            <div class="game-info">
+                <h3>🎮 وضعیت بازی</h3>
+                <p>موتور شطرنج آماده است! سطح دشواری: متوسط</p>
             </div>
             
-            <div style="margin-top: 30px;">
-                <button style="background: #27ae60; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 16px; cursor: pointer;">
-                    🎯 شروع بازی جدید
-                </button>
+            <!-- ویژگی‌ها -->
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <h4>هوش مصنوعی پیشرفته</h4>
+                    <p>الگوریتم مینی‌مکس با هرس آلفا-بتا</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h4>تحلیل سریع</h4>
+                    <p>ارزیابی ۱۰۰۰۰ موقعیت در ثانیه</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h4>گزارش تحلیلی</h4>
+                    <p>آنالیز کامل حرکات و استراتژی</p>
+                </div>
             </div>
+            
+            <!-- صفحه شطرنج -->
+            <h3>صفحه شطرنج</h3>
+            <div class="chess-board">
+                <!-- ردیف 1 - سیاه -->
+                <div class="chess-square">♜</div>
+                <div class="chess-square">♞</div>
+                <div class="chess-square">♝</div>
+                <div class="chess-square">♛</div>
+                <div class="chess-square">♚</div>
+                <div class="chess-square">♝</div>
+                <div class="chess-square">♞</div>
+                <div class="chess-square">♜</div>
+                
+                <!-- ردیف 2 - سربازهای سیاه -->
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                <div class="chess-square">♟</div>
+                
+                <!-- ردیف 3-6 - خانه‌های خالی -->
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                <div class="chess-square"></div><div class="chess-square"></div>
+                
+                <!-- ردیف 7 - سربازهای سفید -->
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                <div class="chess-square">♙</div>
+                
+                <!-- ردیف 8 - سفید -->
+                <div class="chess-square">♖</div>
+                <div class="chess-square">♘</div>
+                <div class="chess-square">♗</div>
+                <div class="chess-square">♕</div>
+                <div class="chess-square">♔</div>
+                <div class="chess-square">♗</div>
+                <div class="chess-square">♘</div>
+                <div class="chess-square">♖</div>
+            </div>
+            
+            <!-- دکمه شروع بازی -->
+            <button class="start-btn">
+                🎯 شروع بازی جدید
+            </button>
         </div>
     </div>
-</body>
-</html>                status: 'completed',
-                path: './chess-engine/index.html'
-            },
-            {
-                id: 'intelligent-writer',
-                title: '✍️ Intelligent Writer', 
-                description: 'سیستم هوشمند تولید محتوا',
-                status: 'completed',
-                path: './intelligent-writer/index.html'
-            },
-            {
-                id: 'quantum-writer',
-                title: '⚛️ Quantum Writer',
-                description: 'نویسنده کوانتومی پیشرفته',
-                status: 'active', 
-                path: './quantum-writer/index.html'
-            },
-            {
-                id: 'secret-guardian',
-                title: '🛡️ Secret Guardian',
-                description: 'سیستم امنیتی پیشرفته',
-                status: 'completed',
-                path: './secret-guardian/index.html'
-            },
-            {
-                id: 'speech-processor', 
-                title: '🎤 Speech Processor',
-                description: 'پردازشگر صدا و گفتار',
-                status: 'development',
-                path: './speech-processor/index.html'
-            }
-        ];
 
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            
-            projects.forEach(project => {
-                const projectCard = document.createElement('div');
-                projectCard.className = 'project-card';
-                
-                projectCard.innerHTML = `
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <div class="status ${project.status === 'completed' ? 'completed' : 'development'}">
-                        ${project.status === 'completed' ? 'تکمیل شده' : 'در حال توسعه'}
-                    </div>
-                    <a href="${project.path}" class="run-btn">
-                        🚀 تأیید و اجرای پروژه
-                    </a>
-                `;
-                
-                container.appendChild(projectCard);
+    <script>
+        // اسکریپت ساده برای تعامل
+        document.querySelector('.start-btn').addEventListener('click', function() {
+            alert('🎮 بازی شطرنج شروع شد! موتور هوشمند آماده بازی است.');
+            this.textContent = '🎮 در حال بازی...';
+            this.style.background = '#e67e22';
+        });
+        
+        // افزودن افکت hover به خانه‌های شطرنج
+        const squares = document.querySelectorAll('.chess-square');
+        squares.forEach(square => {
+            square.addEventListener('mouseenter', function() {
+                if(this.textContent.trim() !== '') {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.zIndex = '10';
+                }
             });
-        }
-
-        // لود پروژه‌ها هنگام لود صفحه
-        document.addEventListener('DOMContentLoaded', renderProjects);
+            
+            square.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.zIndex = '1';
+            });
+        });
     </script>
 </body>
-</html>
+    </html>
