@@ -1,0 +1,18 @@
+# ایجاد فایل جدید با محتوای صحیح
+cat > vercel.json << EOF
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
+EOF
