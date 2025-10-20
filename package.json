@@ -1,14 +1,24 @@
-// 📁 package.json (ریشه)
 {
   "name": "tetrashop-projects",
+  "version": "1.0.0",
+  "description": "Tetrashop Projects Dashboard",
+  "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev:*\"",
-    "dev:chess": "cd chess-engine && npm run dev",
-    "dev:writer": "cd intelligent-writer && npm run dev",
-    "dev:quantum": "cd quantum-writer && npm run dev",
-    "dev:security": "cd secret-guardian && npm run dev",
-    "dev:speech": "cd speech-processor && npm run dev",
-    "build:all": "npm run build:*",
-    "build:chess": "cd chess-engine && npm run build"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": ["tetrashop", "projects", "dashboard"],
+  "author": "Ramin Edjlal",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
   }
 }
