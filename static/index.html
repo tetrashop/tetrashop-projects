@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Intelligent Writer Pro</title>
+    <style>
+        body { font-family: Tahoma; background: #f0f8ff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: #4CAF50; color: white; padding: 20px; text-align: center; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; }
+        button { background: #2196F3; color: white; padding: 12px 24px; border: none; cursor: pointer; }
+        .output { background: white; padding: 20px; border: 1px solid #ddd; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 Intelligent Writer Pro</h1>
+        <p>سیستم هوشمند تولید محتوا - نسخه پیشرفته</p>
+    </div>
+    
+    <div class="container">
+        <div class="form-group">
+            <label>موضوع محتوا:</label>
+            <input type="text" id="topic" placeholder="موضوع مورد نظر را وارد کنید...">
+        </div>
+        
+        <div class="form-group">
+            <label>نوع محتوا:</label>
+            <select id="contentType">
+                <option>مقاله وبلاگ</option>
+                <option>پست شبکه اجتماعی</option>
+                <option>ایمیل</option>
+                <option>گزارش</option>
+                <option>محصول</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>سبک نوشتار:</label>
+            <select id="writingStyle">
+                <option>رسمی</option>
+                <option>خودمانی</option>
+                <option>تبلیغاتی</option>
+                <option>آکادمیک</option>
+            </select>
+        </div>
+        
+        <button onclick="generateContent()">تولید محتوا</button>
+        
+        <div id="output" class="output" style="display:none;">
+            <h3>محتوای تولید شده:</h3>
+            <pre id="contentOutput"></pre>
+            <button onclick="copyContent()">کپی محتوا</button>
+        </div>
+    </div>
+
+    <script>
+        async function generateContent() {
+            const topic = document.getElementById('topic').value;
+            const contentType = document.getElementById('contentType').value;
+            const writingStyle = document.getElementById('writingStyle').value;
+            
+            if (!topic) {
+                alert('لطفاً موضوع را وارد کنید');
+                return;
+            }
+            
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic, content_type: contentType, style: writingStyle })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                document.getElementById('contentOutput').textContent = result.content;
+                document.getElementById('output').style.display = 'block';
+            } else {
+                alert('خطا در تولید محتوا');
+            }
+        }
+        
+        function copyContent() {
+            const content = document.getElementById('contentOutput').textContent;
+            navigator.clipboard.writeText(content);
+            alert('محتوا کپی شد!');
+        }
+    </script>
+</body>
+</html>
