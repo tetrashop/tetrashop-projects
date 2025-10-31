@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم ناطق - Tetrashop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-right: 4px solid #667eea;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗣️ سیستم ناطق Tetrashop</h1>
+        
+        <div class="input-group">
+            <textarea id="textInput" placeholder="متن خود را اینجا وارد کنید...">سلام، این یک تست از سیستم ناطق است</textarea>
+        </div>
+        
+        <div style="text-align: center;">
+            <button onclick="speakText()">🎯 تبدیل به گفتار</button>
+            <button onclick="analyzeText()">🔍 تحلیل متن</button>
+            <button onclick="checkHealth()">📊 وضعیت سیستم</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api/natiq';
+        
+        async function speakText() {
+            const text = document.getElementById('textInput').value;
+            showStatus('در حال پردازش...', 'loading');
+            
+            try {
+                const response = await fetch(`${API_BASE}/speak`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, language: 'fa', speed: 1.0 })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult(`
+                        <h3>✅ متن تبدیل شد</h3>
+                        <p><strong>متن اصلی:</strong> ${data.originalText}</p>
+                        <p><strong>نتیجه:</strong> ${data.processedText}</p>
+                        <p><strong>زبان:</strong> ${data.language}</p>
+                        <p><strong>زمان:</strong> ${new Date(data.timestamp).toLocaleString('fa-IR')}</p>
+                    `);
+                } else {
+                    showStatus('خطا در پردازش متن', 'error');
+                }
+            } catch (error) {
+                showStatus('خطا در ارتباط با سرور', 'error');
+            }
+        }
+        
+        async function analyzeText() {
+            const text = document.getElementById('textInput').value;
+            showStatus('در حال تحلیل متن...', 'loading');
+            
+            try {
+                const response = await fetch(`${API_BASE}/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showResult(`
+                        <h3>📊 نتایج تحلیل</h3>
+                        <p><strong>طول متن:</strong> ${data.analysis.textLength} کاراکتر</p>
+                        <p><strong>تعداد کلمات:</strong> ${data.analysis.wordCount}</p>
+                        <p><strong>زبان:</strong> ${data.analysis.language}</p>
+                        <p><strong>احساس:</strong> ${data.analysis.sentiment}</p>
+                        <p><strong>زمان پردازش:</strong> ${data.analysis.processingTime}</p>
+                    `);
+                }
+            } catch (error) {
+                showStatus('خطا در تحلیل متن', 'error');
+            }
+        }
+        
+        async function checkHealth() {
+            showStatus('در حال بررسی وضعیت...', 'loading');
+            
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                
+                showResult(`
+                    <h3>📊 وضعیت سیستم</h3>
+                    <p><strong>وضعیت:</strong> ${data.status}</p>
+                    <p><strong>مدت فعالیت:</strong> ${Math.round(data.uptime)} ثانیه</p>
+                    <p><strong>حافظه استفاده شده:</strong> ${Math.round(data.memory.heapUsed / 1024 / 1024)} مگابایت</p>
+                    <p><strong>آخرین بررسی:</strong> ${new Date(data.timestamp).toLocaleString('fa-IR')}</p>
+                `);
+            } catch (error) {
+                showStatus('سرور در دسترس نیست', 'error');
+            }
+        }
+        
+        function showStatus(message, type) {
+            document.getElementById('result').innerHTML = 
+                `<div class="status ${type}">${message}</div>`;
+        }
+        
+        function showResult(html) {
+            document.getElementById('result').innerHTML = 
+                `<div class="result">${html}</div>`;
+        }
+        
+        // تست خودکار سلامت سیستم هنگام بارگذاری
+        window.addEventListener('load', checkHealth);
+    </script>
+</body>
+</html>

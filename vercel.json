@@ -2,14 +2,38 @@
   "version": 2,
   "builds": [
     {
+<<<<<<< HEAD
       "src": "**/*.html",
       "use": "@vercel/static"
+=======
+      "src": "quantum-start-fixed.js",
+      "use": "@vercel/node"
+>>>>>>> 36357df (🚀 انتشار نسخه ۲.۱ سیستم کوانتومی)
     }
   ],
   "routes": [
     {
+<<<<<<< HEAD
       "src": "/(.*)",
       "dest": "/$1"
     }
   ]
+=======
+      "src": "/api/(.*)",
+      "dest": "quantum-start-fixed.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "quantum-start-fixed.js"
+    }
+  ],
+  "env": {
+    "QUANTUM_MODE": "maximum_efficiency",
+    "SELF_HEALING": "true",
+    "MAX_PERFORMANCE": "true", 
+    "NODE_ENV": "production",
+    "OPTIMIZATION_LEVEL": "quantum"
+  },
+  "regions": ["all"]
+>>>>>>> 36357df (🚀 انتشار نسخه ۲.۱ سیستم کوانتومی)
 }
