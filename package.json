@@ -1,34 +1,30 @@
 {
-  "name": "tetrashop100-optimized",
-  "version": "2.0.0",
-  "description": "Tetrashop100 با معماری بهینه - بهبود 70% عملکرد",
+  "name": "tetrashop-suite",
+  "version": "3.0.0",
+  "description": "Tetrashop Suite - پلتفرم کامل با معماری بهینه",
   "type": "module",
-  "main": "tetrashop100.js",
-  "scripts": {
-    "start": "node tetrashop100.js",
-    "dev": "node --watch tetrashop100.js",
-    "test": "node tests/performance.test.js",
-    "test:integration": "node tests/integration.test.js",
-    "build": "echo 'No build step needed for Node.js'",
-    "deploy": "npm test && vercel --prod",
-    "benchmark": "node tests/benchmark.js"
-  },
-  "keywords": [
-    "tetrashop",
-    "ecommerce",
-    "optimized",
-    "architecture",
-    "performance"
+  "workspaces": [
+    "apps/core",
+    "apps/backend", 
+    "apps/writer",
+    "apps/shared"
   ],
-  "author": "Tetrashop Team",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "ws": "^8.14.2"
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/core",
+    "start": "npm start --workspace=apps/core",
+    "build": "npm run build --workspace=apps/core",
+    "deploy": "vercel --prod",
+    "deploy:core": "npm run deploy --workspace=apps/core",
+    "deploy:all": "npm run deploy --workspaces",
+    "test": "npm test --workspaces",
+    "test:core": "npm test --workspace=apps/core",
+    "setup": "npm install --workspaces",
+    "manager": "node apps/shared/unified-manager.js"
   },
   "devDependencies": {
     "vercel": "^28.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

@@ -3,56 +3,25 @@
   "name": "tetrashop-suite",
   "builds": [
     {
-      "src": "api/**/*.js",
+      "src": "apps/core/tetrashop100.js",
       "use": "@vercel/node"
     },
     {
-      "src": "public/**/*",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "chess-engine/**/*",
-      "use": "@vercel/static"
+      "src": "apps/core/simple-tetrashop.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/main.js"
-    },
-    {
-      "src": "/chess",
-      "dest": "/chess-engine/chess-mvp/index.html"
-    },
-    {
-      "src": "/admin",
-      "dest": "/admin-dashboard.html"
-    },
-    {
-      "src": "/",
-      "dest": "/public/index.html"
+      "dest": "/apps/core/tetrashop100.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/apps/core/tetrashop100.js"
     }
   ],
   "env": {
-    "NODE_ENV": "production",
-    "API_URL": "https://tetrashop-suite.vercel.app/api",
-    "GITHUB_REPO": "https://github.com/tetrashop/tetrashop-projects"
-  },
-  "buildCommand": "npm run build:all",
-  "outputDirectory": "public",
-  "installCommand": "npm install",
-  "functions": {
-    "api/main.js": {
-      "maxDuration": 30
-    },
-    "api/chess.js": {
-      "maxDuration": 60
-    }
-  },
-  "regions": ["fra1"],
-  "public": true
+    "NODE_ENV": "production"
+  }
 }
