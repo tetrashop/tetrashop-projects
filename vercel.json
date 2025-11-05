@@ -3,24 +3,25 @@
   "name": "tetrashop-suite",
   "builds": [
     {
-      "src": "apps/core/tetrashop100.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "apps/core/simple-tetrashop.js",
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/apps/core/tetrashop100.js"
+      "dest": "/api/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/apps/core/tetrashop100.js"
+      "src": "/",
+      "dest": "/api/index.js"
     }
   ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  },
   "env": {
     "NODE_ENV": "production"
   }
