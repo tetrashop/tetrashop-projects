@@ -1,5 +1,5 @@
 {
-  "name": "tetrashop-ecosystem",
+  "name": "tetrashop-projects",
   "version": "1.0.0",
   "description": "اکوسیستم یکپارچه تتراشاپ با ماژول‌های هوشمند",
   "main": "server.js",
@@ -8,7 +8,7 @@
     "dev": "node server.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.21.2"
   },
   "engines": {
     "node": ">=18.x"
