@@ -1,16 +1,16 @@
 {
-  "name": "tetrashop-vercel",
+  "name": "tetrashop-ecosystem",
   "version": "1.0.0",
-  "description": "Tetrashop Platform - Deployed on Vercel",
+  "description": "اکوسیستم یکپارچه تتراشاپ با ماژول‌های هوشمند",
+  "main": "server.js",
   "scripts": {
-    "dev": "echo 'No dev server needed for static site'",
-    "build": "echo 'No build process for static site'",
-    "start": "echo 'Static site - serve from vercel-deploy/'"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
-  "keywords": ["tetrashop", "nlp", "quantum", "vercel"],
-  "author": "Tetrashop Team",
-  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.x"
   }
 }
