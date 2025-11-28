@@ -1,12 +1,16 @@
+console.log('🟢 فایل server.js شروع به اجرا شد');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const { exec, spawn } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
-// سیستم مانیتورینگ برای جلوگیری از حلقه بی‌نهایت
+// سیستم مانیتورینگ پیشرفته
 class PerformanceMonitor {
     constructor() {
         this.executionTimes = new Map();
-        this.maxExecutionTime = 30000; // 30 ثانیه
+        this.maxExecutionTime = 30000;
+        this.activeProcesses = new Map();
     }
     
     startMonitoring(moduleName) {
@@ -15,6 +19,7 @@ class PerformanceMonitor {
             start: Date.now(),
             timeout: setTimeout(() => {
                 console.error('⏰ اخطار: ماژول ' + moduleName + ' بیش از 30 ثانیه در حال اجراست');
+                this.forceStop(moduleName);
             }, this.maxExecutionTime)
         });
     }
@@ -27,42 +32,23 @@ class PerformanceMonitor {
             console.log('✅ ماژول ' + moduleName + ' در ' + executionTime + 'ms تکمیل شد');
             this.executionTimes.delete(moduleName);
         }
+        this.activeProcesses.delete(moduleName);
+    }
+    
+    forceStop(moduleName) {
+        const process = this.activeProcesses.get(moduleName);
+        if (process) {
+            process.kill();
+            console.log('🛑 توقف اضطراری ماژول: ' + moduleName);
+        }
+    }
+    
+    setProcess(moduleName, process) {
+        this.activeProcesses.set(moduleName, process);
     }
 }
 
 const monitor = new PerformanceMonitor();
-
-// پایگاه دانش هوشمند
-let knowledgeBase = [
-    {
-        id: 1,
-        category: "شطرنج هوشمند",
-        content: "سیستم شطرنج پیشرفته با قابلیت تحلیل عمق بازی",
-        tags: ["chess", "ai", "هوش مصنوعی"],
-        module: "chess-engine"
-    },
-    {
-        id: 2,
-        category: "نگار کوانتا", 
-        content: "سیستم نگارش کوانتومی پیشرفته برای تولید محتوا",
-        tags: ["quantum", "نوشتن", "هوش مصنوعی"],
-        module: "quantum-calligraphy-advanced"
-    },
-    {
-        id: 3,
-        category: "آمان راز",
-        content: "سیستم حفاظت از اسرار و امنیت داده‌ها",
-        tags: ["امنیت", "رمزنگاری", "حفاظت"],
-        module: "aman-secret-cluster"
-    },
-    {
-        id: 4,
-        category: "نطق مصطلح",
-        content: "پایگاه دانش هوشمند برای پردازش زبان طبیعی",
-        tags: ["nlp", "پردازش زبان", "هوش مصنوعی"],
-        module: "speech-processor"
-    }
-];
 
 app.use(express.json());
 app.use(express.static('.'));
@@ -75,7 +61,71 @@ app.use((req, res, next) => {
     next();
 });
 
-// صفحه اصلی با رابط کاربری پیشرفته
+// ماژول‌های واقعی سیستم با مسیرهای صحیح
+const MODULES = {
+    'chess-engine': {
+        name: 'شطرنج هوشمند',
+        path: './chess-engine',
+        scripts: ['index.js', 'server.js', 'app.js', 'main.js'],
+        port: 3001,
+        status: 'inactive'
+    },
+    'quantum-calligraphy-advanced': {
+        name: 'نگار کوانتا',
+        path: './quantum-calligraphy-advanced',
+        scripts: ['index.js', 'server.js', 'app.js', 'main.js'],
+        port: 3002,
+        status: 'inactive'
+    },
+    'aman-secret-cluster': {
+        name: 'آمان راز',
+        path: './aman-secret-cluster',
+        scripts: ['index.js', 'server.js', 'app.js', 'main.js'],
+        port: 3003,
+        status: 'inactive'
+    },
+    'speech-processor': {
+        name: 'نطق مصطلح',
+        path: './speech-processor',
+        scripts: ['index.js', 'server.js', 'app.js', 'main.js'],
+        port: 3004,
+        status: 'inactive'
+    },
+    'natiq-ai': {
+        name: 'کوروش هوشمند',
+        path: './natiq-ai',
+        scripts: ['index.js', 'server.js', 'app.js', 'main.js'],
+        port: 3005,
+        status: 'inactive'
+    }
+};
+
+// تابع برای پیدا کردن فایل اجرایی ماژول
+function findModuleScript(modulePath, scripts) {
+    for (const script of scripts) {
+        const scriptPath = path.join(modulePath, script);
+        if (fs.existsSync(scriptPath)) {
+            return script;
+        }
+    }
+    return null;
+}
+
+// تابع برای بررسی وضعیت پورت
+function checkPortStatus(port) {
+    return new Promise((resolve) => {
+        const net = require('net');
+        const tester = net.createServer()
+            .once('error', () => resolve(false))
+            .once('listening', () => {
+                tester.close();
+                resolve(true);
+            })
+            .listen(port);
+    });
+}
+
+// صفحه اصلی
 app.get('/', (req, res) => {
     const html = `<!DOCTYPE html>
 <html dir="rtl" lang="fa">
@@ -135,12 +185,16 @@ app.get('/', (req, res) => {
             border: 1px solid rgba(255,255,255,0.2);
             text-align: center;
             transition: all 0.3s ease;
+        }
+        
+        .module-card.available:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
             cursor: pointer;
         }
         
-        .module-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
+        .module-card.unavailable {
+            opacity: 0.6;
         }
         
         .module-icon {
@@ -165,6 +219,18 @@ app.get('/', (req, res) => {
             transform: translateY(-2px);
         }
         
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
         .status-panel {
             background: rgba(255,255,255,0.05);
             padding: 20px;
@@ -181,6 +247,24 @@ app.get('/', (req, res) => {
             justify-content: space-between;
             align-items: center;
         }
+        
+        .module-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        
+        .status-active { background: var(--success); }
+        .status-inactive { background: var(--danger); }
+        .status-loading { background: var(--warning); }
+        
+        .module-info {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -190,96 +274,114 @@ app.get('/', (req, res) => {
             <p>مدیریت و اجرای تمام ماژول‌ها با بالاترین بهره‌وری</p>
         </div>
         
-        <div class="modules-grid">
-            <div class="module-card" onclick="runModule('chess-engine')">
-                <div class="module-icon">♟️</div>
-                <h3>شطرنج هوشمند</h3>
-                <p>سیستم شطرنج پیشرفته با هوش مصنوعی</p>
-                <button class="btn">اجرای ماژول</button>
-            </div>
-            
-            <div class="module-card" onclick="runModule('quantum-calligraphy-advanced')">
-                <div class="module-icon">🖋️</div>
-                <h3>نگار کوانتا</h3>
-                <p>سیستم نگارش کوانتومی پیشرفته</p>
-                <button class="btn">اجرای ماژول</button>
-            </div>
-            
-            <div class="module-card" onclick="runModule('aman-secret-cluster')">
-                <div class="module-icon">🛡️</div>
-                <h3>آمان راز</h3>
-                <p>سیستم امنیتی و حفاظت از اسرار</p>
-                <button class="btn">اجرای ماژول</button>
-            </div>
-            
-            <div class="module-card" onclick="runModule('speech-processor')">
-                <div class="module-icon">🗣️</div>
-                <h3>نطق مصطلح</h3>
-                <p>پایگاه دانش هوشمند پردازش زبان</p>
-                <button class="btn">اجرای ماژول</button>
-            </div>
-            
-            <div class="module-card" onclick="runModule('natiq-ai')">
-                <div class="module-icon">🤖</div>
-                <h3>کوروش هوشمند</h3>
-                <p>دستیار هوش مصنوعی پیشرفته</p>
-                <button class="btn">اجرای ماژول</button>
-            </div>
-            
-            <div class="module-card" onclick="runModule('all-modules')">
-                <div class="module-icon">⚡</div>
-                <h3>اجرای کامل سیستم</h3>
-                <p>راه‌اندازی تمام ماژول‌ها به صورت یکپارچه</p>
-                <button class="btn" style="background: var(--success);">اجرای کامل</button>
-            </div>
+        <div class="modules-grid" id="modules-container">
+            <!-- ماژول‌ها توسط JavaScript لود می‌شوند -->
+        </div>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <button class="btn btn-success" onclick="runAllModules()">⚡ اجرای تمام ماژول‌های قابل دسترس</button>
         </div>
         
         <div class="status-panel">
             <h3>📊 پنل مانیتورینگ زنده</h3>
             <div id="monitor-container">
                 <div class="monitor-item">
-                    <span>وضعیت سیستم:</span>
-                    <span style="color: var(--success);">✅ آماده به کار</span>
+                    <span>وضعیت سیستم مرکزی:</span>
+                    <span style="color: var(--success);">✅ فعال - پورت 3000</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        async function runModule(moduleName) {
+        async function loadModules() {
+            try {
+                const response = await fetch('/api/modules');
+                const modules = await response.json();
+                
+                const container = document.getElementById('modules-container');
+                container.innerHTML = '';
+                
+                modules.forEach(module => {
+                    const moduleCard = document.createElement('div');
+                    moduleCard.className = module.available ? 'module-card available' : 'module-card unavailable';
+                    moduleCard.onclick = module.available ? () => runModule(module.id) : null;
+                    
+                    moduleCard.innerHTML = '<div class="module-icon">' + module.icon + '</div>' +
+                        '<h3>' + module.name + ' <span class="module-status status-' + module.status + '"></span></h3>' +
+                        '<p>' + module.description + '</p>' +
+                        '<div class="module-info">' + 
+                            (module.script ? 'فایل: ' + module.script : '') +
+                            (module.port ? ' | پورت: ' + module.port : '') +
+                        '</div>' +
+                        '<button class="btn ' + (module.status === 'active' ? 'btn-warning' : (module.available ? '' : 'btn-danger')) + '" ' +
+                                'onclick="event.stopPropagation(); ' + (module.available ? 'runModule(\\'' + module.id + '\\')' : '') + '">' +
+                            (module.status === 'active' ? '🔄 در حال اجرا' : (module.available ? '🚀 اجرای ماژول' : '❌ غیرفعال')) +
+                        '</button>' +
+                        (module.available ? '' : '<div style="color: var(--warning); margin-top: 10px;">⚠️ پوشه موجود است اما فایل اجرایی یافت نشد</div>');
+                    container.appendChild(moduleCard);
+                });
+                
+            } catch (error) {
+                console.error('خطا در بارگذاری ماژول‌ها:', error);
+            }
+        }
+        
+        async function runModule(moduleId) {
             const monitorContainer = document.getElementById('monitor-container');
+            
+            // حذف مانیتور قدیمی اگر وجود دارد
+            const oldMonitor = document.getElementById('monitor-' + moduleId);
+            if (oldMonitor) oldMonitor.remove();
             
             const monitorItem = document.createElement('div');
             monitorItem.className = 'monitor-item';
-            monitorItem.id = 'monitor-' + moduleName;
-            monitorItem.innerHTML = '<span>ماژول ' + moduleName + ':</span><span style="color: var(--warning);">🔄 در حال اجرا...</span>';
+            monitorItem.id = 'monitor-' + moduleId;
+            monitorItem.innerHTML = '<span>آماده‌سازی ماژول ' + moduleId + ':</span><span style="color: var(--warning);">🔄 در حال بررسی...</span>';
             monitorContainer.appendChild(monitorItem);
             
             try {
-                const response = await fetch('/api/run-module/' + moduleName, {
+                const response = await fetch('/api/run-module/' + moduleId, {
                     method: 'POST'
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    monitorItem.innerHTML = '<span>ماژول ' + moduleName + ':</span><span style="color: var(--success);">✅ اجرا شد (' + data.executionTime + 'ms)</span>';
+                    monitorItem.innerHTML = '<span>ماژول ' + moduleId + ':</span><span style="color: var(--success);">✅ ' + data.message + ' (' + data.executionTime + 'ms)</span>';
+                    if (data.port) {
+                        const portMonitor = document.createElement('div');
+                        portMonitor.className = 'monitor-item';
+                        portMonitor.innerHTML = '<span>پورت سرویس ' + moduleId + ':</span><span style="color: var(--success);">🌐 http://localhost:' + data.port + '</span>';
+                        monitorContainer.appendChild(portMonitor);
+                    }
+                    // رفرش لیست ماژول‌ها
+                    setTimeout(loadModules, 2000);
                 } else {
-                    monitorItem.innerHTML = '<span>ماژول ' + moduleName + ':</span><span style="color: var(--danger);">❌ خطا: ' + data.error + '</span>';
+                    monitorItem.innerHTML = '<span>ماژول ' + moduleId + ':</span><span style="color: var(--danger);">❌ ' + data.error + '</span>';
                 }
             } catch (error) {
-                monitorItem.innerHTML = '<span>ماژول ' + moduleName + ':</span><span style="color: var(--danger);">❌ خطای اتصال</span>';
+                monitorItem.innerHTML = '<span>ماژول ' + moduleId + ':</span><span style="color: var(--danger);">❌ خطای اتصال به سرور</span>';
             }
         }
         
-        fetch('/api/status')
-            .then(response => response.json())
-            .then(data => {
-                console.log('✅ سیستم با موفقیت راه‌اندازی شد');
-            })
-            .catch(error => {
-                console.error('❌ خطا در اتصال به سرور');
-            });
+        async function runAllModules() {
+            const response = await fetch('/api/modules');
+            const modules = await response.json();
+            const availableModules = modules.filter(m => m.available);
+            
+            for (const module of availableModules) {
+                await runModule(module.id);
+                // تأخیر بین اجرای ماژول‌ها
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
+        }
+        
+        // بارگذاری اولیه ماژول‌ها
+        document.addEventListener('DOMContentLoaded', loadModules);
+        
+        // رفرش هر 15 ثانیه
+        setInterval(loadModules, 15000);
     </script>
 </body>
 </html>`;
@@ -291,33 +393,156 @@ app.get('/api/status', (req, res) => {
     res.json({ 
         success: true, 
         status: 'active',
-        modules: ['chess-engine', 'quantum-calligraphy-advanced', 'aman-secret-cluster', 'speech-processor', 'natiq-ai'],
         timestamp: new Date().toISOString()
     });
 });
 
-app.post('/api/run-module/:moduleName', (req, res) => {
-    const moduleName = req.params.moduleName;
+app.get('/api/modules', async (req, res) => {
+    const modulesList = [];
+    
+    for (const moduleId of Object.keys(MODULES)) {
+        const module = MODULES[moduleId];
+        const available = fs.existsSync(module.path);
+        let script = null;
+        let status = 'inactive';
+        
+        if (available) {
+            script = findModuleScript(module.path, module.scripts);
+            // بررسی اینکه ماژول در حال اجراست
+            status = await checkPortStatus(module.port) ? 'active' : 'inactive';
+            MODULES[moduleId].status = status;
+        }
+        
+        modulesList.push({
+            id: moduleId,
+            name: module.name,
+            description: 'سیستم ' + module.name + ' پیشرفته',
+            icon: getModuleIcon(moduleId),
+            status: status,
+            available: available && script !== null,
+            script: script,
+            port: module.port,
+            path: module.path
+        });
+    }
+    
+    res.json(modulesList);
+});
+
+app.post('/api/run-module/:moduleId', async (req, res) => {
+    const moduleId = req.params.moduleId;
     const startTime = Date.now();
     
-    console.log('🎯 درخواست اجرای ماژول: ' + moduleName);
+    console.log('🎯 درخواست اجرای ماژول: ' + moduleId);
     
-    monitor.startMonitoring(moduleName);
+    if (!MODULES[moduleId]) {
+        return res.json({
+            success: false,
+            error: 'ماژول پیدا نشد'
+        });
+    }
     
-    setTimeout(() => {
-        const executionTime = Date.now() - startTime;
-        monitor.stopMonitoring(moduleName);
+    const module = MODULES[moduleId];
+    
+    // بررسی وجود پوشه ماژول
+    if (!fs.existsSync(module.path)) {
+        return res.json({
+            success: false,
+            error: 'پوشه ماژول پیدا نشد: ' + module.path
+        });
+    }
+    
+    // پیدا کردن فایل اجرایی
+    const script = findModuleScript(module.path, module.scripts);
+    if (!script) {
+        return res.json({
+            success: false,
+            error: 'هیچ فایل اجرایی در ماژول پیدا نشد'
+        });
+    }
+    
+    // بررسی اینکه ماژول قبلاً اجرا شده
+    const isAlreadyRunning = await checkPortStatus(module.port);
+    if (isAlreadyRunning) {
+        return res.json({
+            success: true,
+            module: moduleId,
+            executionTime: 0,
+            message: 'ماژول از قبل در حال اجراست',
+            port: module.port
+        });
+    }
+    
+    monitor.startMonitoring(moduleId);
+    
+    try {
+        const scriptPath = path.join(module.path, script);
+        console.log('🚀 اجرای فایل: ' + scriptPath);
         
-        console.log('✅ ماژول ' + moduleName + ' با موفقیت اجرا شد (' + executionTime + 'ms)');
+        // اجرای ماژول
+        const moduleProcess = spawn('node', [scriptPath], {
+            cwd: module.path,
+            stdio: 'pipe',
+            detached: false
+        });
+        
+        monitor.setProcess(moduleId, moduleProcess);
+        
+        moduleProcess.stdout.on('data', (data) => {
+            console.log('[' + moduleId + ' stdout]: ' + data);
+        });
+        
+        moduleProcess.stderr.on('data', (data) => {
+            console.error('[' + moduleId + ' stderr]: ' + data);
+        });
+        
+        moduleProcess.on('close', (code) => {
+            console.log('[' + moduleId + '] فرآیند با کد ' + code + ' بسته شد');
+            monitor.stopMonitoring(moduleId);
+            MODULES[moduleId].status = 'inactive';
+        });
+        
+        // صبر کردن برای اجرای ماژول
+        await new Promise((resolve) => {
+            setTimeout(() => {
+                const executionTime = Date.now() - startTime;
+                console.log('✅ ماژول ' + moduleId + ' اجرا شد (' + executionTime + 'ms)');
+                MODULES[moduleId].status = 'active';
+                resolve();
+            }, 5000); // زمان بیشتر برای اجرای واقعی ماژول
+        });
+        
+        const executionTime = Date.now() - startTime;
         
         res.json({
             success: true,
-            module: moduleName,
+            module: moduleId,
             executionTime: executionTime,
-            message: 'ماژول با موفقیت اجرا شد'
+            message: 'ماژول با موفقیت اجرا شد',
+            port: module.port,
+            script: script
         });
-    }, 2000);
+        
+    } catch (error) {
+        monitor.stopMonitoring(moduleId);
+        res.json({
+            success: false,
+            error: 'خطا در اجرای ماژول: ' + error.message
+        });
+    }
 });
+
+// تابع helper برای آیکون‌ها
+function getModuleIcon(moduleId) {
+    const icons = {
+        'chess-engine': '♟️',
+        'quantum-calligraphy-advanced': '🖋️',
+        'aman-secret-cluster': '🛡️',
+        'speech-processor': '🗣️',
+        'natiq-ai': '🤖'
+    };
+    return icons[moduleId] || '⚡';
+}
 
 app.use((err, req, res, next) => {
     console.error('❌ خطای سرور:', err);

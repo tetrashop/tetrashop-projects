@@ -1,16 +1,27 @@
 {
-  "name": "tetrashop-projects",
+  "name": "tetrashop-integrated-system",
   "version": "1.0.0",
-  "description": "اکوسیستم یکپارچه تتراشاپ با ماژول‌های هوشمند",
-  "main": "server.js",
+  "description": "Integrated system for Tetrashop modules",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node app.js",
+    "dev": "node app.js",
+    "setup": "node app.js"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
   },
   "engines": {
-    "node": ">=18.x"
-  }
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "tetrashop",
+    "nlp",
+    "chess",
+    "ai",
+    "integration"
+  ],
+  "author": "Tetrashop Team",
+  "license": "MIT"
 }
