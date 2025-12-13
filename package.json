@@ -1,31 +1,14 @@
 {
   "name": "tetrashop-projects",
   "version": "3.0.0",
-  "main": "app.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "vercel-build": "echo 'Building for Vercel'"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "express": "^4.22.1"
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "description": "![Tetrashop Banner](https://img.shields.io/badge/Tetrashop-5_Projects-blue) ![Version](https://img.shields.io/badge/version-3.0.0-green) ![Node](https://img.shields.io/badge/node-≥16.0.0-brightgreen) ![License](https://img.shields.io/badge/license-MIT-yellow)",
-  "directories": {
-    "test": "tests"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tetrashop/tetrashop-projects.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tetrashop/tetrashop-projects/issues"
-  },
-  "homepage": "https://github.com/tetrashop/tetrashop-projects#readme"
+  }
 }

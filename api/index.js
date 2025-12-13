@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
-app.get('/', (req, res) => res.send('<h1>تتراشاپ فعال شد!</h1><p>مشکل پوشه حل شده است.</p>'));
-app.get('/api/status', (req, res) => res.json({status: 'ok'}));
+app.get('/', (req, res) => {
+    res.json({ message: 'تتراشاپ فعال است!', success: true });
+});
+app.get('/api/status', (req, res) => {
+    res.json({ status: 'ok', time: new Date().toISOString() });
+});
 module.exports = app;
