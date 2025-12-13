@@ -188,3 +188,106 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+// اضافه کردن مسیرهای درآمدزایی
+const premiumRouter = require('./premium');
+const adsRouter = require('./ads');
+const paymentRouter = require('./payment');
+const storeRouter = require('./store');
+
+app.use('/api/premium', premiumRouter);
+app.use('/api/ads', adsRouter);
+app.use('/api/payment', paymentRouter);
+app.use('/api/store', storeRouter);
+
+// اضافه کردن بخش درآمدزایی به صفحه اصلی
+app.get('/monetization', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html dir="rtl">
+    <head>
+      <title>درآمدزایی از تتراشاپ</title>
+      <style>
+        body { font-family: 'Vazirmatn'; padding: 30px; }
+        .income-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 50px auto; max-width: 1200px; }
+        .method-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .method-icon { font-size: 60px; margin-bottom: 20px; }
+        .btn-income { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #0070f3; color: white; text-decoration: none; border-radius: 10px; }
+        .stats { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 20px; margin: 50px auto; max-width: 800px; text-align: center; }
+        .stats h2 { margin-bottom: 30px; }
+      </style>
+    </head>
+    <body>
+      <h1 style="text-align: center;">💰 درآمدزایی از تتراشاپ</h1>
+      <p style="text-align: center; max-width: 800px; margin: 20px auto;">چگونه از ۵ پروژه تتراشاپ درآمد داشته باشیم؟</p>
+      
+      <div class="income-methods">
+        <div class="method-card">
+          <div class="method-icon">👑</div>
+          <h3>عضویت پریمیوم</h3>
+          <p>ارائه قابلیت‌های پیشرفته به کاربران در ازای اشتراک ماهانه</p>
+          <p style="color: #4CAF50; font-size: 24px;">+۲۹۰,۰۰۰ تومان در ماه</p>
+          <a href="/api/premium/pricing" class="btn-income">شروع کنید</a>
+        </div>
+        
+        <div class="method-card">
+          <div class="method-icon">📢</div>
+          <h3>تبلیغات</h3>
+          <p>اجاره فضای تبلیغاتی به کسب‌وکارهای مرتبط</p>
+          <p style="color: #4CAF50; font-size: 24px;">+۱۵۰,۰۰۰ تومان در ماه</p>
+          <a href="/api/ads" class="btn-income">مشاهده نرخ‌ها</a>
+        </div>
+        
+        <div class="method-card">
+          <div class="method-icon">💻</div>
+          <h3>فروش سورس کد</h3>
+          <p>فروش کدهای پروژه‌ها به توسعه‌دهندگان و سازمان‌ها</p>
+          <p style="color: #4CAF50; font-size: 24px;">+۵۰۰,۰۰۰ تومان در ماه</p>
+          <a href="/api/store" class="btn-income">مشاهده فروشگاه</a>
+        </div>
+      </div>
+      
+      <div class="stats">
+        <h2>📈 درآمد ماهانه تخمینی</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 30px;">
+          <div>
+            <div style="font-size: 40px;">۲۹۰,۰۰۰</div>
+            <p>عضویت پریمیوم</p>
+          </div>
+          <div>
+            <div style="font-size: 40px;">۱۵۰,۰۰۰</div>
+            <p>تبلیغات</p>
+          </div>
+          <div>
+            <div style="font-size: 40px;">۵۰۰,۰۰۰</div>
+            <p>فروش سورس</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px;">
+            <div style="font-size: 40px;">۹۴۰,۰۰۰</div>
+            <p>جمع کل</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 50px;">
+        <a href="/" style="color: #0070f3; text-decoration: none;">← بازگشت به صفحه اصلی</a>
+      </div>
+    </body>
+    </html>
+  `);
+});
+// در بخش HTML صفحه اصلی، بعد از پروژه‌ها اضافه کنید:
+`
+      <div style="margin: 60px 0; padding: 40px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 20px; text-align: center;">
+        <h2>💰 از تتراشاپ درآمد داشته باش!</h2>
+        <p>آیا می‌دانید می‌توانید از این پروژه‌ها کسب درآمد کنید؟</p>
+        <div style="margin-top: 30px;">
+          <a href="/monetization" style="background: white; color: #f5576c; padding: 15px 40px; border-radius: 10px; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 10px;">
+            🚀 مشاهده راه‌های درآمدزایی
+          </a>
+          <a href="/api/premium/pricing" style="background: #333; color: white; padding: 15px 40px; border-radius: 10px; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 10px;">
+            👑 خرید اشتراک پریمیوم
+          </a>
+        </div>
+      </div>
+`;
