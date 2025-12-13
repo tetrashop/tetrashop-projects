@@ -2,43 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "*/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/chess/?",
-      "dest": "/chess/index.html"
-    },
-    {
-      "src": "/quantum-writer/?",
-      "dest": "/quantum-writer/index.html"
-    },
-    {
-      "src": "/speech-recognition/?",
-      "dest": "/speech-recognition/index.html"
-    },
-    {
-      "src": "/intelligent-writer/?",
-      "dest": "/intelligent-writer-backup-20251021/index.html"
-    },
-    {
-      "src": "/wish-garden/?",
-      "dest": "/secret-garden/index.html"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
       "src": "/(.*)",
-      "status": 404,
-      "dest": "/404.html"
+      "dest": "/api/index.js"
     }
   ]
 }
