@@ -1,728 +1,137 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html dir="rtl">
 <head>
+    <title>شطرنج تعاملی | تتراشاپ</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>♔ شطرنج پیشرفته - تتراشاپ</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vazirmatn/monospace@latest/font-face.css">
     <style>
-        * {
+        body { 
             font-family: 'Vazirmatn', sans-serif;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #fff;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: white;
             margin: 0;
             padding: 20px;
-            min-height: 100vh;
+            text-align: center;
         }
-        
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
         }
-        
-        .header {
-            text-align: center;
+        h1 {
+            color: #f8c555;
             margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            border: 2px solid #4361ee;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-        
-        .chess-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        
         .chess-board {
-            flex: 1;
-            min-width: 500px;
-            background: #2d3047;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 500px;
+            height: 500px;
+            margin: 20px auto;
+            border: 10px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
-        
-        .board {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            width: 480px;
-            height: 480px;
-            margin: 0 auto;
-            border: 3px solid #333;
-        }
-        
-        .square {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .square:hover {
-            transform: scale(1.1);
-            z-index: 10;
-        }
-        
-        .light {
-            background: #f0d9b5;
-        }
-        
-        .dark {
-            background: #b58863;
-        }
-        
-        .selected {
-            background: #4cc9f0 !important;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        
-        .controls {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(255,255,255,0.05);
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .btn {
-            background: linear-gradient(45deg, #4361ee, #3a0ca3);
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #3498db;
             color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 10px 5px;
+            text-decoration: none;
+            border-radius: 8px;
             transition: all 0.3s;
-            width: 100%;
         }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(45deg, #f72585, #b5179e);
-        }
-        
-        .btn-success {
-            background: linear-gradient(45deg, #4cc9f0, #4895ef);
-        }
-        
-        .move-history {
-            max-height: 300px;
-            overflow-y: auto;
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        
-        .move-item {
-            padding: 8px 15px;
-            margin: 5px 0;
-            background: rgba(255,255,255,0.1);
-            border-radius: 5px;
-            border-right: 3px solid #4361ee;
-        }
-        
-        .status {
-            background: rgba(76, 201, 240, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border: 1px solid #4cc9f0;
-        }
-        
-        .player-info {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-        
-        .player {
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            margin: 0 10px;
-        }
-        
-        .player-white {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid #fff;
-        }
-        
-        .player-black {
-            background: rgba(0,0,0,0.3);
-            border: 2px solid #000;
-        }
-        
-        @media (max-width: 768px) {
-            .chess-container {
-                flex-direction: column;
-            }
-            
-            .chess-board, .controls {
-                min-width: 100%;
-            }
-            
-            .board {
-                width: 320px;
-                height: 320px;
-            }
-            
-            .square {
-                width: 40px;
-                height: 40px;
-                font-size: 30px;
-            }
+        .back-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/font.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>♔ شطرنج پیشرفته - تتراشاپ</h1>
-            <p>هوش مصنوعی سطح GM | قیمت: ۹۹,۰۰۰ ریال ماهانه</p>
-            <div class="status" id="gameStatus">
-                <strong>وضعیت:</strong> بازی جدید | نوبت: سفید
-            </div>
+        <h1>♔ شطرنج تعاملی</h1>
+        <p>بازی شطرنج آنلاین با هوش مصنوعی - سطح مبتدی تا پیشرفته</p>
+        
+        <div class="chess-board" id="chessBoard">
+            <!-- تخته شطرنج با JavaScript ساخته خواهد شد -->
+            <p style="padding: 50px;">در حال بارگذاری تخته شطرنج...</p>
         </div>
         
-        <div class="chess-container">
-            <div class="chess-board">
-                <h3 style="text-align: center; margin-bottom: 20px;">صفحه شطرنج</h3>
-                <div class="board" id="chessBoard">
-                    <!-- صفحه شطرنج با JavaScript ساخته می‌شود -->
-                </div>
-                
-                <div class="player-info">
-                    <div class="player player-white">
-                        <h4>سفید (شما)</h4>
-                        <p>امتیاز: <span id="whiteScore">0</span></p>
-                    </div>
-                    <div class="player player-black">
-                        <h4>سیاه (AI)</h4>
-                        <p>امتیاز: <span id="blackScore">0</span></p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="controls">
-                <h3>کنترل بازی</h3>
-                
-                <button class="btn btn-success" onclick="newGame()">
-                    🆕 بازی جدید
-                </button>
-                
-                <button class="btn" onclick="makeAIMove()">
-                    🤖 حرکت AI
-                </button>
-                
-                <button class="btn" onclick="undoMove()">
-                    ↩️ بازگشت حرکت
-                </button>
-                
-                <button class="btn btn-danger" onclick="resign()">
-                    🏳️ تسلیم
-                </button>
-                
-                <button class="btn" onclick="flipBoard()">
-                    🔄 چرخش صفحه
-                </button>
-                
-                <div style="margin: 20px 0;">
-                    <h4>تنظیمات سطح AI</h4>
-                    <select id="aiLevel" style="width: 100%; padding: 10px; border-radius: 8px; background: #333; color: white;">
-                        <option value="1">سطح ۱ (آسان)</option>
-                        <option value="2">سطح ۲ (متوسط)</option>
-                        <option value="3" selected>سطح ۳ (سخت)</option>
-                        <option value="4">سطح ۴ (استاد)</option>
-                        <option value="5">سطح ۵ (گرندمستر)</option>
-                    </select>
-                </div>
-                
-                <div class="move-history">
-                    <h4>تاریخچه حرکات</h4>
-                    <div id="moveList">
-                        <!-- حرکات اینجا نمایش داده می‌شوند -->
-                    </div>
-                </div>
-                
-                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                    <h4>💎 اشتراک ویژه</h4>
-                    <p>برای دسترسی به AI قوی‌تر و ویژگی‌های پیشرفته:</p>
-                    <button class="btn" style="background: linear-gradient(45deg, #f8961e, #f3722c);" 
-                            onclick="window.open('/api/marketplace', '_blank')">
-                        🔓 ارتقا به نسخه حرفه‌ای
-                    </button>
-                </div>
-            </div>
+        <div style="margin-top: 30px;">
+            <button onclick="startNewGame()" style="padding: 10px 20px; margin: 0 10px;">بازی جدید</button>
+            <button onclick="undoMove()" style="padding: 10px 20px; margin: 0 10px;">بازگشت حرکت</button>
+            <button onclick="saveGame()" style="padding: 10px 20px; margin: 0 10px;">ذخیره بازی</button>
         </div>
         
-        <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
-            <h3>♟️ آموزش سریع</h3>
-            <p>1. روی مهره‌ها کلیک کنید تا انتخاب شوند</p>
-            <p>2. روی خانه مقصد کلیک کنید</p>
-            <p>3. از دکمه "حرکت AI" برای نوبت حریف استفاده کنید</p>
-            <p>4. بازی خود را ذخیره کنید و با دوستان به اشتراک بگذارید</p>
+        <div id="gameStatus" style="margin: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <h3>وضعیت بازی: آماده</h3>
+            <p>نوبت: سفید</p>
         </div>
+        
+        <a href="/" class="back-btn">← بازگشت به صفحه اصلی</a>
     </div>
     
     <script>
-        // داده‌های اولیه بازی
-        let gameState = {
-            board: [],
-            selectedSquare: null,
-            currentPlayer: 'white',
-            moves: [],
-            isFlipped: false,
-            whiteScore: 0,
-            blackScore: 0,
-            aiLevel: 3
-        };
+        // شبیه‌سازی اولیه تخته شطرنج
+        const chessBoard = document.getElementById('chessBoard');
+        const pieces = ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'];
         
-        // قطعات شطرنج با emoji
-        const pieces = {
-            'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'p': '♟',
-            'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙',
-            '': ''
-        };
-        
-        // موقعیت شروع
-        const initialBoard = [
-            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-            ['', '', '', '', '', '', '', ''],
-            ['', '', '', '', '', '', '', ''],
-            ['', '', '', '', '', '', '', ''],
-            ['', '', '', '', '', '', '', ''],
-            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-        ];
-        
-        // راه‌اندازی اولیه
-        function initGame() {
-            gameState.board = JSON.parse(JSON.stringify(initialBoard));
-            gameState.selectedSquare = null;
-            gameState.currentPlayer = 'white';
-            gameState.moves = [];
-            updateBoard();
-            updateStatus();
-            updateMoveHistory();
-            document.getElementById('aiLevel').value = gameState.aiLevel;
-        }
-        
-        // به‌روزرسانی صفحه
-        function updateBoard() {
-            const boardElement = document.getElementById('chessBoard');
-            boardElement.innerHTML = '';
+        function drawChessBoard() {
+            let boardHTML = '<div style="display: grid; grid-template-columns: repeat(8, 1fr); width: 100%; height: 100%;">';
             
-            for (let row = 0; row < 8; row++) {
-                for (let col = 0; col < 8; col++) {
-                    const square = document.createElement('div');
-                    square.className = `square ${(row + col) % 2 === 0 ? 'light' : 'dark'}`;
-                    square.dataset.row = row;
-                    square.dataset.col = col;
+            for(let row = 0; row < 8; row++) {
+                for(let col = 0; col < 8; col++) {
+                    const isDark = (row + col) % 2 === 0;
+                    const bgColor = isDark ? '#769656' : '#eeeed2';
                     
-                    // چرخش صفحه
-                    const displayRow = gameState.isFlipped ? 7 - row : row;
-                    const displayCol = gameState.isFlipped ? 7 - col : col;
+                    let piece = '';
+                    if(row === 0) piece = pieces[col];
+                    if(row === 1) piece = '♙';
+                    if(row === 6) piece = '♟';
+                    if(row === 7) piece = ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'][col];
                     
-                    const piece = gameState.board[displayRow][displayCol];
-                    square.textContent = pieces[piece] || '';
-                    
-                    // رنگ مهره
-                    if (piece === piece.toUpperCase() && piece !== '') {
-                        square.style.color = '#ffffff';
-                        square.style.textShadow = '1px 1px 2px #000';
-                    } else if (piece !== '') {
-                        square.style.color = '#000000';
-                        square.style.textShadow = '1px 1px 2px #fff';
-                    }
-                    
-                    // انتخاب مربع
-                    square.onclick = () => handleSquareClick(displayRow, displayCol);
-                    
-                    // هایلایت مربع انتخاب شده
-                    if (gameState.selectedSquare && 
-                        gameState.selectedSquare.row === displayRow && 
-                        gameState.selectedSquare.col === displayCol) {
-                        square.classList.add('selected');
-                    }
-                    
-                    boardElement.appendChild(square);
-                }
-            }
-        }
-        
-        // مدیریت کلیک روی مربع
-        function handleSquareClick(row, col) {
-            const piece = gameState.board[row][col];
-            
-            // اگر مربع انتخاب شده باشد
-            if (gameState.selectedSquare) {
-                const { row: fromRow, col: fromCol } = gameState.selectedSquare;
-                
-                // اگر حرکت معتبر است
-                if (isValidMove(fromRow, fromCol, row, col)) {
-                    // انجام حرکت
-                    movePiece(fromRow, fromCol, row, col);
-                    
-                    // ثبت حرکت
-                    const moveNotation = getAlgebraicNotation(fromRow, fromCol, row, col);
-                    gameState.moves.push({
-                        from: { row: fromRow, col: fromCol },
-                        to: { row, col },
-                        piece: gameState.board[row][col],
-                        notation: moveNotation,
-                        player: gameState.currentPlayer
-                    });
-                    
-                    // تغییر نوبت
-                    gameState.currentPlayer = gameState.currentPlayer === 'white' ? 'black' : 'white';
-                    
-                    // به‌روزرسانی
-                    updateBoard();
-                    updateStatus();
-                    updateMoveHistory();
-                    
-                    // بررسی پایان بازی
-                    checkGameEnd();
-                }
-                
-                // لغو انتخاب
-                gameState.selectedSquare = null;
-                updateBoard();
-            } 
-            // اگر مهره انتخاب شده باشد
-            else if (piece !== '' && 
-                     ((gameState.currentPlayer === 'white' && piece === piece.toUpperCase()) ||
-                      (gameState.currentPlayer === 'black' && piece === piece.toLowerCase()))) {
-                gameState.selectedSquare = { row, col };
-                updateBoard();
-            }
-        }
-        
-        // بررسی حرکت معتبر (ساده شده)
-        function isValidMove(fromRow, fromCol, toRow, toCol) {
-            const piece = gameState.board[fromRow][fromCol];
-            const target = gameState.board[toRow][toCol];
-            
-            // نمی‌تواند روی مهره خودی بایستد
-            if (target !== '' && 
-                ((piece === piece.toUpperCase() && target === target.toUpperCase()) ||
-                 (piece === piece.toLowerCase() && target === target.toLowerCase()))) {
-                return false;
-            }
-            
-            // حرکت ساده پیاده
-            if (piece.toLowerCase() === 'p') {
-                const direction = piece === 'P' ? -1 : 1;
-                const startRow = piece === 'P' ? 6 : 1;
-                
-                // حرکت مستقیم
-                if (fromCol === toCol) {
-                    // یک خانه به جلو
-                    if (toRow === fromRow + direction && target === '') {
-                        return true;
-                    }
-                    // دو خانه در شروع
-                    if (fromRow === startRow && toRow === fromRow + 2 * direction && 
-                        target === '' && gameState.board[fromRow + direction][fromCol] === '') {
-                        return true;
-                    }
-                }
-                // ضرب اریب
-                else if (Math.abs(fromCol - toCol) === 1 && toRow === fromRow + direction && 
-                        target !== '' && 
-                        ((piece === 'P' && target === target.toLowerCase()) ||
-                         (piece === 'p' && target === target.toUpperCase()))) {
-                    return true;
+                    boardHTML += \`
+                        <div style="background-color: \${bgColor}; 
+                                  display: flex; 
+                                  align-items: center; 
+                                  justify-content: center;
+                                  font-size: 30px;
+                                  cursor: pointer;"
+                             onclick="selectSquare(\${row}, \${col})">
+                            \${piece}
+                        </div>
+                    \`;
                 }
             }
             
-            // حرکت ساده اسب
-            if (piece.toLowerCase() === 'n') {
-                const rowDiff = Math.abs(fromRow - toRow);
-                const colDiff = Math.abs(fromCol - toCol);
-                return (rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2);
-            }
-            
-            // حرکت ساده شاه
-            if (piece.toLowerCase() === 'k') {
-                return Math.abs(fromRow - toRow) <= 1 && Math.abs(fromCol - toCol) <= 1;
-            }
-            
-            // حرکت ساده فیل
-            if (piece.toLowerCase() === 'b') {
-                return Math.abs(fromRow - toRow) === Math.abs(fromCol - toCol) && 
-                       isPathClear(fromRow, fromCol, toRow, toCol);
-            }
-            
-            // حرکت ساده رخ
-            if (piece.toLowerCase() === 'r') {
-                return (fromRow === toRow || fromCol === toCol) && 
-                       isPathClear(fromRow, fromCol, toRow, toCol);
-            }
-            
-            // حرکت ساده وزیر
-            if (piece.toLowerCase() === 'q') {
-                return (Math.abs(fromRow - toRow) === Math.abs(fromCol - toCol) || 
-                       (fromRow === toRow || fromCol === toCol)) && 
-                       isPathClear(fromRow, fromCol, toRow, toCol);
-            }
-            
-            return false;
+            boardHTML += '</div>';
+            chessBoard.innerHTML = boardHTML;
         }
         
-        // بررسی مسیر باز
-        function isPathClear(fromRow, fromCol, toRow, toCol) {
-            const rowStep = fromRow === toRow ? 0 : (toRow > fromRow ? 1 : -1);
-            const colStep = fromCol === toCol ? 0 : (toCol > fromCol ? 1 : -1);
-            
-            let row = fromRow + rowStep;
-            let col = fromCol + colStep;
-            
-            while (row !== toRow || col !== toCol) {
-                if (gameState.board[row][col] !== '') {
-                    return false;
-                }
-                row += rowStep;
-                col += colStep;
-            }
-            
-            return true;
+        function selectSquare(row, col) {
+            document.getElementById('gameStatus').innerHTML = \`
+                <h3>مربع انتخاب شده: \${String.fromCharCode(97+col)}\${8-row}</h3>
+                <p>برای توسعه کامل نیاز به پیاده‌سازی موتور شطرنج دارید</p>
+            \`;
         }
         
-        // حرکت مهره
-        function movePiece(fromRow, fromCol, toRow, toCol) {
-            gameState.board[toRow][toCol] = gameState.board[fromRow][fromCol];
-            gameState.board[fromRow][fromCol] = '';
+        function startNewGame() {
+            drawChessBoard();
+            document.getElementById('gameStatus').innerHTML = \`
+                <h3>بازی جدید شروع شد!</h3>
+                <p>نوبت: سفید</p>
+            \`;
         }
         
-        // نماد جبری حرکت
-        function getAlgebraicNotation(fromRow, fromCol, toRow, toCol) {
-            const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-            const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
-            
-            const fileFrom = files[fromCol];
-            const rankFrom = ranks[fromRow];
-            const fileTo = files[toCol];
-            const rankTo = ranks[toRow];
-            
-            return `${fileFrom}${rankFrom}${fileTo}${rankTo}`;
-        }
-        
-        // بازی جدید
-        function newGame() {
-            if (confirm('آیا مطمئن هستید که می‌خواهید بازی جدید شروع کنید؟')) {
-                gameState.whiteScore = 0;
-                gameState.blackScore = 0;
-                initGame();
-                document.getElementById('whiteScore').textContent = '0';
-                document.getElementById('blackScore').textContent = '0';
-            }
-        }
-        
-        // حرکت AI
-        function makeAIMove() {
-            if (gameState.currentPlayer !== 'black') {
-                alert('نوبت شما نیست!');
-                return;
-            }
-            
-            // شبیه‌سازی AI (تصادفی)
-            const possibleMoves = [];
-            
-            for (let fromRow = 0; fromRow < 8; fromRow++) {
-                for (let fromCol = 0; fromCol < 8; fromCol++) {
-                    const piece = gameState.board[fromRow][fromCol];
-                    if (piece !== '' && piece === piece.toLowerCase()) { // مهره سیاه
-                        for (let toRow = 0; toRow < 8; toRow++) {
-                            for (let toCol = 0; toCol < 8; toCol++) {
-                                if (isValidMove(fromRow, fromCol, toRow, toCol)) {
-                                    possibleMoves.push({ fromRow, fromCol, toRow, toCol });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if (possibleMoves.length > 0) {
-                // انتخاب حرکت بر اساس سطح AI
-                const aiLevel = parseInt(document.getElementById('aiLevel').value);
-                let move;
-                
-                if (aiLevel <= 2) {
-                    // AI آسان: حرکت تصادفی
-                    move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-                } else {
-                    // AI سخت: حرکت به سمت مرکز یا گرفتن مهره
-                    move = possibleMoves[0];
-                    let bestScore = -Infinity;
-                    
-                    possibleMoves.forEach(m => {
-                        const target = gameState.board[m.toRow][m.toCol];
-                        let score = 0;
-                        
-                        // ارزش گرفتن مهره
-                        if (target !== '' && target === target.toUpperCase()) {
-                            const pieceValues = { 'p': 1, 'n': 3, 'b': 3, 'r': 5, 'q': 9, 'k': 0 };
-                            score += pieceValues[target.toLowerCase()] * 10;
-                        }
-                        
-                        // حرکت به مرکز
-                        const centerDist = Math.abs(m.toRow - 3.5) + Math.abs(m.toCol - 3.5);
-                        score += (14 - centerDist);
-                        
-                        if (score > bestScore) {
-                            bestScore = score;
-                            move = m;
-                        }
-                    });
-                }
-                
-                // انجام حرکت AI
-                movePiece(move.fromRow, move.fromCol, move.toRow, move.toCol);
-                
-                // ثبت حرکت
-                const moveNotation = getAlgebraicNotation(move.fromRow, move.fromCol, move.toRow, move.toCol);
-                gameState.moves.push({
-                    from: { row: move.fromRow, col: move.fromCol },
-                    to: { row: move.toRow, col: move.toCol },
-                    piece: gameState.board[move.toRow][move.toCol],
-                    notation: moveNotation,
-                    player: 'black'
-                });
-                
-                // تغییر نوبت
-                gameState.currentPlayer = 'white';
-                
-                // به‌روزرسانی
-                updateBoard();
-                updateStatus();
-                updateMoveHistory();
-                
-                // بررسی پایان بازی
-                checkGameEnd();
-            }
-        }
-        
-        // بازگشت حرکت
         function undoMove() {
-            if (gameState.moves.length > 0) {
-                const lastMove = gameState.moves.pop();
-                gameState.board[lastMove.from.row][lastMove.from.col] = lastMove.piece;
-                gameState.board[lastMove.to.row][lastMove.to.col] = '';
-                gameState.currentPlayer = lastMove.player;
-                
-                updateBoard();
-                updateStatus();
-                updateMoveHistory();
-            }
+            alert('قابلیت بازگشت حرکت در نسخه کامل فعال خواهد شد');
         }
         
-        // تسلیم
-        function resign() {
-            if (confirm('آیا مطمئن هستید که می‌خواهید تسلیم شوید؟')) {
-                if (gameState.currentPlayer === 'white') {
-                    gameState.blackScore++;
-                    document.getElementById('blackScore').textContent = gameState.blackScore;
-                    alert('شما تسلیم شدید! AI برنده شد.');
-                } else {
-                    gameState.whiteScore++;
-                    document.getElementById('whiteScore').textContent = gameState.whiteScore;
-                    alert('AI تسلیم شد! شما برنده شدید.');
-                }
-                initGame();
-            }
+        function saveGame() {
+            alert('بازی ذخیره شد (شبیه‌سازی)');
         }
         
-        // چرخش صفحه
-        function flipBoard() {
-            gameState.isFlipped = !gameState.isFlipped;
-            updateBoard();
-        }
-        
-        // به‌روزرسانی وضعیت
-        function updateStatus() {
-            const status = document.getElementById('gameStatus');
-            status.innerHTML = `
-                <strong>وضعیت:</strong> ${gameState.moves.length === 0 ? 'بازی جدید' : 'در جریان'} | 
-                <strong>نوبت:</strong> ${gameState.currentPlayer === 'white' ? 'سفید (شما)' : 'سیاه (AI)'} |
-                <strong>تعداد حرکات:</strong> ${gameState.moves.length}
-            `;
-        }
-        
-        // به‌روزرسانی تاریخچه حرکات
-        function updateMoveHistory() {
-            const moveList = document.getElementById('moveList');
-            moveList.innerHTML = '';
-            
-            gameState.moves.forEach((move, index) => {
-                const moveItem = document.createElement('div');
-                moveItem.className = 'move-item';
-                moveItem.innerHTML = `
-                    <strong>${index + 1}.</strong> 
-                    ${move.player === 'white' ? '⚪' : '⚫'} 
-                    ${move.notation}
-                `;
-                moveList.appendChild(moveItem);
-            });
-            
-            // اسکرول به پایین
-            moveList.scrollTop = moveList.scrollHeight;
-        }
-        
-        // بررسی پایان بازی
-        function checkGameEnd() {
-            // اینجا می‌توانید منطق کامل شطرنج را اضافه کنید
-            // برای نمونه ساده، فقط حرکت را ثبت می‌کنیم
-        }
-        
-        // API برای ارتباط با سرور
-        async function saveGame() {
-            try {
-                const response = await fetch('/api/chess/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(gameState)
-                });
-                
-                const data = await response.json();
-                if (data.success) {
-                    alert('بازی با موفقیت ذخیره شد!');
-                }
-            } catch (error) {
-                console.error('خطا در ذخیره بازی:', error);
-            }
-        }
-        
-        // راه‌اندازی اولیه
-        window.onload = function() {
-            initGame();
-            console.log('♔ شطرنج تتراشاپ راه‌اندازی شد!');
-        };
+        // رسم تخته هنگام بارگذاری
+        drawChessBoard();
     </script>
 </body>
 </html>
