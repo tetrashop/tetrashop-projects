@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -215,3 +216,107 @@ server.listen(PORT, () => {
   console.log(`سرور در پورت ${PORT} اجرا شد`);
   console.log(` مسیر جاری ${process.cwd()}`);
 });
+||||||| parent of f93f210 (ایجاد پوشه intelligent-writer و تکمیل پروژه‌ها)
+=======
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+// لیست پروژه‌ها با مسیرهای صحیح
+const projects = {
+  'chess': { 
+    file: 'public/chess/index.html', 
+    title: 'شطرنج هوشمند',
+    description: 'سیستم شطرنج با هوش مصنوعی'
+  },
+  'quantum-writer': { 
+    file: 'public/quantum-writer/quantum-writer.html', 
+    title: 'نویسنده کوانتومی',
+    description: 'تولید محتوا با الگوریتم‌های کوانتومی'
+  },
+  'speech-recognition': { 
+    file: 'public/speech-recognition/index.html', 
+    title: 'تشخیص صوت',
+    description: 'سیستم تشخیص گفتار فارسی'
+  },
+  'intelligent-writer': { 
+    file: 'public/intelligent-writer/index.html', 
+    title: 'نویسنده هوشمند',
+    description: 'تولید محتوای هوشمند'
+  },
+  'secret-garden': { 
+    file: 'public/secret-garden/index.html', 
+    title: 'باغ آرزو',
+    description: 'مدیریت اهداف و آرزوها'
+  }
+};
+
+const server = http.createServer((req, res) => {
+  const url = req.url.replace(/^\//, '').replace(/\/$/, '');
+  
+  // صفحه اصلی
+  if (!url) {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    const html = `
+    <!DOCTYPE html>
+    <html dir="rtl" lang="fa">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>پروژه‌های Tetrashop</title>
+    </head>
+    <body style="font-family: Tahoma; direction: rtl; padding: 20px;">
+      <h1>پروژه‌های Tetrashop</h1>
+      <div>
+        ${Object.entries(projects).map(([key, project]) => `
+          <div style="margin: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+            <h3>${project.title}</h3>
+            <p>${project.description}</p>
+            <a href="/${key}" style="color: blue;">ورود به پروژه</a>
+          </div>
+        `).join('')}
+      </div>
+    </body>
+    </html>
+    `;
+    res.end(html);
+    return;
+  }
+  
+  // اگر پروژه شناخته شده است
+  if (projects[url]) {
+    const baseDir = process.cwd();
+    const filePath = path.join(baseDir, projects[url].file);
+    
+    console.log('Request for:', url);
+    console.log('File path:', filePath);
+    
+    try {
+      if (fs.existsSync(filePath)) {
+        const content = fs.readFileSync(filePath, 'utf8');
+        res.writeHead(200, { 
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache'
+        });
+        res.end(content);
+      } else {
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end('<h1>فایل پروژه یافت نشد</h1><a href="/">بازگشت</a>');
+      }
+    } catch (error) {
+      console.error('Error reading file:', error);
+      res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end('<h1>خطای سرور</h1><a href="/">بازگشت</a>');
+    }
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end('<h1>صفحه یافت نشد</h1><a href="/">بازگشت</a>');
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log("Server started on port: " + PORT);
+  console.log("Current directory: " + process.cwd());
+});
+>>>>>>> f93f210 (ایجاد پوشه intelligent-writer و تکمیل پروژه‌ها)
