@@ -4,18 +4,60 @@
     {
       "src": "api/index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "chess/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "quantum-writer/quantum-writer.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "speech-recognition/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "intelligent-writer-backup-20251021/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "secret-garden/index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/chess/(.*)",
+      "dest": "/chess/$1"
+    },
+    {
+      "src": "/quantum-writer/(.*)",
+      "dest": "/quantum-writer/$1"
+    },
+    {
+      "src": "/speech-recognition/(.*)",
+      "dest": "/speech-recognition/$1"
+    },
+    {
+      "src": "/intelligent-writer-backup-20251021/(.*)",
+      "dest": "/intelligent-writer-backup-20251021/$1"
+    },
+    {
+      "src": "/secret-garden/(.*)",
+      "dest": "/secret-garden/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/api/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.js"
     }
-  ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 10,
-      "includeFiles": "public/**"
-    }
-  }
+  ]
 }
