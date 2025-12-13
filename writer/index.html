@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✍️ نویسنده هوشمند - تتراشاپ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vazirmatn/monospace@latest/font-face.css">
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 2px solid #7209b7;
+        }
+        
+        .writer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .writer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #4361ee;
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #7209b7, #560bad);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #4361ee, #3a0ca3);
+        }
+        
+        .templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .template-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-5px);
+            border-color: #4cc9f0;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .result {
+            background: rgba(76, 201, 240, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #4cc9f0;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            color: #4cc9f0;
+            font-weight: bold;
+        }
+        
+        .tone-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .tone-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #666;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tone-btn.active {
+            background: #7209b7;
+            border-color: #7209b7;
+        }
+        
+        .pricing {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(45deg, #f8961e, #f3722c);
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✍️ نویسنده هوشمند - تتراشاپ</h1>
+            <p>تولید محتوای حرفه‌ای با هوش مصنوعی | قیمت: ۱۴۹,۰۰۰ ریال ماهانه</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="charCount">0</div>
+                    <p>کاراکتر تولید شده</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="wordCount">0</div>
+                    <p>کلمه تولید شده</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="articleCount">0</div>
+                    <p>مقاله تولید شده</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="timeSaved">0</div>
+                    <p>ساعت ذخیره شده</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="writer-container">
+            <div class="panel">
+                <h3>📝 ورودی متن</h3>
+                <textarea id="inputText" placeholder="موضوع، کلمات کلیدی یا متن اولیه را وارد کنید..."></textarea>
+                
+                <h4>🎯 انتخاب قالب</h4>
+                <div class="templates">
+                    <div class="template-card" onclick="selectTemplate('article')">
+                        <h4>📰 مقاله وبلاگ</h4>
+                        <p>مقاله‌های آموزشی و اطلاع‌رسانی</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('ad')">
+                        <h4>📢 متن تبلیغاتی</h4>
+                        <p>متن‌های فروش و مارکتینگ</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('email')">
+                        <h4>✉️ ایمیل</h4>
+                        <p>ایمیل‌های رسمی و غیررسمی</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('social')">
+                        <h4>📱 شبکه‌های اجتماعی</h4>
+                        <p>پست، کپشن، توییت</p>
+                    </div>
+                </div>
+                
+                <h4>🎭 لحن نوشتار</h4>
+                <div class="tone-selector">
+                    <button class="tone-btn active" onclick="selectTone('formal')">رسمی</button>
+                    <button class="tone-btn" onclick="selectTone('friendly')">دوستانه</button>
+                    <button class="tone-btn" onclick="selectTone('persuasive')">متقاعدکننده</button>
+                    <button class="tone-btn" onclick="selectTone('creative')">خلاقانه</button>
+                    <button class="tone-btn" onclick="selectTone('simple')">ساده</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="generateText()">
+                        🚀 تولید متن
+                    </button>
+                    <button class="btn" onclick="improveText()">
+                        ✨ بهبود متن
+                    </button>
+                    <button class="btn" onclick="summarizeText()">
+                        📋 خلاصه‌سازی
+                    </button>
+                    <button class="btn" onclick="translateText()">
+                        🌍 ترجمه
+                    </button>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h3>📄 خروجی متن</h3>
+                <div class="result" id="outputText">
+                    <p style="color: #888;">متن تولید شده اینجا نمایش داده می‌شود...</p>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn" onclick="copyToClipboard()">
+                        📋 کپی متن
+                    </button>
+                    <button class="btn" onclick="saveText()">
+                        💾 ذخیره متن
+                    </button>
+                    <button class="btn" onclick="exportPDF()">
+                        📄 خروجی PDF
+                    </button>
+                    <button class="btn" onclick="shareText()">
+                        🔗 اشتراک‌گذاری
+                    </button>
+                </div>
+                
+                <h4 style="margin-top: 25px;">🔍 پیشنهادات</h4>
+                <div id="suggestions">
+                    <p style="color: #aaa; text-align: center;">پیشنهادات هوشمند اینجا نمایش داده می‌شود</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pricing">
+            <h3>💎 ارتقا به نسخه حرفه‌ای</h3>
+            <p>دسترسی نامحدود به تمام قالب‌ها + پشتیبانی VIP + خروجی نامحدود</p>
+            <button class="btn" style="background: white; color: #f8961e; font-weight: bold; padding: 15px 40px;"
+                    onclick="window.open('/api/marketplace', '_blank')">
+                🚀 ارتقا به نسخه حرفه‌ای - ۴۹۹,۰۰۰ ریال
+            </button>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 25px; background: rgba(255,255,255,0.05); border-radius: 15px;">
+            <h3>📊 آمار استفاده</h3>
+            <p>متن تولید شده امروز: <span id="todayCount">0</span> کاراکتر</p>
+            <p>متن تولید شده این ماه: <span id="monthCount">0</span> کاراکتر</p>
+            <p>اشتراک شما تا: <span id="subscriptionEnd">--/--/----</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // داده‌های برنامه
+        let appState = {
+            template: 'article',
+            tone: 'formal',
+            charCount: 0,
+            wordCount: 0,
+            articleCount: 0,
+            timeSaved: 0,
+            todayCount: 0,
+            monthCount: 0,
+            subscriptionEnd: '۱۴۰۳/۱۲/۲۹'
+        };
+        
+        // قالب‌های متن
+        const templates = {
+            article: {
+                name: 'مقاله وبلاگ',
+                prompt: 'یک مقاله کامل با عنوان "{topic}" بنویس. شامل مقدمه، بدنه اصلی و نتیجه‌گیری.',
+                examples: ['هوش مصنوعی در پزشکی', 'بازاریابی دیجیتال', 'برنامه‌نویسی وب']
+            },
+            ad: {
+                name: 'متن تبلیغاتی',
+                prompt: 'یک متن تبلیغاتی جذاب برای "{topic}" بنویس. شامل عنوان اصلی، مزایا و فراخوان به عمل.',
+                examples: ['فروشگاه آنلاین', 'دوره آموزشی', 'اپلیکیشن موبایل']
+            },
+            email: {
+                name: 'ایمیل',
+                prompt: 'یک ایمیل {tone} با موضوع "{topic}" بنویس.',
+                examples: ['درخواست همکاری', 'پیگیری سفارش', 'معرفی محصول جدید']
+            },
+            social: {
+                name: 'شبکه اجتماعی',
+                prompt: 'یک پست {tone} برای شبکه‌های اجتماعی درباره "{topic}" بنویس.',
+                examples: ['معرفی محصول', 'نظر سنجی', 'تخفیف ویژه']
+            }
+        };
+        
+        // انتخاب قالب
+        function selectTemplate(template) {
+            appState.template = template;
+            
+            // بروزرسانی دکمه‌ها
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.style.borderColor = 'transparent';
+                card.style.background = 'rgba(255,255,255,0.1)';
+            });
+            
+            event.currentTarget.style.borderColor = '#4cc9f0';
+            event.currentTarget.style.background = 'rgba(76, 201, 240, 0.2)';
+            
+            // پرکردن مثال
+            const examples = templates[template].examples;
+            document.getElementById('inputText').placeholder = 
+                `مثال: ${examples.join('، ')}...`;
+        }
+        
+        // انتخاب لحن
+        function selectTone(tone) {
+            appState.tone = tone;
+            
+            // بروزرسانی دکمه‌ها
+            document.querySelectorAll('.tone-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+        }
+        
+        // تولید متن
+        function generateText() {
+            const input = document.getElementById('inputText').value;
+            const template = templates[appState.template];
+            
+            if (!input.trim()) {
+                alert('لطفاً موضوع یا متن اولیه را وارد کنید.');
+                return;
+            }
+            
+            // شبیه‌سازی تولید متن
+            const loadingText = 'در حال تولید متن...';
+            document.getElementById('outputText').innerHTML = 
+                `<p style="color: #4cc9f0; text-align: center;">${loadingText}</p>`;
+            
+            setTimeout(() => {
+                const sampleText = generateSampleText(input, template, appState.tone);
+                document.getElementById('outputText').innerHTML = 
+                    `<div style="line-height: 1.8; text-align: justify;">${sampleText}</div>`;
+                
+                // بروزرسانی آمار
+                updateStats(sampleText.length, sampleText.split(' ').length);
+                
+                // نمایش پیشنهادات
+                showSuggestions(input);
+            }, 1500);
+        }
+        
+        // تولید متن نمونه
+        function generateSampleText(input, template, tone) {
+            const date = new Date().toLocaleDateString('fa-IR');
+            
+            const texts = {
+                formal: `متن رسمی درباره "${input}":
+
+با سلام و احترام،
+موضوع "${input}" از اهمیت ویژه‌ای در حوزه‌های مرتبط برخوردار است. در این مقاله به بررسی ابعاد مختلف این موضوع می‌پردازیم.
+
+بخش اول: مقدمه
+موضوع "${input}" در سال‌های اخیر توجه بسیاری از صاحب‌نظران را به خود جلب کرده است. این اهمیت ناشی از تأثیرات گسترده‌ای است که این پدیده بر جنبه‌های مختلف زندگی دارد.
+
+بخش دوم: تحلیل اصلی
+بر اساس آخرین تحقیقات انجام شده، "${input}" دارای مزایا و معایبی است که باید به دقت مورد بررسی قرار گیرد. از جمله مزایای آن می‌توان به افزایش بهره‌وری و کاهش هزینه‌ها اشاره کرد.
+
+بخش سوم: نتیجه‌گیری
+در پایان باید اذعان داشت که "${input}" نقش تعیین‌کننده‌ای در آینده این صنعت خواهد داشت. پیشنهاد می‌گردد تحقیقات بیشتری در این زمینه صورت پذیرد.
+
+با تشکر
+تتراشاپ - ${date}`,
+                
+                friendly: `سلام دوست عزیز! 😊
+
+امروز می‌خوام درباره "${input}" با تو صحبت کنم. این موضوع واقعا جالبه و مطمئنم برات مفید خواهد بود.
+
+چرا "${input}" مهمه؟
+خب، بیایید صادق باشیم، "${input}" می‌تونه زندگی رو برامون راحت‌تر کنه. من خودم تجربه‌های خوبی با این موضوع داشتم.
+
+چند نکته کاربردی:
+۱. اول این که...
+۲. دقت کن که...
+۳. فراموش نکن...
+
+امیدوارم این مطالب برات مفید بوده باشه. اگه سوالی داشتی، در خدمتم!
+
+ارادتمند
+تیم تتراشاپ`,
+
+                persuasive: `🔥 توجه! این فرصت رو از دست نده!
+
+آیا می‌دانستید "${input}" می‌تواند زندگی شما را متحول کند؟
+
+در اینجا ۳ دلیل قانع‌کننده وجود دارد که باید همین امروز اقدام کنید:
+
+✅ دلیل اول: صرفه‌جویی در زمان و هزینه
+✅ دلیل دوم: افزایش کیفیت کار
+✅ دلیل سوم: مزیت رقابتی
+
+📞 همین حالا با ما تماس بگیرید و از مشاوره رایگان بهره‌مند شوید!
+
+⏰ این پیشنهاد محدود به زمان است!
+💎 فقط برای ۱۰ نفر اول!
+
+تتراشاپ - تضمین کیفیت`
+            };
+            
+            return texts[tone] || texts.formal;
+        }
+        
+        // بهبود متن
+        function improveText() {
+            const output = document.getElementById('outputText');
+            if (!output.textContent || output.textContent.includes('متن تولید شده')) {
+                alert('لطفاً ابتدا متنی تولید کنید.');
+                return;
+            }
+            
+            output.innerHTML = '<p style="color: #4cc9f0">در حال بهبود متن...</p>';
+            
+            setTimeout(() => {
+                const improved = output.textContent + '\n\n✨ متن بهبود یافته:\nاین متن با دقت بیشتری ویرایش شده و ساختار بهتری پیدا کرده است. جملات کوتاه‌تر و روان‌تر شده‌اند.';
+                output.innerHTML = `<div style="line-height: 1.8">${improved}</div>`;
+            }, 1000);
+        }
+        
+        // خلاصه‌سازی
+        function summarizeText() {
+            // پیاده‌سازی مشابه
+            alert('ویژگی خلاصه‌سازی در نسخه حرفه‌ای فعال است.');
+        }
+        
+        // ترجمه
+        function translateText() {
+            // پیاده‌سازی مشابه
+            alert('ویژگی ترجمه در نسخه حرفه‌ای فعال است.');
+        }
+        
+        // کپی به کلیپ‌بورد
+        function copyToClipboard() {
+            const text = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('متن با موفقیت کپی شد!');
+            });
+        }
+        
+        // ذخیره متن
+        function saveText() {
+            alert('متن در حساب کاربری شما ذخیره شد.');
+            appState.articleCount++;
+            document.getElementById('articleCount').textContent = appState.articleCount;
+        }
+        
+        // بروزرسانی آمار
+        function updateStats(chars, words) {
+            appState.charCount += chars;
+            appState.wordCount += words;
+            appState.todayCount += chars;
+            appState.timeSaved += Math.ceil(words / 200); // فرض: 200 کلمه در ساعت
+            
+            document.getElementById('charCount').textContent = appState.charCount.toLocaleString();
+            document.getElementById('wordCount').textContent = appState.wordCount.toLocaleString();
+            document.getElementById('articleCount').textContent = appState.articleCount;
+            document.getElementById('timeSaved').textContent = appState.timeSaved;
+            document.getElementById('todayCount').textContent = appState.todayCount.toLocaleString();
+            document.getElementById('monthCount').textContent = appState.monthCount.toLocaleString();
+            document.getElementById('subscriptionEnd').textContent = appState.subscriptionEnd;
+        }
+        
+        // نمایش پیشنهادات
+        function showSuggestions(input) {
+            const suggestions = [
+                `می‌توانید درباره "${input}" مقاله طولانی‌تری بنویسید.`,
+                `پیشنهاد می‌کنم لحن متن را تغییر دهید.`,
+                `اضافه کردن آمار و ارقام به اعتبار متن می‌افزاید.`,
+                `می‌توانید این متن را برای شبکه‌های اجتماعی بهینه کنید.`
+            ];
+            
+            let html = '<div style="display: grid; gap: 10px;">';
+            suggestions.forEach(suggestion => {
+                html += `<div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+                          💡 ${suggestion}
+                        </div>`;
+            });
+            html += '</div>';
+            
+            document.getElementById('suggestions').innerHTML = html;
+        }
+        
+        // راه‌اندازی اولیه
+        window.onload = function() {
+            selectTemplate('article');
+            console.log('✍️ نویسنده هوشمند تتراشاپ راه‌اندازی شد!');
+        };
+    </script>
+</body>
+</html>

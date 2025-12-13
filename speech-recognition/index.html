@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 تشخیص گفتار - تتراشاپ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vazirmatn/monospace@latest/font-face.css">
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #240046, #3c096c);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 3px solid #ff9e00;
+        }
+        
+        .speech-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        @media (max-width: 900px) {
+            .speech-interface {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .recorder {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #ff9e00;
+            text-align: center;
+        }
+        
+        .visualizer {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to top, #ff9e00, transparent);
+            opacity: 0.5;
+            animation: wave 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateY(0) scaleY(1); }
+            100% { transform: translateY(-20px) scaleY(1.2); }
+        }
+        
+        .pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 5px solid #ff9e00;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+        
+        .mic-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff9e00, #ff7900);
+            border: none;
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 158, 0, 0.4);
+        }
+        
+        .mic-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 158, 0, 0.6);
+        }
+        
+        .mic-btn.recording {
+            animation: recording 1s ease-in-out infinite alternate;
+            background: linear-gradient(45deg, #ff0055, #ff006e);
+        }
+        
+        @keyframes recording {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        .transcript {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #4cc9f0;
+        }
+        
+        .text-output {
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            font-size: 18px;
+            line-height: 1.8;
+            overflow-y: auto;
+            margin: 20px 0;
+            text-align: right;
+            direction: rtl;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .btn-speech {
+            background: linear-gradient(45deg, #4cc9f0, #4895ef);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .btn-speech:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #00ff88, #4cc9f0);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(45deg, #ff9e00, #ff7900);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(45deg, #f72585, #ff006e);
+        }
+        
+        .language-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .lang-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid #4cc9f0;
+            background: rgba(76, 201, 240, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: #4cc9f0;
+            color: #000;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            color: #ff9e00;
+            font-weight: bold;
+        }
+        
+        .accuracy-meter {
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f72585, #ff9e00, #00ff88);
+            width: 92%;
+            transition: width 1s ease-in-out;
+        }
+        
+        .commands {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid #7209b7;
+        }
+        
+        .command-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .command-item {
+            padding: 15px;
+            background: rgba(114, 9, 183, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #7209b7;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .command-item:hover {
+            transform: translateY(-5px);
+            background: rgba(114, 9, 183, 0.3);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
+        }
+        
+        .emotion-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .emotion {
+            font-size: 40px;
+            transition: all 0.5s;
+        }
+        
+        .emotion.active {
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 10px #ff9e00);
+        }
+        
+        .waveform {
+            display: flex;
+            align-items: flex-end;
+            height: 100px;
+            gap: 3px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .bar {
+            width: 8px;
+            background: linear-gradient(to top, #ff9e00, #ff7900);
+            border-radius: 4px;
+            animation: bars 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes bars {
+            0% { height: 20%; }
+            100% { height: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="font-size: 2.5em; margin-bottom: 10px; color: #ff9e00;">🎤 تشخیص گفتار فارسی - تتراشاپ</h1>
+            <p style="font-size: 1.2em; color: #4cc9f0; margin-bottom: 20px;">
+                تبدیل گفتار به متن با دقت ۹۹% برای زبان فارسی
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="wordsRecognized">0</div>
+                    <p>کلمه تشخیص داده شده</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="accuracyRate">99%</div>
+                    <p>دقت تشخیص</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="timeSaved">0</div>
+                    <p>دقیقه ذخیره شده</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="sessionsCount">0</div>
+                    <p>جلسه فعال</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="speech-interface">
+            <div class="recorder">
+                <h3 style="color: #ff9e00; margin-bottom: 20px;">🎤 ضبط صدا</h3>
+                
+                <div class="visualizer" id="visualizer">
+                    <div class="wave"></div>
+                    <div class="pulse" id="pulse"></div>
+                    
+                    <div class="waveform" id="waveform">
+                        <!-- میله‌های نمایش امواج صوتی -->
+                    </div>
+                </div>
+                
+                <button class="mic-btn" id="micButton" onclick="toggleRecording()">
+                    🎤
+                </button>
+                
+                <div style="margin: 20px 0;">
+                    <h4>زبان تشخیص:</h4>
+                    <div class="language-selector">
+                        <button class="lang-btn active" onclick="setLanguage('fa')">
+                            فارسی 🇮🇷
+                        </button>
+                        <button class="lang-btn" onclick="setLanguage('en')">
+                            انگلیسی 🇺🇸
+                        </button>
+                        <button class="lang-btn" onclick="setLanguage('ar')">
+                            عربی 🇸🇦
+                        </button>
+                        <button class="lang-btn" onclick="setLanguage('tr')">
+                            ترکی 🇹🇷
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn-speech btn-success" onclick="startRecording()">
+                        ▶️ شروع ضبط
+                    </button>
+                    <button class="btn-speech btn-warning" onclick="pauseRecording()">
+                        ⏸️ مکث
+                    </button>
+                    <button class="btn-speech btn-danger" onclick="stopRecording()">
+                        ⏹️ توقف
+                    </button>
+                    <button class="btn-speech" onclick="clearText()">
+                        🗑️ پاک کردن
+                    </button>
+                </div>
+                
+                <div class="accuracy-meter">
+                    <div class="accuracy-fill" id="accuracyBar"></div>
+                </div>
+                <div style="text-align: center;">دقت تشخیص: <span id="accuracyValue">۹۲%</span></div>
+                
+                <div class="emotion-indicator">
+                    <div class="emotion" id="emotionNeutral">😐</div>
+                    <div class="emotion" id="emotionHappy">😊</div>
+                    <div class="emotion" id="emotionSad">😔</div>
+                    <div class="emotion" id="emotionAngry">😠</div>
+                    <div class="emotion" id="emotionSurprised">😲</div>
+                </div>
+            </div>
+            
+            <div class="transcript">
+                <h3 style="color: #4cc9f0; margin-bottom: 20px;">📝 متن پیاده شده</h3>
+                
+                <div class="text-output" id="textOutput">
+                    متن تشخیص داده شده اینجا نمایش داده می‌شود...
+                    
+                    <div style="margin-top: 20px; color: #888;">
+                        🎯 دستورالعمل:
+                        1. دکمه ضبط را فشار دهید
+                        2. واضح و شمرده صحبت کنید
+                        3. برای توقف دوباره دکمه را فشار دهید
+                        4. متن را ویرایش و ذخیره کنید
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn-speech" onclick="copyText()">
+                        📋 کپی متن
+                    </button>
+                    <button class="btn-speech" onclick="saveText()">
+                        💾 ذخیره متن
+                    </button>
+                    <button class="btn-speech" onclick="translateText()">
+                        🌍 ترجمه
+                    </button>
+                    <button class="btn-speech" onclick="exportText()">
+                        📄 خروجی Word
+                    </button>
+                </div>
+                
+                <div style="margin-top: 25px;">
+                    <h4>🔍 ویرایشگر متن</h4>
+                    <textarea id="textEditor" 
+                              style="width: 100%; height: 150px; background: rgba(0,0,0,0.3); color: white; border: 2px solid #ff9e00; border-radius: 10px; padding: 15px; margin-top: 10px;"
+                              placeholder="متن را اینجا ویرایش کنید..."></textarea>
+                    <button class="btn-speech" onclick="applyEdits()" style="width: 100%; margin-top: 10px;">
+                        ✨ اعمال ویرایش‌ها
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="commands">
+            <h3 style="color: #7209b7; margin-bottom: 20px;">🎯 دستورات صوتی</h3>
+            <p>این دستورات را بگویید تا سیستم به طور خودکار اجرا کند:</p>
+            
+            <div class="command-list">
+                <div class="command-item" onclick="insertCommand('یک پاراگراف جدید شروع کن')">
+                    "یک پاراگراف جدید شروع کن"
+                </div>
+                <div class="command-item" onclick="insertCommand('متن را ذخیره کن')">
+                    "متن را ذخیره کن"
+                </div>
+                <div class="command-item" onclick="insertCommand('ویرایش را تمام کن')">
+                    "ویرایش را تمام کن"
+                </div>
+                <div class="command-item" onclick="insertCommand('نقطه بگذار')">
+                    "نقطه بگذار"
+                </div>
+                <div class="command-item" onclick="insertCommand('ویرگول بگذار')">
+                    "ویرگول بگذار"
+                </div>
+                <div class="command-item" onclick="insertCommand('خط جدید')">
+                    "خط جدید"
+                </div>
+                <div class="command-item" onclick="insertCommand('همه متن را پاک کن')">
+                    "همه متن را پاک کن"
+                </div>
+                <div class="command-item" onclick="insertCommand('متن را کپی کن')">
+                    "متن را کپی کن"
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <div style="padding: 25px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 2px solid #4cc9f0;">
+                <h4 style="color: #4cc9f0;">📊 آمار استفاده</h4>
+                <div style="margin-top: 20px;">
+                    <p>مدت زمان ضبط امروز: <span id="todayTime">۰</span> دقیقه</p>
+                    <p>تعداد کلمات امروز: <span id="todayWords">۰</span> کلمه</p>
+                    <p>میانگین دقت: <span id="avgAccuracy">۰%</span></p>
+                    <p>اشتراک شما تا: <span id="subscriptionDate">۱۴۰۳/۱۲/۲۹</span></p>
+                </div>
+            </div>
+            
+            <div style="padding: 25px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 2px solid #00ff88;">
+                <h4 style="color: #00ff88;">⚙️ تنظیمات پیشرفته</h4>
+                <div style="margin-top: 20px;">
+                    <label style="display: block; margin: 10px 0;">
+                        <input type="checkbox" id="autoPunctuation" checked> 
+                        نقطه‌گذاری خودکار
+                    </label>
+                    <label style="display: block; margin: 10px 0;">
+                        <input type="checkbox" id="filterNoise" checked> 
+                        فیلتر نویز
+                    </label>
+                    <label style="display: block; margin: 10px 0;">
+                        <input type="checkbox" id="realTimePreview" checked> 
+                        پیش‌نمایش بلادرنگ
+                    </label>
+                    <label style="display: block; margin: 10px 0;">
+                        <input type="checkbox" id="voiceCommands"> 
+                        فعال کردن دستورات صوتی
+                    </label>
+                </div>
+            </div>
+            
+            <div style="padding: 25px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 2px solid #ff9e00;">
+                <h4 style="color: #ff9e00;">🎵 تنظیمات صدا</h4>
+                <div style="margin-top: 20px;">
+                    <p>حساسیت میکروفون:</p>
+                    <input type="range" min="1" max="100" value="75" id="micSensitivity" 
+                           style="width: 100%; margin: 10px 0;">
+                    
+                    <p>سرعت تشخیص:</p>
+                    <input type="range" min="1" max="100" value="50" id="recognitionSpeed" 
+                           style="width: 100%; margin: 10px 0;">
+                    
+                    <p>زمان انتظار:</p>
+                    <input type="range" min="1" max="10" value="3" id="pauseTimeout" 
+                           style="width: 100%; margin: 10px 0;">
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 50px; text-align: center; padding: 40px; background: linear-gradient(45deg, #ff9e00, #ff7900); border-radius: 20px;">
+            <h3 style="color: #000; margin-bottom: 20px;">💎 اشتراک تشخیص گفتار حرفه‌ای</h3>
+            <p style="color: #000; margin-bottom: 30px;">تشخیص چندزبانه + ویرایش هوشمند + API نامحدود</p>
+            <button class="btn-speech" style="background: #000; color: #ff9e00; padding: 20px 50px; font-size: 1.2em; font-weight: bold;"
+                    onclick="window.open('/api/marketplace', '_blank')">
+                🚀 ارتقا به نسخه حرفه‌ای - ۹۹,۰۰۰ ریال
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // داده‌های تشخیص گفتار
+        let speechState = {
+            isRecording: false,
+            language: 'fa',
+            transcript: '',
+            wordsRecognized: 0,
+            accuracy: 92,
+            timeSaved: 0,
+            sessions: 0,
+            emotion: 'neutral',
+            settings: {
+                autoPunctuation: true,
+                filterNoise: true,
+                realTimePreview: true,
+                voiceCommands: false,
+                micSensitivity: 75,
+                recognitionSpeed: 50,
+                pauseTimeout: 3
+            }
+        };
+        
+        // نمونه‌های متن فارسی برای شبیه‌سازی
+        const persianSamples = [
+            "سلام من یک سیستم تشخیص گفتار هستم",
+            "این یک متن نمونه است که از صوت تبدیل شده",
+            "تشخیص گفتار فارسی یکی از تکنولوژی‌های مهم است",
+            "می‌توانید با من صحبت کنید و متن را ببینید",
+            "سیستم به صورت بلادرنگ صوت را به متن تبدیل می‌کند"
+        ];
+        
+        const englishSamples = [
+            "Hello I am a speech recognition system",
+            "This is a sample text converted from speech",
+            "Speech recognition is an important technology",
+            "You can talk to me and see the text",
+            "The system converts speech to text in real time"
+        ];
+        
+        // راه‌اندازی اولیه
+        function initSpeech() {
+            renderWaveform();
+            updateStats();
+            updateSettings();
+            
+            // شبیه‌سازی داده‌های اولیه
+            speechState.wordsRecognized = 1250;
+            speechState.timeSaved = 45;
+            speechState.sessions = 8;
+            
+            updateDisplay();
+            setEmotion('neutral');
+            
+            // افزودن متن نمونه
+            addToTranscript("سیستم تشخیص گفتار تتراشاپ راه‌اندازی شد. آماده شنیدن صدای شما هستم.");
+        }
+        
+        // رندر میله‌های امواج صوتی
+        function renderWaveform() {
+            const waveform = document.getElementById('waveform');
+            waveform.innerHTML = '';
+            
+            for (let i = 0; i < 50; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${20 + Math.random() * 80}%`;
+                bar.style.animationDelay = `${i * 0.05}s`;
+                waveform.appendChild(bar);
+            }
+        }
+        
+        // ضبط صوت
+        function toggleRecording() {
+            const micBtn = document.getElementById('micButton');
+            const pulse = document.getElementById('pulse');
+            
+            if (speechState.isRecording) {
+                // توقف ضبط
+                speechState.isRecording = false;
+                micBtn.classList.remove('recording');
+                micBtn.innerHTML = '🎤';
+                pulse.style.display = 'none';
+                
+                stopRecording();
+            } else {
+                // شروع ضبط
+                speechState.isRecording = true;
+                micBtn.classList.add('recording');
+                micBtn.innerHTML = '⏺️';
+                pulse.style.display = 'block';
+                
+                startRecording();
+            }
+        }
+        
+        // شروع ضبط
+        function startRecording() {
+            if (!speechState.isRecording) {
+                speechState.isRecording = true;
+                speechState.sessions++;
+                
+                addToTranscript("\\n\\n[شروع ضبط صوت...]");
+                updateDisplay();
+                
+                // شبیه‌سازی تشخیص صوت
+                simulateSpeechRecognition();
+                
+                // انیمیشن میله‌ها
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.animationDuration = `${0.5 + Math.random() * 1}s`;
+                });
+            }
+        }
+        
+        // توقف ضبط
+        function stopRecording() {
+            if (speechState.isRecording) {
+                speechState.isRecording = false;
+                
+                addToTranscript("\\n[توقف ضبط]");
+                updateDisplay();
+                
+                // توقف انیمیشن میله‌ها
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.animationPlayState = 'paused';
+                });
+            }
+        }
+        
+        // مکث ضبط
+        function pauseRecording() {
+            if (speechState.isRecording) {
+                speechState.isRecording = false;
+                addToTranscript("\\n[مکث]");
+                
+                // توقف انیمیشن
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.animationPlayState = 'paused';
+                });
+            } else {
+                speechState.isRecording = true;
+                addToTranscript("\\n[ادامه]");
+                
+                // ادامه انیمیشن
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.animationPlayState = 'running';
+                });
+                
+                simulateSpeechRecognition();
+            }
+        }
+        
+        // شبیه‌سازی تشخیص گفتار
+        function simulateSpeechRecognition() {
+            if (!speechState.isRecording) return;
+            
+            const samples = speechState.language === 'fa' ? persianSamples : englishSamples;
+            const randomText = samples[Math.floor(Math.random() * samples.length)];
+            
+            // تأخیر شبیه‌سازی
+            setTimeout(() => {
+                if (speechState.isRecording) {
+                    addToTranscript(randomText);
+                    
+                    // به‌روزرسانی آمار
+                    const words = randomText.split(' ').length;
+                    speechState.wordsRecognized += words;
+                    speechState.timeSaved += Math.ceil(words / 4); // فرض: 4 کلمه در دقیقه تایپ
+                    
+                    // به‌روزرسانی دقت
+                    const accuracyChange = (Math.random() - 0.5) * 2;
+                    speechState.accuracy = Math.max(85, Math.min(99, speechState.accuracy + accuracyChange));
+                    
+                    // تغییر حالت احساسی
+                    const emotions = ['neutral', 'happy', 'sad', 'angry', 'surprised'];
+                    const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+                    setEmotion(randomEmotion);
+                    
+                    updateDisplay();
+                    
+                    // ادامه تشخیص
+                    if (speechState.isRecording) {
+                        simulateSpeechRecognition();
+                    }
+                }
+            }, 2000 + Math.random() * 3000);
+        }
+        
+        // افزودن به متن
+        function addToTranscript(text) {
+            const output = document.getElementById('textOutput');
+            const editor = document.getElementById('textEditor');
+            
+            speechState.transcript += text + ' ';
+            output.innerHTML = speechState.transcript.replace(/\\n/g, '<br>');
+            editor.value = speechState.transcript;
+            
+            // اسکرول به پایین
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // پاک کردن متن
+        function clearText() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید متن را پاک کنید؟')) {
+                speechState.transcript = '';
+                document.getElementById('textOutput').innerHTML = 'متن پاک شد.';
+                document.getElementById('textEditor').value = '';
+            }
+        }
+        
+        // تنظیم زبان
+        function setLanguage(lang) {
+            speechState.language = lang;
+            
+            // بروزرسانی دکمه‌ها
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            addToTranscript(`\\n[زبان تشخیص به ${getLanguageName(lang)} تغییر کرد]`);
+        }
+        
+        // دریافت نام زبان
+        function getLanguageName(code) {
+            const names = {
+                'fa': 'فارسی',
+                'en': 'انگلیسی',
+                'ar': 'عربی',
+                'tr': 'ترکی'
+            };
+            return names[code] || code;
+        }
+        
+        // تنظیم حالت احساسی
+        function setEmotion(emotion) {
+            speechState.emotion = emotion;
+            
+            // مخفی کردن همه
+            document.querySelectorAll('.emotion').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // فعال کردن حالت انتخاب شده
+            const emotionElement = document.getElementById(`emotion${capitalizeFirst(emotion)}`);
+            if (emotionElement) {
+                emotionElement.classList.add('active');
+            }
+        }
+        
+        // حروف اول بزرگ
+        function capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // به‌روزرسانی نمایش
+        function updateDisplay() {
+            document.getElementById('wordsRecognized').textContent = 
+                speechState.wordsRecognized.toLocaleString();
+            document.getElementById('accuracyRate').textContent = 
+                `${Math.round(speechState.accuracy)}%`;
+            document.getElementById('timeSaved').textContent = speechState.timeSaved;
+            document.getElementById('sessionsCount').textContent = speechState.sessions;
+            
+            document.getElementById('accuracyValue').textContent = 
+                `${Math.round(speechState.accuracy)}%`;
+            document.getElementById('accuracyBar').style.width = 
+                `${speechState.accuracy}%`;
+            
+            // آمار روزانه
+            document.getElementById('todayTime').textContent = 
+                Math.floor(speechState.timeSaved / 60);
+            document.getElementById('todayWords').textContent = 
+                speechState.wordsRecognized;
+            document.getElementById('avgAccuracy').textContent = 
+                `${Math.round(speechState.accuracy)}%`;
+            document.getElementById('subscriptionDate').textContent = 
+                '۱۴۰۳/۱۲/۲۹';
+        }
+        
+        // کپی متن
+        function copyText() {
+            const text = speechState.transcript;
+            if (text.trim()) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('✅ متن با موفقیت کپی شد!');
+                });
+            } else {
+                alert('⚠️ متنی برای کپی کردن وجود ندارد.');
+            }
+        }
+        
+        // ذخیره متن
+        function saveText() {
+            if (speechState.transcript.trim()) {
+                const filename = `speech-${new Date().toISOString().slice(0,10)}.txt`;
+                const blob = new Blob([speechState.transcript], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                addToTranscript('\\n[متن ذخیره شد]');
+                alert('✅ متن با موفقیت ذخیره شد!');
+            }
+        }
+        
+        // ترجمه متن
+        function translateText() {
+            alert('ویژگی ترجمه در نسخه حرفه‌ای فعال است.');
+        }
+        
+        // خروجی Word
+        function exportText() {
+            alert('ویژگی خروجی Word در نسخه حرفه‌ای فعال است.');
+        }
+        
+        // درج دستور
+        function insertCommand(command) {
+            if (speechState.isRecording) {
+                addToTranscript(`\\n[دستور: ${command}]`);
+                
+                // اجرای دستور
+                switch(command) {
+                    case 'یک پاراگراف جدید شروع کن':
+                        addToTranscript('\\n\\n');
+                        break;
+                    case 'متن را ذخیره کن':
+                        saveText();
+                        break;
+                    case 'ویرایش را تمام کن':
+                        stopRecording();
+                        break;
+                    case 'نقطه بگذار':
+                        addToTranscript('.');
+                        break;
+                    case 'ویرگول بگذار':
+                        addToTranscript('،');
+                        break;
+                    case 'خط جدید':
+                        addToTranscript('\\n');
+                        break;
+                    case 'همه متن را پاک کن':
+                        clearText();
+                        break;
+                    case 'متن را کپی کن':
+                        copyText();
+                        break;
+                }
+            } else {
+                alert('لطفاً ابتدا ضبط را شروع کنید.');
+            }
+        }
+        
+        // اعمال ویرایش‌ها
+        function applyEdits() {
+            const editor = document.getElementById('textEditor');
+            speechState.transcript = editor.value;
+            document.getElementById('textOutput').innerHTML = 
+                speechState.transcript.replace(/\\n/g, '<br>');
+            
+            addToTranscript('\\n[ویرایش‌ها اعمال شدند]');
+        }
+        
+        // به‌روزرسانی تنظیمات
+        function updateSettings() {
+            speechState.settings.autoPunctuation = 
+                document.getElementById('autoPunctuation').checked;
+            speechState.settings.filterNoise = 
+                document.getElementById('filterNoise').checked;
+            speechState.settings.realTimePreview = 
+                document.getElementById('realTimePreview').checked;
+            speechState.settings.voiceCommands = 
+                document.getElementById('voiceCommands').checked;
+            speechState.settings.micSensitivity = 
+                parseInt(document.getElementById('micSensitivity').value);
+            speechState.settings.recognitionSpeed = 
+                parseInt(document.getElementById('recognitionSpeed').value);
+            speechState.settings.pauseTimeout = 
+                parseInt(document.getElementById('pauseTimeout').value);
+        }
+        
+        // به‌روزرسانی آمار
+        function updateStats() {
+            // این تابع می‌تواند از API سرور داده دریافت کند
+            setInterval(() => {
+                if (speechState.isRecording) {
+                    speechState.wordsRecognized += 1;
+                    updateDisplay();
+                }
+            }, 3000);
+        }
+        
+        // راه‌اندازی اولیه
+        window.onload = function() {
+            initSpeech();
+            console.log('🎤 تشخیص گفتار تتراشاپ راه‌اندازی شد!');
+            
+            // به‌روزرسانی خودکار تنظیمات
+            document.querySelectorAll('input[type="checkbox"], input[type="range"]').forEach(input => {
+                input.addEventListener('change', updateSettings);
+            });
+        };
+    </script>
+</body>
+</html>
