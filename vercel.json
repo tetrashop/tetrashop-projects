@@ -2,46 +2,126 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.html",
+      "src": "**/*.html",
       "use": "@vercel/static"
     },
     {
-      "src": "*.js",
+      "src": "**/*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.css",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/chess",
-      "dest": "/chess/index.html"
+      "dest": "/chess/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/writer",
-      "dest": "/writer/index.html"
+      "dest": "/writer/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/nlp",
-      "dest": "/nlp/index.html"
+      "dest": "/nlp/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/quantum",
-      "dest": "/quantum/index.html"
+      "dest": "/quantum/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/gardening",
-      "dest": "/gardening/index.html"
+      "dest": "/gardening/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/voice-recognition",
-      "dest": "/voice-recognition/index.html"
+      "dest": "/voice-recognition/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/2d-to-3d",
-      "dest": "/2d-to-3d/index.html"
+      "dest": "/2d-to-3d/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
+    },
+    {
+      "src": "/",
+      "dest": "/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/chess/",
+      "destination": "/chess/index.html"
+    },
+    {
+      "source": "/writer/",
+      "destination": "/writer/index.html"
+    },
+    {
+      "source": "/nlp/",
+      "destination": "/nlp/index.html"
+    },
+    {
+      "source": "/quantum/",
+      "destination": "/quantum/index.html"
+    },
+    {
+      "source": "/gardening/",
+      "destination": "/gardening/index.html"
+    },
+    {
+      "source": "/voice-recognition/",
+      "destination": "/voice-recognition/index.html"
+    },
+    {
+      "source": "/2d-to-3d/",
+      "destination": "/2d-to-3d/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        }
+      ]
     }
   ],
   "github": {

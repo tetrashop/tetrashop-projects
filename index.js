@@ -201,13 +201,21 @@ function createProjectCards() {
                     <div class="income-label">درآمد ماهانه</div>
                 </div>
                 
-                <button class="project-btn" onclick="openProject('${project.path}')">
+                <button class="project-btn" data-path="${project.path}">
                     <i class="fas fa-play-circle"></i> اجرای پروژه
                 </button>
             </div>
         `;
         
         projectsGrid.appendChild(card);
+    });
+    
+    // اضافه کردن event listener برای دکمه‌ها
+    document.querySelectorAll('.project-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const path = this.getAttribute('data-path');
+            openProject(path);
+        });
     });
 }
 
@@ -241,16 +249,50 @@ function getStatLabel(key) {
     return labels[key] || key;
 }
 
-// باز کردن پروژه
+// اصلاح تابع openProject برای کار با Vercel/GitHub Pages
 function openProject(path) {
     // نمایش پیام در حال بارگذاری
-    showLoadingMessage(`در حال بارگذاری پروژه...`);
+    showLoadingMessage(`در حال بارگذاری ${getProjectName(path)}...`);
     
-    // شبیه‌سازی تأخیر بارگذاری
+    // چندین روش برای اطمینان از کارکرد لینک‌ها
+    const projectPath = path.startsWith('/') ? path : '/' + path;
+    
+    // روش ۱: استفاده از window.location (برای Vercel)
     setTimeout(() => {
-        // در محیط واقعی، این باید به مسیر واقعی پروژه هدایت شود
-        window.location.href = path + '/index.html';
-    }, 1000);
+        // حذف index.html اضافی اگر وجود دارد
+        const cleanPath = projectPath.replace(/\/index\.html$/, '');
+        
+        // آزمایش چندین روش
+        tryMethod1(cleanPath);
+    }, 800);
+}
+
+function tryMethod1(path) {
+    // روش ۱: هدایت مستقیم
+    window.location.href = path;
+}
+
+function tryMethod2(path) {
+    // روش ۲: استفاده از anchor tag
+    const link = document.createElement('a');
+    link.href = path;
+    link.target = '_self';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function getProjectName(path) {
+    const projects = {
+        '/chess': 'شطرنج تعاملی',
+        '/writer': 'نویسنده هوشمند',
+        '/nlp': 'تحلیلگر متن',
+        '/quantum': 'شبیه‌ساز کوانتومی',
+        '/gardening': 'باغبانی هوشمند',
+        '/voice-recognition': 'تشخیص صوت',
+        '/2d-to-3d': 'تبدیل ۲D به ۳D'
+    };
+    return projects[path] || 'پروژه';
 }
 
 // نمایش پیام بارگذاری
@@ -291,15 +333,108 @@ function showLoadingMessage(message) {
     
     document.body.appendChild(loadingMessage);
     
-    // اضافه کردن استایل انیمیشن
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -40%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+    // حذف خودکار بعد از 5 ثانیه (اگر پروژه باز نشد)
+    setTimeout(() => {
+        if (loadingMessage.parentNode) {
+            loadingMessage.style.animation = 'fadeOut 0.5s ease forwards';
+            setTimeout(() => loadingMessage.remove(), 500);
+            
+            // اگر پروژه باز نشد، کاربر را مطلع کن
+            showNotification('اگر پروژه باز نشد، مستقیماً از نوار آدرس وارد شوید');
         }
+    }, 5000);
+}
+
+// ایجاد یک صفحه تست برای بررسی لینک‌ها
+function createTestPage() {
+    const testDiv = document.createElement('div');
+    testDiv.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        z-index: 9999;
+        font-family: Vazirmatn;
+        font-size: 12px;
+        border: 2px solid var(--primary);
+        max-width: 300px;
     `;
-    document.head.appendChild(style);
+    
+    testDiv.innerHTML = `
+        <strong style="color: #8b5cf6;">🔗 تست سریع لینک‌ها:</strong><br>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+            ${Object.entries({
+                '♟️': '/chess',
+                '✍️': '/writer',
+                '🧠': '/nlp',
+                '⚛️': '/quantum',
+                '🌿': '/gardening',
+                '🎤': '/voice-recognition',
+                '🎨': '/2d-to-3d'
+            }).map(([icon, path]) => `
+                <a href="${path}" 
+                   style="color: white; background: rgba(139, 92, 246, 0.3); padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block;"
+                   onclick="event.preventDefault(); openProject('${path}')">
+                   ${icon}
+                </a>
+            `).join('')}
+        </div>
+        <div style="margin-top: 10px; font-size: 10px; color: #c7d2fe;">
+            در صورت مشکل، URL را مستقیماً وارد کنید
+        </div>
+    `;
+    
+    document.body.appendChild(testDiv);
+}
+
+// نمایش نوتیفیکیشن
+function showNotification(message) {
+    // حذف نوتیفیکیشن قبلی
+    const oldNotification = document.querySelector('.notification');
+    if (oldNotification) {
+        oldNotification.remove();
+    }
+    
+    // ایجاد نوتیفیکیشن جدید
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        color: var(--dark);
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideDown 0.5s ease;
+        border-right: 5px solid var(--primary);
+        max-width: 90%;
+        font-family: Vazirmatn;
+    `;
+    
+    notification.innerHTML = `
+        <i class="fas fa-info-circle" style="color: var(--primary);"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // حذف خودکار
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'slideUp 0.5s ease';
+            setTimeout(() => notification.remove(), 500);
+        }
+    }, 4000);
 }
 
 // محاسبه کل درآمد
@@ -328,39 +463,75 @@ function logProjectInfo() {
     console.log(`\n💰 کل درآمد ماهانه: ${calculateTotalIncome().toLocaleString('fa-IR')} تومان`);
 }
 
+// بررسی دسترسی پروژه‌ها
+async function checkProjectAccess() {
+    console.log('🔍 بررسی دسترسی پروژه‌ها:');
+    
+    const projectUrls = projects.map(p => p.path);
+    
+    for (const path of projectUrls) {
+        try {
+            const response = await fetch(path, { method: 'HEAD' });
+            console.log(`${path}: ${response.ok ? '✅ قابل دسترسی' : '❌ مشکل دارد'}`);
+        } catch (error) {
+            console.log(`${path}: ❌ خطا - ${error.message}`);
+        }
+    }
+}
+
 // مقداردهی اولیه
 function init() {
     createProjectCards();
     updateTotalIncome();
     logProjectInfo();
     
+    // بررسی دسترسی (فقط در حالت توسعه)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        checkProjectAccess();
+    }
+    
     // نمایش خوشامدگویی
     setTimeout(() => {
         console.log('🚀 پلتفرم تتراشاپ با موفقیت بارگذاری شد!');
         console.log('🎯 تعداد پروژه‌ها:', projects.length);
+        console.log('🌐 آدرس فعلی:', window.location.href);
     }, 1000);
 }
 
 // بارگذاری صفحه
-window.onload = function() {
-    init();
-    
-    // اضافه کردن استایل برای پیام‌ها
+document.addEventListener('DOMContentLoaded', function() {
+    // اضافه کردن استایل‌های انیمیشن
     const style = document.createElement('style');
     style.textContent = `
-        .loading-message {
-            animation: fadeOut 0.5s ease 2s forwards;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
         }
         
         @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(0); opacity: 1; }
+            to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
         }
     `;
     document.head.appendChild(style);
-};
+    
+    // اجرای مقداردهی اولیه
+    init();
+    
+    // ایجاد صفحه تست (فقط در حالت توسعه)
+    if (!window.location.href.includes('vercel.app') && !window.location.href.includes('github.io')) {
+        createTestPage();
+    }
+});
 
 // API برای دسترسی به اطلاعات پروژه‌ها از بیرون
 window.TetrashopProjects = {
@@ -372,5 +543,122 @@ window.TetrashopProjects = {
         return projects.find(project => project.path === path);
     },
     getTotalIncome: calculateTotalIncome,
-    openProject: openProject
+    openProject: openProject,
+    refreshProjects: function() {
+        createProjectCards();
+        updateTotalIncome();
+    }
 };
+
+// افزودن event listener برای لینک‌ها
+document.addEventListener('click', function(e) {
+    // اگر کلیک روی دکمه پروژه بود
+    if (e.target.closest('.project-btn')) {
+        e.preventDefault();
+        const btn = e.target.closest('.project-btn');
+        const path = btn.getAttribute('data-path') || btn.dataset.path;
+        if (path) {
+            openProject(path);
+        }
+    }
+});
+
+// راهنمای URL برای کاربران
+function showURLAccessGuide() {
+    const guide = `
+        🧭 راهنمای دسترسی به پروژه‌ها:
+        
+        ۱. شطرنج: ${window.location.origin}/chess
+        ۲. نویسنده: ${window.location.origin}/writer
+        ۳. تحلیلگر متن: ${window.location.origin}/nlp
+        ۴. شبیه‌ساز کوانتومی: ${window.location.origin}/quantum
+        ۵. باغبانی: ${window.location.origin}/gardening
+        ۶. تشخیص صوت: ${window.location.origin}/voice-recognition
+        ۷. تبدیل ۳D: ${window.location.origin}/2d-to-3d
+        
+        💡 نکته: اگر دکمه‌ها کار نمی‌کنند، آدرس بالا را مستقیماً در مرورگر وارد کنید.
+    `;
+    
+    console.log(guide);
+    
+    // نمایش در صفحه برای کاربران
+    if (!document.querySelector('.url-guide')) {
+        const guideDiv = document.createElement('div');
+        guideDiv.className = 'url-guide';
+        guideDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.95);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 10001;
+            max-width: 600px;
+            border: 3px solid var(--primary);
+            font-family: Vazirmatn;
+            display: none;
+        `;
+        
+        guideDiv.innerHTML = `
+            <h3 style="color: var(--primary); margin-bottom: 20px;">🧭 راهنمای دسترسی</h3>
+            <div style="line-height: 2;">
+                <div>♟️ شطرنج: <code>${window.location.origin}/chess</code></div>
+                <div>✍️ نویسنده: <code>${window.location.origin}/writer</code></div>
+                <div>🧠 تحلیلگر: <code>${window.location.origin}/nlp</code></div>
+                <div>⚛️ کوانتومی: <code>${window.location.origin}/quantum</code></div>
+                <div>🌿 باغبانی: <code>${window.location.origin}/gardening</code></div>
+                <div>🎤 تشخیص صوت: <code>${window.location.origin}/voice-recognition</code></div>
+                <div>🎨 تبدیل ۳D: <code>${window.location.origin}/2d-to-3d</code></div>
+            </div>
+            <button onclick="this.parentElement.style.display='none'" 
+                    style="margin-top: 20px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">
+                بستن
+            </button>
+        `;
+        
+        document.body.appendChild(guideDiv);
+        
+        // نمایش راهنما اگر بعد از 10 ثانیه پروژه‌ها کار نکنند
+        setTimeout(() => {
+            if (!sessionStorage.getItem('guideShown')) {
+                guideDiv.style.display = 'block';
+                sessionStorage.setItem('guideShown', 'true');
+            }
+        }, 10000);
+    }
+}
+
+// بعد از بارگذاری کامل، راهنمای URL را نشان بده
+window.addEventListener('load', function() {
+    setTimeout(showURLAccessGuide, 3000);
+    
+    // نمایش وضعیت
+    console.log('🌐 وضعیت دسترسی پروژه‌ها:');
+    console.log('📍 URL فعلی:', window.location.href);
+    console.log('📁 Base URL:', window.location.origin);
+    console.log('📂 مسیر:', window.location.pathname);
+    
+    // ایجاد یک دکمه اضطراری برای دسترسی
+    const emergencyBtn = document.createElement('button');
+    emergencyBtn.innerHTML = '🚨 راهنمای دسترسی اضطراری';
+    emergencyBtn.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 9998;
+        font-family: Vazirmatn;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    `;
+    emergencyBtn.onclick = function() {
+        document.querySelector('.url-guide').style.display = 'block';
+    };
+    document.body.appendChild(emergencyBtn);
+});
