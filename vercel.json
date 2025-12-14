@@ -2,131 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.css",
+      "src": "**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/chess",
-      "dest": "/chess/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/writer",
-      "dest": "/writer/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/nlp",
-      "dest": "/nlp/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/quantum",
-      "dest": "/quantum/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/gardening",
-      "dest": "/gardening/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/voice-recognition",
-      "dest": "/voice-recognition/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/2d-to-3d",
-      "dest": "/2d-to-3d/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/",
-      "dest": "/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    }
+    { "handle": "filesystem" },
+    { "src": "/chess", "dest": "/chess/index.html" },
+    { "src": "/writer", "dest": "/writer/index.html" },
+    { "src": "/nlp", "dest": "/nlp/index.html" },
+    { "src": "/quantum", "dest": "/quantum/index.html" },
+    { "src": "/gardening", "dest": "/gardening/index.html" },
+    { "src": "/voice-recognition", "dest": "/voice-recognition/index.html" },
+    { "src": "/2d-to-3d", "dest": "/2d-to-3d/index.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ],
-  "rewrites": [
-    {
-      "source": "/chess/",
-      "destination": "/chess/index.html"
-    },
-    {
-      "source": "/writer/",
-      "destination": "/writer/index.html"
-    },
-    {
-      "source": "/nlp/",
-      "destination": "/nlp/index.html"
-    },
-    {
-      "source": "/quantum/",
-      "destination": "/quantum/index.html"
-    },
-    {
-      "source": "/gardening/",
-      "destination": "/gardening/index.html"
-    },
-    {
-      "source": "/voice-recognition/",
-      "destination": "/voice-recognition/index.html"
-    },
-    {
-      "source": "/2d-to-3d/",
-      "destination": "/2d-to-3d/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, OPTIONS"
-        }
-      ]
-    }
-  ],
-  "github": {
-    "enabled": true,
-    "autoAlias": true,
-    "silent": true
+  "env": {
+    "NODE_ENV": "production"
   }
 }
