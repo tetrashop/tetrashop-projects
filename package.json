@@ -1,16 +1,15 @@
 {
   "name": "tetrashop-projects",
-  "version": "2.0.0",
-  "description": "پروژه‌های Tetrashop",
+  "version": "3.0.0",
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js",
     "dev": "node api/index.js"
   },
-  "engines": {
-    "node": ">=16.x"
+  "dependencies": {
+    "express": "^4.18.2"
   },
-  "keywords": ["tetrashop", "projects", "portfolio"],
-  "author": "Tetrashop",
-  "license": "MIT"
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
