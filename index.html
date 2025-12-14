@@ -409,3 +409,69 @@
     <script src="index.js"></script>
 </body>
 </html>
+    /* استایل‌های اضافی */
+    .url-guide {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.95);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        z-index: 10001;
+        max-width: 600px;
+        border: 3px solid var(--primary);
+        font-family: Vazirmatn;
+        animation: guideFadeIn 0.5s ease;
+    }
+    
+    @keyframes guideFadeIn {
+        from { opacity: 0; transform: translate(-50%, -40%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    
+    .project-btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .project-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+    
+    .project-btn:active {
+        transform: translateY(-1px);
+    }
+    
+    .notification {
+        animation: notificationSlide 0.5s ease;
+    }
+    
+    @keyframes notificationSlide {
+        from {
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    /* استایل برای موبایل */
+    @media (max-width: 768px) {
+        .url-guide {
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        
+        .url-guide h3 {
+            font-size: 18px;
+        }
+    }
