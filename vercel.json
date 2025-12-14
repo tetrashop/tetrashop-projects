@@ -2,62 +2,51 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "chess/index.html",
+      "src": "*.html",
       "use": "@vercel/static"
     },
     {
-      "src": "quantum-writer/quantum-writer.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "speech-recognition/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "intelligent-writer-backup-20251021/index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "secret-garden/index.html",
+      "src": "*.js",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
+      "src": "/chess",
+      "dest": "/chess/index.html"
     },
     {
-      "src": "/chess/(.*)",
-      "dest": "/chess/$1"
+      "src": "/writer",
+      "dest": "/writer/index.html"
     },
     {
-      "src": "/quantum-writer/(.*)",
-      "dest": "/quantum-writer/$1"
+      "src": "/nlp",
+      "dest": "/nlp/index.html"
     },
     {
-      "src": "/speech-recognition/(.*)",
-      "dest": "/speech-recognition/$1"
+      "src": "/quantum",
+      "dest": "/quantum/index.html"
     },
     {
-      "src": "/intelligent-writer-backup-20251021/(.*)",
-      "dest": "/intelligent-writer-backup-20251021/$1"
+      "src": "/gardening",
+      "dest": "/gardening/index.html"
     },
     {
-      "src": "/secret-garden/(.*)",
-      "dest": "/secret-garden/$1"
+      "src": "/voice-recognition",
+      "dest": "/voice-recognition/index.html"
     },
     {
-      "src": "/",
-      "dest": "/api/index.js"
+      "src": "/2d-to-3d",
+      "dest": "/2d-to-3d/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.js"
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "github": {
+    "enabled": true,
+    "autoAlias": true,
+    "silent": true
+  }
 }
