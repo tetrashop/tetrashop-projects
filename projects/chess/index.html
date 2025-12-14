@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html dir="rtl" lang="fa">
 <head>
@@ -619,14 +618,10 @@
                     const squareClass = `board-square ${isDark ? 'dark-square' : 'light-square'}`;
                     const isSelected = selectedSquare && selectedSquare.row === row && selectedSquare.col === col;
                     
-                    boardHTML += `
-                        <div class="${squareClass} ${isSelected ? 'selected-square' : ''}"
-                             data-row="${row}"
-                             data-col="${col}"
-                             onclick="handleSquareClick(${row}, ${col})">
-                            ${square.piece || ''}
-                        </div>
-                    `;
+                    boardHTML += '<div class="' + squareClass + (isSelected ? ' selected-square' : '') + 
+                                '" data-row="' + row + '" data-col="' + col + 
+                                '" onclick="handleSquareClick(' + row + ', ' + col + ')">' + 
+                                (square.piece || '') + '</div>';
                 }
             }
             
@@ -674,7 +669,8 @@
                 // حرکت رو به جلو
                 const newRow = row + direction;
                 if(newRow >= 0 && newRow < 8 && !boardState[newRow][col].piece) {
-                    document.querySelector(`[data-row="${newRow}"][data-col="${col}"]`).classList.add('possible-move');
+                    const selector = '[data-row="' + newRow + '"][data-col="' + col + '"]';
+                    document.querySelector(selector).classList.add('possible-move');
                 }
                 
                 // حرکت اریب برای گرفتن
@@ -683,7 +679,8 @@
                     const diagCol = col - 1;
                     if(diagRow >= 0 && diagRow < 8 && boardState[diagRow][diagCol].piece && 
                        boardState[diagRow][diagCol].color !== boardState[row][col].color) {
-                        document.querySelector(`[data-row="${diagRow}"][data-col="${diagCol}"]`).classList.add('possible-move');
+                        const selector = '[data-row="' + diagRow + '"][data-col="' + diagCol + '"]';
+                        document.querySelector(selector).classList.add('possible-move');
                     }
                 }
                 
@@ -692,7 +689,8 @@
                     const diagCol = col + 1;
                     if(diagRow >= 0 && diagRow < 8 && boardState[diagRow][diagCol].piece && 
                        boardState[diagRow][diagCol].color !== boardState[row][col].color) {
-                        document.querySelector(`[data-row="${diagRow}"][data-col="${diagCol}"]`).classList.add('possible-move');
+                        const selector = '[data-row="' + diagRow + '"][data-col="' + diagCol + '"]';
+                        document.querySelector(selector).classList.add('possible-move');
                     }
                 }
             }
@@ -711,16 +709,16 @@
                 // اضافه کردن به تاریخچه
                 moveHistory.push({
                     move: moveCount + 1,
-                    from: `${String.fromCharCode(97 + fromCol)}${8 - fromRow}`,
-                    to: `${String.fromCharCode(97 + toCol)}${8 - toRow}`,
+                    from: String.fromCharCode(97 + fromCol) + (8 - fromRow),
+                    to: String.fromCharCode(97 + toCol) + (8 - toRow),
                     piece: fromSquare.piece,
                     captured: toSquare.piece
                 });
             } else {
                 moveHistory.push({
                     move: moveCount + 1,
-                    from: `${String.fromCharCode(97 + fromCol)}${8 - fromRow}`,
-                    to: `${String.fromCharCode(97 + toCol)}${8 - toRow}`,
+                    from: String.fromCharCode(97 + fromCol) + (8 - fromRow),
+                    to: String.fromCharCode(97 + toCol) + (8 - toRow),
                     piece: fromSquare.piece
                 });
             }
@@ -799,13 +797,7 @@
             alert('بازی در حافظه مرورگر ذخیره شد!');
             
             // نمایش درآمدزایی از طریق ذخیره
-            document.getElementById('adPlaceholder').innerHTML = `
-                بازی شما ذخیره شد!
-                <br>
-                <small style="color: #4CAF50; font-size: 0.9rem;">
-                    برای ذخیره ابری و دسترسی از همه دستگاه‌ها نسخه پریمیوم را خریداری کنید
-                </small>
-            `;
+            document.getElementById('adPlaceholder').innerHTML = 'بازی شما ذخیره شد!<br><small style="color: #4CAF50; font-size: 0.9rem;">برای ذخیره ابری و دسترسی از همه دستگاه‌ها نسخه پریمیوم را خریداری کنید</small>';
         }
         
         // شروع تایمر
@@ -836,13 +828,13 @@
             // زمان
             const minutes = Math.floor(gameTime / 60).toString().padStart(2, '0');
             const seconds = (gameTime % 60).toString().padStart(2, '0');
-            document.getElementById('gameTime').textContent = `${minutes}:${seconds}`;
+            document.getElementById('gameTime').textContent = minutes + ':' + seconds;
             
             // وضعیت
             if(moveCount === 0) {
                 document.getElementById('gameStatus').textContent = 'شروع بازی';
             } else {
-                document.getElementById('gameStatus').textContent = `حرکت ${moveCount}`;
+                document.getElementById('gameStatus').textContent = 'حرکت ' + moveCount;
             }
         }
         
@@ -855,9 +847,9 @@
                 const moveElement = document.createElement('div');
                 moveElement.className = 'move-item';
                 
-                let moveText = `${move.move}. ${move.piece}: ${move.from} → ${move.to}`;
+                let moveText = move.move + '. ' + move.piece + ': ' + move.from + ' → ' + move.to;
                 if(move.captured) {
-                    moveText += ` (گرفتن ${move.captured})`;
+                    moveText += ' (گرفتن ' + move.captured + ')';
                 }
                 
                 moveElement.textContent = moveText;
@@ -903,16 +895,10 @@
         // نمایش پیام برنده
         function showWinMessage(winner) {
             setTimeout(() => {
-                alert(`🏆 ${winner} برنده شد! بازی به پایان رسید.`);
+                alert('🏆 ' + winner + ' برنده شد! بازی به پایان رسید.');
                 
                 // نمایش تبلیغ درآمدزایی پس از پایان بازی
-                document.getElementById('adPlaceholder').innerHTML = `
-                    تبریک! بازی به پایان رسید.
-                    <br>
-                    <small style="color: #FFD700; font-size: 0.9rem;">
-                        برای بازی آنلاین با حریفان واقعی، نسخه پریمیوم را خریداری کنید!
-                    </small>
-                `;
+                document.getElementById('adPlaceholder').innerHTML = 'تبریک! بازی به پایان رسید.<br><small style="color: #FFD700; font-size: 0.9rem;">برای بازی آنلاین با حریفان واقعی، نسخه پریمیوم را خریداری کنید!</small>';
             }, 500);
         }
         
@@ -934,7 +920,7 @@
                 clearInterval(timerInterval);
                 
                 const winner = currentPlayer === 'white' ? 'سیاه' : 'سفید';
-                alert(`شما تسلیم شدید. ${winner} برنده بازی است.`);
+                alert('شما تسلیم شدید. ' + winner + ' برنده بازی است.');
             }
         }
         
@@ -957,13 +943,7 @@
             alert('تحلیل پیشرفته بازی در نسخه پریمیوم فعال است!\n\nتحلیلگر هوش مصنوعی می‌تواند:\n• بهترین حرکات بعدی را پیشنهاد دهد\n• اشتباهات بازی را شناسایی کند\n• امتیاز موقعیت فعلی را محاسبه کند');
             
             // نمایش تبلیغ ارتقا
-            document.getElementById('adPlaceholder').innerHTML = `
-                برای تحلیل حرفه‌ای بازی:
-                <br>
-                <button onclick="showPremiumFeatures()" style="background: #FFD700; color: #333; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
-                    خرید اشتراک پریمیوم
-                </button>
-            `;
+            document.getElementById('adPlaceholder').innerHTML = 'برای تحلیل حرفه‌ای بازی:<br><button onclick="showPremiumFeatures()" style="background: #FFD700; color: #333; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; cursor: pointer;">خرید اشتراک پریمیوم</button>';
         }
         
         // بارگذاری بازی ذخیره شده
@@ -984,17 +964,7 @@
             alert('با کلیک بر روی تبلیغات، از توسعه این پلتفرم حمایت می‌کنید!\n\nمیانگین درآمد از هر کلیک: ۵۰۰ تومان\n\nبرای حذف تبلیغات، اشتراک پریمیوم خریداری کنید.');
             
             // شبیه‌سازی کلیک تبلیغاتی
-            this.innerHTML = `
-                از حمایت شما متشکریم!
-                <br>
-                <small style="color: #4CAF50; font-size: 0.9rem;">
-                    ۵۰۰ تومان به درآمد پروژه اضافه شد
-                </small>
-                <br>
-                <small style="font-size: 0.8rem; color: #888;">
-                    تبلیغ بعدی در ۳۰ ثانیه
-                </small>
-            `;
+            this.innerHTML = 'از حمایت شما متشکریم!<br><small style="color: #4CAF50; font-size: 0.9rem;">۵۰۰ تومان به درآمد پروژه اضافه شد</small><br><small style="font-size: 0.8rem; color: #888;">تبلیغ بعدی در ۳۰ ثانیه</small>';
             
             // بازنشانی تبلیغ بعد از ۳۰ ثانیه
             setTimeout(() => {
@@ -1009,17 +979,7 @@
             
             // نمایش پیام خوش‌آمدگویی با تأکید بر درآمدزایی
             setTimeout(() => {
-                document.getElementById('adPlaceholder').innerHTML = `
-                    به شطرنج تتراشاپ خوش آمدید!
-                    <br>
-                    <small style="color: #FFD700; font-size: 0.9rem;">
-                        این پروژه ماهانه ۲۲۸,۰۰۰ تومان درآمد ایجاد می‌کند
-                    </small>
-                    <br>
-                    <button onclick="showPremiumFeatures()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
-                        یاد بگیرید چگونه
-                    </button>
-                `;
+                document.getElementById('adPlaceholder').innerHTML = 'به شطرنج تتراشاپ خوش آمدید!<br><small style="color: #FFD700; font-size: 0.9rem;">این پروژه ماهانه ۲۲۸,۰۰۰ تومان درآمد ایجاد می‌کند</small><br><button onclick="showPremiumFeatures()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-top: 10px; cursor: pointer;">یاد بگیرید چگونه</button>';
             }, 2000);
         };
     </script>
