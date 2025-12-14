@@ -1,63 +1,44 @@
 #!/bin/bash
-echo "🚀 استقرار خودکار تتراشاپ"
-echo "========================"
 
-# توقف سرور اگر در حال اجراست
-if pgrep -f "node app.js" > /dev/null; then
-    echo "⏹️  توقف سرور قبلی..."
-    pkill -f "node app.js"
-    sleep 2
-fi
+set -e
 
-# بررسی Node.js
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js یافت نشد. لطفا نصب کنید."
-    exit 1
-fi
+echo "🚀 شروع فرآیند deploy..."
 
-# نصب وابستگی‌ها
-echo "📦 نصب وابستگی‌ها..."
-npm install --silent
+# رنگ‌ها برای نمایش بهتر
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
-# ایجاد ساختار
-echo "📁 ایجاد ساختار..."
-mkdir -p public/uploads
-mkdir -p projects/{chess,smart-writer,quantum-writer,secret-garden,speech-recognition}
-mkdir -p logs database
+echo -e "${BLUE}📊 بررسی وضعیت Git...${NC}"
+git status
 
-# راه‌اندازی سرور در پس‌زمینه
-echo "🚀 راه‌اندازی سرور..."
-PORT=6000 nohup node app.js > tetrashop.log 2>&1 &
-SERVER_PID=$!
+echo -e "${BLUE}➕ اضافه کردن تغییرات...${NC}"
+git add .
 
-# منتظر راه‌اندازی
-echo "⏳ منتظر راه‌اندازی سرور..."
-sleep 5
+echo -e "${BLUE}💾 کامیت تغییرات...${NC}"
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+git commit -m "deploy: بروزرسانی پروژه در $TIMESTAMP" || echo "⚠️  No changes to commit"
 
-# بررسی وضعیت
-if curl -s http://localhost:6000 > /dev/null; then
-    echo "✅ سرور با موفقیت راه‌اندازی شد!"
-    echo ""
-    echo "📊 اطلاعات سرور:"
-    echo "  • PID: $SERVER_PID"
-    echo "  • پورت: 6000"
-    echo "  • مسیر: $(pwd)"
-    echo ""
-    echo "🌐 آدرس‌های مهم:"
-    echo "  📍 صفحه اصلی: http://localhost:6000"
-    echo "  🎯 داشبورد: http://localhost:6000/dashboard"
-    echo "  📊 آمار: http://localhost:6000/api/projects/status"
-    echo "  💰 فروشگاه: http://localhost:6000/api/marketplace/products"
-    echo ""
-    echo "📋 لاگ‌ها:"
-    echo "  tail -f tetrashop.log"
-    echo ""
-    echo "💰 برای شروع درآمدزایی:"
-    echo "  1. به داشبورد مراجعه کنید"
-    echo "  2. نمونه APIها را تست کنید"
-    echo "  3. محصولات را به فروشگاه اضافه کنید"
-else
-    echo "❌ خطا در راه‌اندازی سرور"
-    echo "🔍 بررسی لاگ: tail -n 20 tetrashop.log"
-    exit 1
+echo -e "${BLUE}📤 Push به GitHub...${NC}"
+git push origin main
+
+echo -e "${GREEN}✅ کامیت‌ها با موفقیت push شدند!${NC}"
+
+echo -e "${YELLOW}⏳ منتظر deploy خودکار Vercel...${NC}"
+echo -e "${BLUE}🌐 آدرس پروژه: https://tetrashop-projects.vercel.app${NC}"
+echo -e "${BLUE}📱 آدرس موبایل: https://tetrashop-projects.vercel.app?mobile=1${NC}"
+
+# نمایش اطلاعات پروژه
+echo -e "\n${GREEN}📋 اطلاعات پروژه:${NC}"
+echo "تعداد پروژه‌ها: ۷"
+echo "آخرین بروزرسانی: $TIMESTAMP"
+echo "وضعیت: ✅ فعال"
+
+# باز کردن مرورگر
+if command -v xdg-open &> /dev/null; then
+    xdg-open "https://tetrashop-projects.vercel.app"
+elif command -v open &> /dev/null; then
+    open "https://tetrashop-projects.vercel.app"
 fi

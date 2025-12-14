@@ -1,0 +1,21 @@
+{
+  "projectId": "prj_tetrashop",
+  "orgId": "team_tetrashop",
+  "settings": {
+    "createdAt": 1705320000000,
+    "framework": "static",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": ".",
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "18.x"
+  },
+  "gitRepository": {
+    "type": "github",
+    "repo": "tetrashop/tetrashop-projects",
+    "org": "tetrashop",
+    "productionBranch": "main"
+  }
+}
