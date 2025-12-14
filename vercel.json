@@ -1,23 +1,13 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/chess", "dest": "/chess/index.html" },
-    { "src": "/writer", "dest": "/writer/index.html" },
-    { "src": "/nlp", "dest": "/nlp/index.html" },
-    { "src": "/quantum", "dest": "/quantum/index.html" },
-    { "src": "/gardening", "dest": "/gardening/index.html" },
-    { "src": "/voice-recognition", "dest": "/voice-recognition/index.html" },
-    { "src": "/2d-to-3d", "dest": "/2d-to-3d/index.html" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "rewrites": [
+    { "source": "/chess", "destination": "/chess/index.html" },
+    { "source": "/writer", "destination": "/writer/index.html" },
+    { "source": "/nlp", "destination": "/nlp/index.html" },
+    { "source": "/quantum", "destination": "/quantum/index.html" },
+    { "source": "/gardening", "destination": "/gardening/index.html" },
+    { "source": "/voice-recognition", "destination": "/voice-recognition/index.html" },
+    { "source": "/2d-to-3d", "destination": "/2d-to-3d/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

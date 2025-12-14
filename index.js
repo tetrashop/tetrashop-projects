@@ -662,3 +662,27 @@ window.addEventListener('load', function() {
     };
     document.body.appendChild(emergencyBtn);
 });
+/* اضافه کردن استایل دینامیک برای رفع نوارهای سفید */
+document.addEventListener('DOMContentLoaded', function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    html, body { background: #f8f9fa !important; }
+    *::-webkit-scrollbar { width: 8px; }
+    *::-webkit-scrollbar-track { background: #f1f1f1; }
+    *::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    *::-webkit-scrollbar-thumb:hover { background: #555; }
+  `;
+  document.head.appendChild(style);
+});
+/* اضافه کردن استایل دینامیک برای رفع نوارهای سفید */
+document.addEventListener('DOMContentLoaded', function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    html, body { background: #f8f9fa !important; }
+    *::-webkit-scrollbar { width: 8px; }
+    *::-webkit-scrollbar-track { background: #f1f1f1; }
+    *::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    *::-webkit-scrollbar-thumb:hover { background: #555; }
+  `;
+  document.head.appendChild(style);
+});

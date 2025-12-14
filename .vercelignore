@@ -1,5 +1,10 @@
-.git
-.gitignore
-node_modules
+*.py
+requirements.txt
+venv/
+__pycache__/
+Dockerfile
+docker-compose.yml
+*.cjs
 *.log
-.DS_Store
+node_modules/
+.git/
