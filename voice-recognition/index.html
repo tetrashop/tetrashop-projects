@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تشخیص صوت هوشمند | تتراشاپ</title>
+    <title>تشخیص صوت کامل | تتراشاپ</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/font.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --voice-primary: #8b5cf6;
-            --voice-secondary: #7c3aed;
-            --voice-accent: #ec4899;
-            --voice-dark: #1e1b4b;
-            --voice-light: #f5f3ff;
+            --primary: #8b5cf6;
+            --secondary: #7c3aed;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e1b4b;
+            --light: #f5f3ff;
         }
         
         * {
@@ -25,50 +28,61 @@
         
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(135deg, var(--voice-dark) 0%, #312e81 100%);
+            background: linear-gradient(135deg, var(--dark) 0%, #312e81 100%);
             color: white;
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 25px;
-            padding: 40px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .header {
             text-align: center;
             margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #ec4899, #8b5cf6);
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            display: inline-block;
         }
         
-        .subtitle {
-            color: #c7d2fe;
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .permission-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px dashed var(--danger);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
         }
         
-        .voice-controls {
+        .permission-box.active {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { border-color: var(--danger); }
+            50% { border-color: var(--warning); }
+            100% { border-color: var(--danger); }
+        }
+        
+        .main-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -76,11 +90,17 @@
             margin: 40px 0;
         }
         
-        .voice-btn {
+        .mic-container {
+            position: relative;
             width: 200px;
             height: 200px;
+        }
+        
+        .mic-btn {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--voice-primary), var(--voice-secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             cursor: pointer;
             display: flex;
@@ -92,95 +112,103 @@
             font-weight: bold;
             transition: all 0.3s;
             position: relative;
-            box-shadow: 
-                0 20px 40px rgba(139, 92, 246, 0.3),
-                inset 0 0 0 5px rgba(255, 255, 255, 0.1);
+            z-index: 2;
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
         }
         
-        .voice-btn:hover {
+        .mic-btn:hover:not(:disabled) {
             transform: scale(1.05);
-            box-shadow: 
-                0 25px 50px rgba(139, 92, 246, 0.4),
-                inset 0 0 0 5px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
         }
         
-        .voice-btn:active {
+        .mic-btn:active:not(:disabled) {
             transform: scale(0.98);
         }
         
-        .voice-btn.listening {
-            animation: pulse 1.5s infinite;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-        
-        .voice-btn.disabled {
+        .mic-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none !important;
         }
         
-        @keyframes pulse {
-            0% {
-                box-shadow: 
-                    0 0 0 0 rgba(239, 68, 68, 0.7),
-                    0 20px 40px rgba(139, 92, 246, 0.3);
-            }
-            70% {
-                box-shadow: 
-                    0 0 0 20px rgba(239, 68, 68, 0),
-                    0 20px 40px rgba(139, 92, 246, 0.3);
-            }
-            100% {
-                box-shadow: 
-                    0 0 0 0 rgba(239, 68, 68, 0),
-                    0 20px 40px rgba(139, 92, 246, 0.3);
-            }
+        .mic-btn.listening {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            animation: listening 1.5s infinite;
         }
         
-        .voice-btn i {
+        @keyframes listening {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .mic-btn i {
             font-size: 4rem;
             margin-bottom: 15px;
         }
         
-        .voice-status {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #c7d2fe;
-            min-height: 30px;
+        .sound-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            opacity: 0;
+            z-index: 1;
         }
         
-        .transcript-box {
+        .sound-wave.active {
+            animation: soundWave 1.5s infinite;
+        }
+        
+        @keyframes soundWave {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .transcript-container {
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 25px;
             margin: 30px 0;
-            min-height: 150px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .transcript-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .transcript-text {
             font-size: 1.3rem;
             line-height: 1.8;
             color: white;
-            text-align: center;
+            min-height: 100px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        .transcript-text .highlight {
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
-            color: #1e1b4b;
-            padding: 2px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .commands-grid {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 30px 0;
         }
         
-        .command-card {
+        .stat-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 20px;
@@ -189,47 +217,293 @@
             transition: all 0.3s;
         }
         
-        .command-card:hover {
+        .stat-card:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-5px);
-            border-color: var(--voice-primary);
         }
         
-        .command-icon {
-            font-size: 2rem;
-            color: var(--voice-primary);
-            margin-bottom: 15px;
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: #c7d2fe;
+            font-size: 0.9rem;
+        }
+        
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Vazirmatn';
+            font-size: 16px;
+        }
+        
+        .control-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .control-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .control-btn.success {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+        
+        .control-btn.warning {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: #333;
+        }
+        
+        .control-btn.danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+        }
+        
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .history-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .history-container.active {
+            display: block;
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .history-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .history-time {
+            color: #c7d2fe;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .history-text {
+            font-size: 1.1rem;
         }
         
         .monetization-section {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 20px;
             padding: 30px;
             margin-top: 40px;
             text-align: center;
-            position: relative;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: var(--dark);
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.5s ease;
+            border-right: 5px solid var(--primary);
+            max-width: 90%;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(0); opacity: 1; }
+            to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+        }
+        
+        .accuracy-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
             overflow: hidden;
         }
         
-        .monetization-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shine 4s infinite linear;
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #22c55e);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
         }
         
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .visualizer {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            margin: 20px 0;
+        }
+        
+        .bar {
+            width: 10px;
+            background: linear-gradient(to top, var(--primary), var(--accent));
+            border-radius: 5px;
+            min-height: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .mic-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .controls-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        .confidence-display {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .confidence-value {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .permission-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid transparent;
+        }
+        
+        .step.active {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
         }
         
         .back-btn {
             display: inline-block;
-            background: linear-gradient(45deg, #10b981, #059669);
+            background: linear-gradient(135deg, var(--success), #059669);
             color: white;
             padding: 15px 35px;
             border-radius: 12px;
@@ -248,262 +522,143 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
         }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #4b5563;
-        }
-        
-        .status-dot.active {
-            background: #10b981;
-            box-shadow: 0 0 10px #10b981;
-        }
-        
-        .accuracy-meter {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .accuracy-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #22c55e);
-            border-radius: 5px;
-            width: 85%;
-            transition: width 0.5s ease;
-        }
-        
-        .language-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .lang-btn.active {
-            background: var(--voice-primary);
-            border-color: var(--voice-primary);
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-                margin: 15px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .voice-btn {
-                width: 180px;
-                height: 180px;
-            }
-            
-            .commands-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .feedback {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            color: #1e1b4b;
-            padding: 15px 25px;
-            border-radius: 10px;
-            z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideDown 0.5s ease;
-            border-right: 5px solid var(--voice-primary);
-        }
-        
-        @keyframes slideDown {
-            from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateX(-50%) translateY(0); opacity: 1; }
-            to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-        }
-        
-        .visualizer {
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 3px;
-            margin: 20px 0;
-        }
-        
-        .bar {
-            width: 8px;
-            background: linear-gradient(to top, var(--voice-primary), var(--voice-accent));
-            border-radius: 4px;
-            transition: height 0.1s ease;
-        }
-        
-        .controls-row {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .control-btn:active {
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-microphone-alt"></i> تشخیص صوت هوشمند</h1>
-            <p class="subtitle">با قدرت هوش مصنوعی و دقت بالا - تتراشاپ</p>
+            <h1><i class="fas fa-microphone-alt"></i> سیستم تشخیص صوت کامل</h1>
+            <p style="color: #c7d2fe; margin-top: 10px;">تبدیل گفتار به متن با استفاده از Web Speech API</p>
         </div>
         
-        <div class="voice-controls">
-            <div class="status-indicator">
-                <div class="status-dot active" id="statusDot1"></div>
-                <div class="status-dot" id="statusDot2"></div>
-                <div class="status-dot" id="statusDot3"></div>
+        <div class="permission-steps">
+            <div class="step" id="step1">
+                <div class="step-number">۱</div>
+                <h3>دسترسی میکروفون</h3>
+                <p style="color: #c7d2fe; margin-top: 10px; font-size: 0.9rem;">برای شروع، اجازه دسترسی به میکروفون را بدهید</p>
             </div>
             
-            <button class="voice-btn" id="voiceButton">
-                <i class="fas fa-microphone"></i>
-                <span id="buttonText">برای صحبت کلیک کنید</span>
-            </button>
+            <div class="step" id="step2">
+                <div class="step-number">۲</div>
+                <h3>صحبت کردن</h3>
+                <p style="color: #c7d2fe; margin-top: 10px; font-size: 0.9rem;">روی دکمه میکروفون کلیک و صحبت کنید</p>
+            </div>
             
-            <div class="voice-status" id="voiceStatus">
-                سیستم آماده تشخیص صوت است
+            <div class="step" id="step3">
+                <div class="step-number">۳</div>
+                <h3>نتیجه گیری</h3>
+                <p style="color: #c7d2fe; margin-top: 10px; font-size: 0.9rem;">متن تبدیل شده را مشاهده و مدیریت کنید</p>
+            </div>
+        </div>
+        
+        <div class="permission-box" id="permissionBox">
+            <i class="fas fa-microphone-slash" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"></i>
+            <h3 style="margin-bottom: 15px;">دسترسی به میکروفون نیاز است</h3>
+            <p style="color: #c7d2fe; margin-bottom: 25px;">برای استفاده از سیستم تشخیص صوت، باید اجازه دسترسی به میکروفون را بدهید.</p>
+            <button class="control-btn primary" onclick="requestMicrophonePermission()">
+                <i class="fas fa-check-circle"></i> درخواست اجازه میکروفون
+            </button>
+        </div>
+        
+        <div class="main-controls">
+            <div class="mic-container">
+                <button class="mic-btn" id="micButton" disabled>
+                    <i class="fas fa-microphone"></i>
+                    <span id="buttonText">در انتظار دسترسی...</span>
+                </button>
+                <div class="sound-wave" id="soundWave"></div>
             </div>
             
             <div class="visualizer" id="visualizer">
-                <!-- بارهای انیمیشن صدا -->
+                <!-- بارهای ویژیوالایزر -->
             </div>
             
             <div class="language-selector">
-                <button class="lang-btn active" onclick="setLanguage('fa')">
+                <button class="lang-btn active" onclick="setLanguage('fa-IR')">
                     <i class="fas fa-language"></i> فارسی
                 </button>
-                <button class="lang-btn" onclick="setLanguage('en')">
+                <button class="lang-btn" onclick="setLanguage('en-US')">
                     <i class="fas fa-language"></i> انگلیسی
+                </button>
+                <button class="lang-btn" onclick="setLanguage('ar-SA')">
+                    <i class="fas fa-language"></i> عربی
                 </button>
             </div>
             
-            <div class="accuracy-meter">
-                <div class="accuracy-fill" id="accuracyFill"></div>
+            <div class="confidence-display">
+                اطمینان تشخیص: <span class="confidence-value" id="confidenceValue">۰٪</span>
             </div>
-            <div style="text-align: center; color: #c7d2fe;">
-                دقت تشخیص: <span id="accuracyPercent">۸۵٪</span>
+            
+            <div class="accuracy-bar">
+                <div class="accuracy-fill" id="accuracyFill"></div>
             </div>
         </div>
         
-        <div class="transcript-box">
+        <div class="transcript-container">
+            <div class="transcript-header">
+                <h3><i class="fas fa-comment-dots"></i> متن تشخیص داده شده</h3>
+                <div style="color: #c7d2fe; font-size: 0.9rem;" id="transcriptStatus">
+                    آماده برای تشخیص...
+                </div>
+            </div>
             <div class="transcript-text" id="transcriptText">
-                متن تشخیص داده شده اینجا نمایش داده می‌شود...
+                متن تبدیل شده از گفتار شما در اینجا نمایش داده خواهد شد...
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-clock" style="font-size: 2rem; color: var(--primary);"></i>
+                <div class="stat-value" id="totalTime">۰</div>
+                <div class="stat-label">ثانیه ضبط شده</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-font" style="font-size: 2rem; color: var(--success);"></i>
+                <div class="stat-value" id="totalWords">۰</div>
+                <div class="stat-label">کلمات تشخیص داده شده</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--warning);"></i>
+                <div class="stat-value" id="accuracyRate">۰٪</div>
+                <div class="stat-label">میانگین دقت</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-database" style="font-size: 2rem; color: var(--accent);"></i>
+                <div class="stat-value" id="totalSessions">۰</div>
+                <div class="stat-label">جلسات تشخیص</div>
             </div>
         </div>
         
         <div class="controls-row">
-            <button class="control-btn" onclick="clearTranscript()">
-                <i class="fas fa-trash"></i> پاک کردن
+            <button class="control-btn primary" onclick="startRecognition()" id="startButton">
+                <i class="fas fa-play"></i> شروع ضبط
             </button>
-            <button class="control-btn" onclick="copyTranscript()">
+            <button class="control-btn danger" onclick="stopRecognition()" id="stopButton" disabled>
+                <i class="fas fa-stop"></i> توقف ضبط
+            </button>
+            <button class="control-btn success" onclick="copyTranscript()" id="copyButton" disabled>
                 <i class="fas fa-copy"></i> کپی متن
             </button>
-            <button class="control-btn" onclick="saveTranscript()">
-                <i class="fas fa-save"></i> ذخیره
+            <button class="control-btn warning" onclick="clearTranscript()" id="clearButton" disabled>
+                <i class="fas fa-trash"></i> پاک کردن
             </button>
-            <button class="control-btn" onclick="testVoice()">
-                <i class="fas fa-play"></i> تست صدا
+            <button class="control-btn" onclick="toggleHistory()" id="historyButton">
+                <i class="fas fa-history"></i> تاریخچه
             </button>
         </div>
         
-        <h3 style="text-align: center; margin: 30px 0 20px; color: #c7d2fe;">
-            <i class="fas fa-list"></i> دستورات قابل تشخیص
-        </h3>
-        
-        <div class="commands-grid">
-            <div class="command-card">
-                <div class="command-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <h4>کنترل اصلی</h4>
-                <p>"بازگشت به خانه"<br>"رفتن به تنظیمات"<br>"نمایش کمک"</p>
+        <div class="history-container" id="historyContainer">
+            <div class="transcript-header">
+                <h3><i class="fas fa-history"></i> تاریخچه تشخیص</h3>
+                <button class="control-btn danger" onclick="clearHistory()" style="padding: 8px 15px; font-size: 14px;">
+                    <i class="fas fa-trash"></i> پاک کردن تاریخچه
+                </button>
             </div>
-            
-            <div class="command-card">
-                <div class="command-icon">
-                    <i class="fas fa-music"></i>
-                </div>
-                <h4>کنترل پخش</h4>
-                <p>"پخش موسیقی"<br>"توقف"<br>"ترک بعدی"<br>"صدای کمتر"</p>
-            </div>
-            
-            <div class="command-card">
-                <div class="command-icon">
-                    <i class="fas fa-sun"></i>
-                </div>
-                <h4>کنترل محیط</h4>
-                <p>"روشن کردن چراغ"<br>"دمای بیشتر"<br>"باز کردن پرده"</p>
-            </div>
-            
-            <div class="command-card">
-                <div class="command-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <h4>جستجو</h4>
-                <p>"جستجو برای..."<br>"پیدا کردن عکس"<br>"آب و هوای تهران"</p>
+            <div class="history-list" id="historyList">
+                <!-- آیتم‌های تاریخچه -->
             </div>
         </div>
         
@@ -533,9 +688,9 @@
                         style="background: #FFD700; color: #333; font-weight: bold; margin: 10px;">
                     <i class="fas fa-crown"></i> ویژگی‌های پریمیوم
                 </button>
-                <button class="control-btn" onclick="showVoiceAPI()" 
+                <button class="control-btn" onclick="showStatsDetails()" 
                         style="background: #333; margin: 10px;">
-                    <i class="fas fa-code"></i> مستندات API
+                    <i class="fas fa-chart-bar"></i> آمار کامل
                 </button>
             </div>
         </div>
@@ -551,193 +706,207 @@
         // متغیرهای اصلی
         let recognition = null;
         let isListening = false;
-        let currentTranscript = '';
-        let currentLanguage = 'fa';
-        let accuracy = 85;
+        let transcript = '';
+        let startTime = null;
+        let currentLanguage = 'fa-IR';
+        let confidenceSum = 0;
+        let recognitionCount = 0;
+        let totalRecordingTime = 0;
+        let totalSessions = 0;
+        let recognitionHistory = [];
         
-        // دستورات قابل تشخیص
-        const commands = {
-            'fa': {
-                'بازگشت': 'بازگشت به صفحه اصلی',
-                'پخش': 'در حال پخش موسیقی...',
-                'توقف': 'موسیقی متوقف شد',
-                'روشن': 'چراغ‌ها روشن شدند',
-                'خاموش': 'چراغ‌ها خاموش شدند',
-                'جستجو': 'چه چیزی را جستجو کنم؟',
-                'کمک': 'منوی راهنما نمایش داده شد',
-                'ذخیره': 'متن ذخیره شد',
-                'پاک کردن': 'متن پاک شد',
-                'کپی': 'متن کپی شد',
-                'سلام': 'سلام! چطور می‌توانم کمک کنم؟',
-                'تشکر': 'خوشحالم که مفید بودم!'
-            },
-            'en': {
-                'home': 'Returning to home page',
-                'play': 'Playing music...',
-                'stop': 'Music stopped',
-                'on': 'Lights turned on',
-                'off': 'Lights turned off',
-                'search': 'What would you like to search?',
-                'help': 'Help menu displayed',
-                'save': 'Text saved',
-                'clear': 'Text cleared',
-                'copy': 'Text copied',
-                'hello': 'Hello! How can I help you?',
-                'thanks': 'Glad I could help!'
-            }
+        // آمار
+        const stats = {
+            totalTime: 0,
+            totalWords: 0,
+            totalChars: 0,
+            averageConfidence: 0,
+            sessions: 0
         };
         
-        // مقداردهی اولیه
+        // راه‌اندازی اولیه
         function init() {
+            checkBrowserSupport();
             createVisualizer();
-            setupVoiceRecognition();
-            updateStatus('سیستم آماده است');
-            updateStatusDots();
+            loadHistory();
+            updateStatsDisplay();
+            updateStep(1);
         }
         
-        // راه‌اندازی تشخیص صوت
-        function setupVoiceRecognition() {
-            // بررسی پشتیبانی مرورگر
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                showFeedback('مرورگر شما از تشخیص صوت پشتیبانی نمی‌کند');
-                disableVoiceButton();
+        // بررسی پشتیبانی مرورگر
+        function checkBrowserSupport() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                showNotification('مرورگر شما از Web Speech API پشتیبانی نمی‌کند. لطفاً از Chrome، Edge یا Safari استفاده کنید.');
+                disableAllControls();
                 return;
             }
             
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
-            
-            // تنظیمات
+            setupRecognition();
+            requestMicrophonePermission();
+        }
+        
+        // تنظیم تشخیص گفتار
+        function setupRecognition() {
             recognition.continuous = false;
             recognition.interimResults = true;
-            recognition.lang = currentLanguage === 'fa' ? 'fa-IR' : 'en-US';
+            recognition.lang = currentLanguage;
             recognition.maxAlternatives = 3;
             
-            // رویدادها
             recognition.onstart = () => {
                 isListening = true;
                 updateUI();
-                updateStatus('در حال گوش دادن...');
+                updateStep(2);
+                startTime = Date.now();
                 startVisualizer();
+                showNotification('در حال گوش دادن... صحبت کنید');
             };
             
             recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                const confidence = event.results[0][0].confidence;
+                let interimTranscript = '';
+                let finalTranscript = '';
+                let confidence = 0;
                 
-                currentTranscript = transcript;
-                updateTranscript(transcript);
-                updateAccuracy(confidence);
-                
-                if (event.results[0].isFinal) {
-                    processCommand(transcript);
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    confidence = event.results[i][0].confidence;
+                    
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                        confidenceSum += confidence;
+                        recognitionCount++;
+                        
+                        // به‌روزرسانی آمار
+                        stats.totalWords += transcript.split(' ').length;
+                        stats.totalChars += transcript.length;
+                        
+                        // نمایش اطمینان
+                        updateConfidenceDisplay(confidence);
+                    } else {
+                        interimTranscript += transcript;
+                    }
                 }
+                
+                // به‌روزرسانی متن
+                transcript = finalTranscript || interimTranscript;
+                updateTranscriptDisplay(transcript);
+                
+                // به‌روزرسانی ویژیوالایزر بر اساس سطح صدا
+                updateVisualizer(confidence);
             };
             
             recognition.onend = () => {
                 isListening = false;
                 updateUI();
-                updateStatus('سیستم آماده است');
+                updateStep(3);
+                
+                // محاسبه زمان ضبط
+                if (startTime) {
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    stats.totalTime += elapsed;
+                    totalRecordingTime += elapsed;
+                    updateStatsDisplay();
+                }
+                
+                // ذخیره در تاریخچه
+                if (transcript.trim()) {
+                    saveToHistory(transcript);
+                }
+                
                 stopVisualizer();
+                showNotification('ضبط متوقف شد');
             };
             
             recognition.onerror = (event) => {
                 isListening = false;
                 updateUI();
+                stopVisualizer();
                 
-                let errorMessage = 'خطا در تشخیص صوت';
-                if (event.error === 'not-allowed') {
-                    errorMessage = 'دسترسی به میکروفون مجاز نیست';
-                } else if (event.error === 'no-speech') {
-                    errorMessage = 'صدایی تشخیص داده نشد';
-                } else if (event.error === 'audio-capture') {
-                    errorMessage = 'میکروفون یافت نشد';
+                let errorMessage = 'خطا در تشخیص صوت: ';
+                switch(event.error) {
+                    case 'not-allowed':
+                    case 'permission-denied':
+                        errorMessage += 'دسترسی به میکروفون مجاز نیست';
+                        showPermissionBox();
+                        break;
+                    case 'no-speech':
+                        errorMessage += 'صدایی تشخیص داده نشد';
+                        break;
+                    case 'audio-capture':
+                        errorMessage += 'میکروفون یافت نشد';
+                        break;
+                    case 'network':
+                        errorMessage += 'خطای شبکه';
+                        break;
+                    default:
+                        errorMessage += event.error;
                 }
                 
-                updateStatus(errorMessage);
-                stopVisualizer();
-                showFeedback(errorMessage);
+                showNotification(errorMessage);
             };
         }
         
-        // شروع/توقف تشخیص صوت
-        function toggleVoiceRecognition() {
+        // درخواست اجازه میکروفون
+        function requestMicrophonePermission() {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+                .then((stream) => {
+                    // موفقیت‌آمیز
+                    stream.getTracks().forEach(track => track.stop()); // متوقف کردن دسترسی
+                    hidePermissionBox();
+                    enableControls();
+                    updateStep(2);
+                    showNotification('دسترسی به میکروفون تایید شد');
+                })
+                .catch((error) => {
+                    // خطا
+                    showPermissionBox();
+                    let errorMsg = 'خطا در دسترسی به میکروفون: ';
+                    switch(error.name) {
+                        case 'NotAllowedError':
+                            errorMsg += 'کاربر اجازه دسترسی نداد';
+                            break;
+                        case 'NotFoundError':
+                            errorMsg += 'میکروفون یافت نشد';
+                            break;
+                        default:
+                            errorMsg += error.message;
+                    }
+                    showNotification(errorMsg);
+                });
+        }
+        
+        // شروع تشخیص
+        function startRecognition() {
             if (!recognition) {
-                showFeedback('سیستم تشخیص صوت آماده نیست');
+                showNotification('سیستم تشخیص صوت آماده نیست');
                 return;
             }
             
-            if (isListening) {
+            try {
+                recognition.start();
+                stats.sessions++;
+                totalSessions++;
+                updateStatsDisplay();
+            } catch (error) {
+                showNotification('خطا در شروع تشخیص: ' + error.message);
+            }
+        }
+        
+        // توقف تشخیص
+        function stopRecognition() {
+            if (recognition && isListening) {
                 recognition.stop();
-            } else {
-                try {
-                    recognition.start();
-                } catch (error) {
-                    showFeedback('خطا در شروع تشخیص صوت');
-                }
             }
         }
         
-        // پردازش دستور
-        function processCommand(command) {
-            const normalizedCommand = command.trim().toLowerCase();
-            let response = null;
-            
-            // جستجوی دستور در زبان فعلی
-            const langCommands = commands[currentLanguage];
-            for (const [key, value] of Object.entries(langCommands)) {
-                if (normalizedCommand.includes(key.toLowerCase())) {
-                    response = value;
-                    break;
-                }
-            }
-            
-            // اگر دستور خاصی یافت نشد
-            if (!response) {
-                response = currentLanguage === 'fa' 
-                    ? `دستور "${command}" تشخیص داده شد`
-                    : `Command "${command}" recognized`;
-            }
-            
-            // نمایش پاسخ
-            showFeedback(response);
-            
-            // اجرای عملیات مربوطه
-            executeCommand(response);
-        }
-        
-        // اجرای دستور
-        function executeCommand(response) {
-            // شبیه‌سازی عملیات مختلف
-            const actions = {
-                'بازگشت به صفحه اصلی': () => {
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 1000);
-                },
-                'در حال پخش موسیقی...': () => {
-                    // شبیه‌سازی پخش موسیقی
-                    updateStatus('موسیقی در حال پخش است...');
-                },
-                'متن ذخیره شد': () => {
-                    saveTranscript();
-                },
-                'متن پاک شد': () => {
-                    clearTranscript();
-                },
-                'متن کپی شد': () => {
-                    copyTranscript();
-                }
-            };
-            
-            if (actions[response]) {
-                actions[response]();
-            }
-        }
-        
-        // تغییر زبان
+        // تنظیم زبان
         function setLanguage(lang) {
             currentLanguage = lang;
+            if (recognition) {
+                recognition.lang = lang;
+            }
             
             // به‌روزرسانی دکمه‌های زبان
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -745,143 +914,178 @@
             });
             event.target.classList.add('active');
             
-            // تغییر زبان تشخیص صوت
-            if (recognition) {
-                recognition.lang = lang === 'fa' ? 'fa-IR' : 'en-US';
-            }
-            
-            // به‌روزرسانی متن‌ها
-            if (lang === 'fa') {
-                document.getElementById('buttonText').textContent = 'برای صحبت کلیک کنید';
-                document.getElementById('voiceStatus').textContent = 'سیستم آماده تشخیص صوت است';
-                document.querySelector('.transcript-text').textContent = 'متن تشخیص داده شده اینجا نمایش داده می‌شود...';
-            } else {
-                document.getElementById('buttonText').textContent = 'Click to Speak';
-                document.getElementById('voiceStatus').textContent = 'System ready for voice recognition';
-                document.querySelector('.transcript-text').textContent = 'Recognized text will appear here...';
-            }
-            
-            showFeedback(lang === 'fa' ? 'زبان به فارسی تغییر کرد' : 'Language changed to English');
+            showNotification('زبان تشخیص به ' + getLanguageName(lang) + ' تغییر کرد');
         }
         
-        // به‌روزرسانی UI
-        function updateUI() {
-            const voiceButton = document.getElementById('voiceButton');
-            const buttonText = document.getElementById('buttonText');
-            
-            if (isListening) {
-                voiceButton.classList.add('listening');
-                buttonText.textContent = currentLanguage === 'fa' ? 'در حال گوش دادن...' : 'Listening...';
-            } else {
-                voiceButton.classList.remove('listening');
-                buttonText.textContent = currentLanguage === 'fa' ? 'برای صحبت کلیک کنید' : 'Click to Speak';
-            }
-            
-            updateStatusDots();
-        }
-        
-        // به‌روزرسانی وضعیت
-        function updateStatus(message) {
-            document.getElementById('voiceStatus').textContent = message;
-        }
-        
-        // به‌روزرسالی نقطه‌های وضعیت
-        function updateStatusDots() {
-            const dots = document.querySelectorAll('.status-dot');
-            dots.forEach((dot, index) => {
-                if (isListening) {
-                    // انیمیشن نقطه‌ها هنگام گوش دادن
-                    setTimeout(() => {
-                        dot.classList.add('active');
-                    }, index * 200);
-                    
-                    setTimeout(() => {
-                        dot.classList.remove('active');
-                    }, index * 200 + 400);
-                } else {
-                    dot.classList.toggle('active', index === 0);
-                }
-            });
-        }
-        
-        // به‌روزرسانی متن تشخیص داده شده
-        function updateTranscript(text) {
-            const transcriptElement = document.getElementById('transcriptText');
-            
-            // برجسته کردن کلمات کلیدی
-            let highlightedText = text;
-            const keywords = Object.keys(commands[currentLanguage]);
-            keywords.forEach(keyword => {
-                const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-                highlightedText = highlightedText.replace(regex, `<span class="highlight">$&</span>`);
-            });
-            
-            transcriptElement.innerHTML = highlightedText;
-        }
-        
-        // به‌روزرسانی دقت
-        function updateAccuracy(confidence) {
-            accuracy = Math.round(confidence * 100);
-            document.getElementById('accuracyPercent').textContent = `${accuracy}٪`;
-            document.getElementById('accuracyFill').style.width = `${accuracy}%`;
-        }
-        
-        // پاک کردن متن
-        function clearTranscript() {
-            currentTranscript = '';
-            document.getElementById('transcriptText').textContent = 
-                currentLanguage === 'fa' 
-                    ? 'متن تشخیص داده شده اینجا نمایش داده می‌شود...'
-                    : 'Recognized text will appear here...';
-            
-            showFeedback(currentLanguage === 'fa' ? 'متن پاک شد' : 'Text cleared');
+        // دریافت نام زبان
+        function getLanguageName(code) {
+            const languages = {
+                'fa-IR': 'فارسی',
+                'en-US': 'انگلیسی',
+                'ar-SA': 'عربی'
+            };
+            return languages[code] || code;
         }
         
         // کپی متن
         function copyTranscript() {
-            if (!currentTranscript) {
-                showFeedback(currentLanguage === 'fa' ? 'متنی برای کپی وجود ندارد' : 'No text to copy');
+            if (!transcript.trim()) {
+                showNotification('متنی برای کپی وجود ندارد');
                 return;
             }
             
-            navigator.clipboard.writeText(currentTranscript)
+            navigator.clipboard.writeText(transcript)
                 .then(() => {
-                    showFeedback(currentLanguage === 'fa' ? 'متن در کلیپ‌بورد کپی شد' : 'Text copied to clipboard');
+                    showNotification('متن در کلیپ‌بورد کپی شد');
                 })
                 .catch(err => {
-                    showFeedback(currentLanguage === 'fa' ? 'خطا در کپی متن' : 'Error copying text');
+                    showNotification('خطا در کپی متن: ' + err.message);
                 });
         }
         
-        // ذخیره متن
-        function saveTranscript() {
-            if (!currentTranscript) {
-                showFeedback(currentLanguage === 'fa' ? 'متنی برای ذخیره وجود ندارد' : 'No text to save');
+        // پاک کردن متن
+        function clearTranscript() {
+            transcript = '';
+            updateTranscriptDisplay('');
+            document.getElementById('confidenceValue').textContent = '۰٪';
+            document.getElementById('accuracyFill').style.width = '0%';
+            showNotification('متن پاک شد');
+        }
+        
+        // نمایش/مخفی کردن تاریخچه
+        function toggleHistory() {
+            const container = document.getElementById('historyContainer');
+            container.classList.toggle('active');
+            updateHistoryDisplay();
+        }
+        
+        // ذخیره در تاریخچه
+        function saveToHistory(text) {
+            const historyItem = {
+                text: text,
+                time: new Date().toLocaleTimeString('fa-IR'),
+                date: new Date().toLocaleDateString('fa-IR'),
+                language: currentLanguage,
+                confidence: Math.round((confidenceSum / recognitionCount) * 100)
+            };
+            
+            recognitionHistory.unshift(historyItem); // اضافه به ابتدای آرایه
+            if (recognitionHistory.length > 10) {
+                recognitionHistory.pop(); // حذف قدیمی‌ترین
+            }
+            
+            saveHistory();
+            updateHistoryDisplay();
+        }
+        
+        // پاک کردن تاریخچه
+        function clearHistory() {
+            recognitionHistory = [];
+            saveHistory();
+            updateHistoryDisplay();
+            showNotification('تاریخچه پاک شد');
+        }
+        
+        // ذخیره تاریخچه در localStorage
+        function saveHistory() {
+            localStorage.setItem('voiceRecognitionHistory', JSON.stringify(recognitionHistory));
+        }
+        
+        // بارگیری تاریخچه از localStorage
+        function loadHistory() {
+            const saved = localStorage.getItem('voiceRecognitionHistory');
+            if (saved) {
+                try {
+                    recognitionHistory = JSON.parse(saved);
+                } catch (e) {
+                    recognitionHistory = [];
+                }
+            }
+        }
+        
+        // به‌روزرسانی نمایش تاریخچه
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            if (recognitionHistory.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #c7d2fe; padding: 20px;">تاریخچه‌ای وجود ندارد</div>';
                 return;
             }
             
-            localStorage.setItem('voiceTranscript', currentTranscript);
-            showFeedback(currentLanguage === 'fa' ? 'متن ذخیره شد' : 'Text saved');
+            recognitionHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-time">
+                        <i class="far fa-clock"></i> ${item.date} - ${item.time}
+                        <span style="float: left; background: rgba(139, 92, 246, 0.2); padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">
+                            ${getLanguageName(item.language)}
+                        </span>
+                    </div>
+                    <div class="history-text">${item.text}</div>
+                `;
+                historyList.appendChild(historyItem);
+            });
         }
         
-        // تست صدا
-        function testVoice() {
-            const testMessages = currentLanguage === 'fa' 
-                ? ['سلام', 'پخش موسیقی', 'چراغ را روشن کن', 'کمک']
-                : ['hello', 'play music', 'turn on lights', 'help'];
+        // به‌روزرسانی UI
+        function updateUI() {
+            const micBtn = document.getElementById('micButton');
+            const soundWave = document.getElementById('soundWave');
+            const startBtn = document.getElementById('startButton');
+            const stopBtn = document.getElementById('stopButton');
+            const copyBtn = document.getElementById('copyButton');
+            const clearBtn = document.getElementById('clearButton');
+            const transcriptStatus = document.getElementById('transcriptStatus');
             
-            const randomMessage = testMessages[Math.floor(Math.random() * testMessages.length)];
-            currentTranscript = randomMessage;
-            updateTranscript(randomMessage);
-            processCommand(randomMessage);
+            if (isListening) {
+                micBtn.classList.add('listening');
+                micBtn.innerHTML = '<i class="fas fa-microphone"></i><span>در حال گوش دادن...</span>';
+                soundWave.classList.add('active');
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                transcriptStatus.textContent = 'در حال تشخیص گفتار...';
+                transcriptStatus.style.color = 'var(--warning)';
+            } else {
+                micBtn.classList.remove('listening');
+                micBtn.innerHTML = '<i class="fas fa-microphone"></i><span>برای صحبت کلیک کنید</span>';
+                soundWave.classList.remove('active');
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                transcriptStatus.textContent = transcript.trim() ? 'تشخیص کامل شده' : 'آماده برای تشخیص...';
+                transcriptStatus.style.color = transcript.trim() ? 'var(--success)' : '#c7d2fe';
+            }
+            
+            // فعال/غیرفعال کردن دکمه‌ها بر اساس وجود متن
+            const hasText = transcript.trim().length > 0;
+            copyBtn.disabled = !hasText;
+            clearBtn.disabled = !hasText;
         }
         
-        // غیرفعال کردن دکمه صدا
-        function disableVoiceButton() {
-            const voiceButton = document.getElementById('voiceButton');
-            voiceButton.classList.add('disabled');
-            voiceButton.onclick = null;
-            voiceButton.style.cursor = 'not-allowed';
+        // به‌روزرسانی نمایش متن
+        function updateTranscriptDisplay(text) {
+            document.getElementById('transcriptText').textContent = text || 'متن تبدیل شده از گفتار شما در اینجا نمایش داده خواهد شد...';
+            updateUI();
+        }
+        
+        // به‌روزرسانی نمایش اطمینان
+        function updateConfidenceDisplay(confidence) {
+            const percent = Math.round(confidence * 100);
+            document.getElementById('confidenceValue').textContent = percent + '%';
+            document.getElementById('accuracyFill').style.width = percent + '%';
+            
+            // به‌روزرسانی میانگین دقت
+            const avgConfidence = recognitionCount > 0 ? Math.round((confidenceSum / recognitionCount) * 100) : 0;
+            document.getElementById('accuracyRate').textContent = avgConfidence + '%';
+            stats.averageConfidence = avgConfidence;
+        }
+        
+        // به‌روزرسانی آمار
+        function updateStatsDisplay() {
+            document.getElementById('totalTime').textContent = stats.totalTime;
+            document.getElementById('totalWords').textContent = stats.totalWords;
+            document.getElementById('totalSessions').textContent = totalSessions;
         }
         
         // ایجاد ویژیوالایزر
@@ -889,10 +1093,10 @@
             const visualizer = document.getElementById('visualizer');
             visualizer.innerHTML = '';
             
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 30; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'bar';
-                bar.style.height = '5px';
+                bar.style.height = Math.random() * 30 + 5 + 'px';
                 visualizer.appendChild(bar);
             }
         }
@@ -904,8 +1108,17 @@
                 bar.style.animation = 'none';
                 
                 setTimeout(() => {
-                    bar.style.animation = `wave ${0.5 + Math.random() * 0.5}s infinite alternate`;
+                    bar.style.animation = `wave ${0.5 + Math.random() * 1}s infinite alternate`;
                 }, 10);
+            });
+        }
+        
+        // به‌روزرسانی ویژیوالایزر بر اساس سطح صدا
+        function updateVisualizer(level) {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach((bar, index) => {
+                const height = Math.max(5, Math.min(100, (level * 100) + (Math.random() * 20)));
+                bar.style.height = height + 'px';
             });
         }
         
@@ -914,93 +1127,133 @@
             const bars = document.querySelectorAll('.bar');
             bars.forEach(bar => {
                 bar.style.animation = 'none';
-                bar.style.height = '5px';
+                setTimeout(() => {
+                    bar.style.height = '5px';
+                }, 100);
             });
         }
         
-        // ویژگی‌های پریمیوم
-        function showPremiumFeatures() {
-            const features = currentLanguage === 'fa' 
-                ? [
-                    '🎯 تشخیص صوت با دقت ۹۹٪',
-                    '🌍 پشتیبانی از ۵۰ زبان',
-                    '📝 تبدیل گفتار به متن حرفه‌ای',
-                    '🤖 دستیار صوتی هوشمند',
-                    '☁️ ذخیره ابری نامحدود',
-                    '🛡️ رمزنگاری پیشرفته'
-                ]
-                : [
-                    '🎯 99% Accurate Voice Recognition',
-                    '🌍 Support for 50 Languages',
-                    '📝 Professional Speech-to-Text',
-                    '🤖 Smart Voice Assistant',
-                    '☁️ Unlimited Cloud Storage',
-                    '🛡️ Advanced Encryption'
-                ];
-            
-            const title = currentLanguage === 'fa' 
-                ? '✨ نسخه پریمیوم تشخیص صوت:'
-                : '✨ Premium Voice Recognition:';
-            
-            const price = currentLanguage === 'fa' 
-                ? '💎 قیمت: ۲۹,۰۰۰ تومان در ماه'
-                : '💎 Price: 29,000 Tomans per month';
-            
-            alert(`${title}\n\n${features.join('\n')}\n\n${price}`);
+        // نمایش جعبه دسترسی
+        function showPermissionBox() {
+            document.getElementById('permissionBox').classList.add('active');
+            updateStep(1);
+            disableAllControls();
         }
         
-        // نمایش مستندات API
-        function showVoiceAPI() {
-            alert(currentLanguage === 'fa' 
-                ? '📚 مستندات API تشخیص صوت:\n\n• Web Speech API\n• پشتیبانی از ۵۰+ زبان\n• دقت تا ۹۵٪\n• قابلیت سفارشی‌سازی\n\nبرای اطلاعات بیشتر: docs@tetrashop.ir'
-                : '📚 Voice Recognition API Documentation:\n\n• Web Speech API\n• Support for 50+ languages\n• Accuracy up to 95%\n• Customization options\n\nFor more info: docs@tetrashop.ir');
+        // مخفی کردن جعبه دسترسی
+        function hidePermissionBox() {
+            document.getElementById('permissionBox').classList.remove('active');
         }
         
-        // نمایش فیدبک
-        function showFeedback(message) {
-            // حذف فیدبک قبلی
-            const oldFeedback = document.querySelector('.feedback');
-            if (oldFeedback) {
-                oldFeedback.remove();
+        // فعال کردن کنترل‌ها
+        function enableControls() {
+            document.getElementById('micButton').disabled = false;
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('micButton').innerHTML = '<i class="fas fa-microphone"></i><span>برای صحبت کلیک کنید</span>';
+        }
+        
+        // غیرفعال کردن همه کنترل‌ها
+        function disableAllControls() {
+            document.getElementById('micButton').disabled = true;
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('stopButton').disabled = true;
+            document.getElementById('copyButton').disabled = true;
+            document.getElementById('clearButton').disabled = true;
+        }
+        
+        // به‌روزرسانی مرحله
+        function updateStep(stepNumber) {
+            // حذف active از همه مراحل
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // اضافه کردن active به مرحله جاری
+            const currentStep = document.getElementById('step' + stepNumber);
+            if (currentStep) {
+                currentStep.classList.add('active');
+            }
+        }
+        
+        // نمایش نوتیفیکیشن
+        function showNotification(message) {
+            // حذف نوتیفیکیشن قبلی
+            const oldNotification = document.querySelector('.notification');
+            if (oldNotification) {
+                oldNotification.remove();
             }
             
-            // ایجاد فیدبک جدید
-            const feedback = document.createElement('div');
-            feedback.className = 'feedback';
-            feedback.innerHTML = `
+            // ایجاد نوتیفیکیشن جدید
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
                 <i class="fas fa-info-circle"></i>
                 <span>${message}</span>
             `;
             
-            document.body.appendChild(feedback);
+            document.body.appendChild(notification);
             
-            // حذف خودکار بعد از 3 ثانیه
+            // حذف خودکار بعد از 4 ثانیه
             setTimeout(() => {
-                feedback.style.animation = 'slideUp 0.5s ease';
-                setTimeout(() => feedback.remove(), 500);
-            }, 3000);
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideUp 0.5s ease';
+                    setTimeout(() => notification.remove(), 500);
+                }
+            }, 4000);
         }
         
-        // بارگذاری متن ذخیره شده
-        function loadSavedTranscript() {
-            const saved = localStorage.getItem('voiceTranscript');
-            if (saved) {
-                currentTranscript = saved;
-                updateTranscript(saved);
-            }
+        // ویژگی‌های پریمیوم
+        function showPremiumFeatures() {
+            const features = [
+                '🎯 تشخیص صوت با دقت ۹۹٪',
+                '🌍 پشتیبانی از ۵۰+ زبان',
+                '📝 تبدیل گفتار به متن نامحدود',
+                '🤖 پردازش هوشمند دستورات',
+                '☁️ ذخیره ابری تاریخچه',
+                '🛡️ رمزنگاری پیشرفته داده‌ها'
+            ];
+            
+            alert(`✨ نسخه پریمیوم تشخیص صوت:\n\n${features.join('\n')}\n\n💎 قیمت: ۲۹,۰۰۰ تومان در ماه`);
         }
         
-        // رویدادهای صفحه
+        // نمایش آمار کامل
+        function showStatsDetails() {
+            const statsText = `
+                آمار کامل سیستم:
+                
+                ⏱️ کل زمان ضبط: ${stats.totalTime} ثانیه
+                📝 کل کلمات: ${stats.totalWords} کلمه
+                🔤 کل کاراکترها: ${stats.totalChars} کاراکتر
+                🎯 میانگین دقت: ${stats.averageConfidence}%
+                📊 تعداد جلسات: ${totalSessions} جلسه
+                📚 اندازه تاریخچه: ${recognitionHistory.length} آیتم
+                
+                📈 کارایی سیستم: ${Math.min(100, Math.round((stats.totalWords / 500) * 100))}%
+            `;
+            
+            alert(statsText);
+        }
+        
+        // بارگذاری صفحه
         window.onload = function() {
             init();
-            loadSavedTranscript();
             
-            // تنظیم رویداد کلیک برای دکمه صدا
-            document.getElementById('voiceButton').onclick = toggleVoiceRecognition;
+            // تنظیم رویداد کلیک برای دکمه میکروفون
+            document.getElementById('micButton').onclick = startRecognition;
             
-            // شبیه‌سازی تست اولیه
+            // ایجاد استایل برای انیمیشن ویژیوالایزر
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes wave {
+                    0% { height: 5px; }
+                    100% { height: 50px; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // نمایش راهنما
             setTimeout(() => {
-                showFeedback('سیستم تشخیص صوت با موفقیت راه‌اندازی شد!');
+                showNotification('برای شروع، روی دکمه "درخواست اجازه میکروفون" کلیک کنید');
             }, 1000);
         };
     </script>
