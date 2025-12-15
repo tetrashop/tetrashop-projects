@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پروژه‌های تتراشاپ - سامانه تبدیل ۲D به ۳D</title>
+    <title>پروژه‌های تتراشاپ - ۹ سیستم هوشمند</title>
     <style>
         :root {
             --primary: #3498db;
@@ -11,14 +11,10 @@
             --dark: #1a1a2e;
             --darker: #16213e;
             --light: #ecf0f1;
-            --gray: #95a5a6;
+            --accent: #9b59b6;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Vazir', 'Segoe UI', Tahoma, sans-serif;
@@ -29,7 +25,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -38,7 +34,10 @@
             text-align: center;
             padding: 40px 0;
             margin-bottom: 40px;
-            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(46, 204, 113, 0.1) 100%);
+            background: linear-gradient(135deg, 
+                rgba(52, 152, 219, 0.1) 0%, 
+                rgba(155, 89, 182, 0.1) 50%, 
+                rgba(46, 204, 113, 0.1) 100%);
             border-radius: 20px;
             border-bottom: 3px solid var(--primary);
         }
@@ -46,75 +45,41 @@
         h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* ===== اصلاحات بخش پروژه‌ها ===== */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
             margin: 40px 0;
-            background: linear-gradient(45deg, 
-                rgba(255,255,255,0.03) 25%, 
-                transparent 25%, 
-                transparent 50%, 
-                rgba(255,255,255,0.03) 50%, 
-                rgba(255,255,255,0.03) 75%, 
-                transparent 75%, 
-                transparent);
-            background-size: 20px 20px;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(52, 152, 219, 0.2);
         }
         
         .project-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
             padding: 25px;
             border: 2px solid;
-            border-image: linear-gradient(45deg, var(--primary), var(--secondary)) 1;
+            border-image: linear-gradient(45deg, var(--primary), var(--accent)) 1;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .project-card:nth-child(odd) {
-            background: rgba(52, 152, 219, 0.1);
-        }
-        
-        .project-card:nth-child(even) {
-            background: rgba(46, 204, 113, 0.1);
         }
         
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
         
         .project-icon {
             font-size: 40px;
             margin-bottom: 15px;
-            color: var(--primary);
         }
         
         .project-title {
             font-size: 1.4rem;
             margin-bottom: 10px;
-            color: var(--light);
         }
         
         .project-path {
@@ -126,12 +91,6 @@
             color: var(--secondary);
             margin: 10px 0;
             display: block;
-        }
-        
-        .project-desc {
-            color: var(--gray);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
         }
         
         .btn {
@@ -152,157 +111,210 @@
             box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
         }
         
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary), #27ae60);
-        }
-        
-        /* خطوط جدول */
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-        
-        .project-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-        }
+        .status-active { color: #2ecc71; }
+        .status-inactive { color: #f39c12; }
+        .status-missing { color: #e74c3c; }
         
         footer {
             text-align: center;
             margin-top: 60px;
             padding-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray);
+            color: var(--light);
+            opacity: 0.8;
         }
         
         @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
+            .projects-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🚀 پروژه‌های تتراشاپ</h1>
-            <p class="subtitle">سامانه پیشرفته تبدیل تصاویر ۲D به مدل‌های ۳D واقعی</p>
-            <div style="background: rgba(52, 152, 219, 0.2); padding: 5px 15px; border-radius: 20px; margin-top: 10px; font-family: monospace;">
-                نسخه ۲.۱ | مشکلات رفع شد
-            </div>
+            <h1>🚀 سیستم‌های هوشمند تتراشاپ</h1>
+            <p style="color: #95a5a6; max-width: 600px; margin: 0 auto;">
+                ۹ پروژه پیشرفته در زمینه‌های مختلف - رابط یکپارچه و هوشمند
+            </p>
         </header>
         
-        <section>
-            <h2 style="color: var(--primary); margin-bottom: 25px; border-bottom: 2px solid rgba(52, 152, 219, 0.3); padding-bottom: 10px;">
-                📂 پروژه‌های اصلی
-            </h2>
-            <div class="projects-grid">
-                
-                <!-- پروژه ۱: تبدیل اصلی - با اصلاحات -->
-                <div class="project-card">
-                    <div class="project-icon">🎯</div>
-                    <h3 class="project-title">تبدیل اصلی ۲D به ۳D</h3>
-                    <div class="project-path">
-                        <code>/other/2d-to-3d/index.html</code>
-                        <div style="font-size: 12px; color: #2ecc71; margin-top: 5px;">
-                            ✅ وضعیت: فعال | <a href="#" onclick="testLink()" style="color: #3498db;">تست لینک</a>
-                        </div>
-                    </div>
-                    <p class="project-desc">سیستم کامل تبدیل تصاویر به مدل‌های سه‌بعدی واقعی</p>
-                    <a href="other/2d-to-3d/index.html" class="btn" target="_blank" id="main-project-link">
-                        🚀 اجرای پروژه
-                    </a>
+        <div class="projects-grid">
+            <!-- پروژه ۱: نویسنده هوشمند -->
+            <div class="project-card">
+                <div class="project-icon">🤖</div>
+                <h3 class="project-title">نویسنده هوشمند</h3>
+                <div class="project-path">
+                    <code>projects/smart-writer/index.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
                 </div>
-                
-                <!-- پروژه‌های دیگر... -->
-                <div class="project-card">
-                    <div class="project-icon">⚡</div>
-                    <h3 class="project-title">پردازش سریع</h3>
-                    <div class="project-path"><code>/projects/fast-processor/</code></div>
-                    <p class="project-desc">الگوریتم‌های بهینه‌شده برای تبدیل سریع</p>
-                    <a href="#" class="btn" style="opacity: 0.7;">⚡ به زودی</a>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-icon">🎨</div>
-                    <h3 class="project-title">نمایشگر حرفه‌ای</h3>
-                    <div class="project-path"><code>/projects/advanced-viewer/</code></div>
-                    <p class="project-desc">سیستم نمایش پیشرفته ۳D</p>
-                    <a href="#" class="btn" style="opacity: 0.7;">🎨 به زودی</a>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-icon">📦</div>
-                    <h3 class="project-title">تبدیل دسته‌ای</h3>
-                    <div class="project-path"><code>/projects/batch-converter/</code></div>
-                    <p class="project-desc">پردازش همزمان چندین تصویر</p>
-                    <a href="#" class="btn" style="opacity: 0.7;">📦 به زودی</a>
-                </div>
-                
+                <p>سیستم تولید محتوای هوشمند با AI</p>
+                <a href="projects/smart-writer/index.html" class="btn" target="_blank" onclick="return checkProject(this, 'smart-writer')">
+                    📝 اجرای سیستم
+                </a>
             </div>
-        </section>
+            
+            <!-- پروژه ۲: نویسنده کوانتومی -->
+            <div class="project-card">
+                <div class="project-icon">⚛️</div>
+                <h3 class="project-title">نویسنده کوانتومی</h3>
+                <div class="project-path">
+                    <code>projects/quantum-writer/app.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>الگوریتم‌های کوانتومی برای نگارش</p>
+                <a href="projects/quantum-writer/app.html" class="btn" target="_blank" onclick="return checkProject(this, 'quantum-writer')">
+                    ⚛️ اجرای کوانتومی
+                </a>
+            </div>
+            
+            <!-- پروژه ۳: شطرنج -->
+            <div class="project-card">
+                <div class="project-icon">♟️</div>
+                <h3 class="project-title">شطرنج هوشمند</h3>
+                <div class="project-path">
+                    <code>projects/chess-game/chess.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>موتور شطرنج با هوش مصنوعی پیشرفته</p>
+                <a href="projects/chess-game/chess.html" class="btn" target="_blank" onclick="return checkProject(this, 'chess-game')">
+                    ♟️ شروع بازی
+                </a>
+            </div>
+            
+            <!-- پروژه ۴: باغ رازآلود -->
+            <div class="project-card">
+                <div class="project-icon">🌿</div>
+                <h3 class="project-title">باغ رازآلود</h3>
+                <div class="project-path">
+                    <code>projects/mystery-garden/garden.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>شبیه‌ساز باغ تعاملی با رازهای پنهان</p>
+                <a href="projects/mystery-garden/garden.html" class="btn" target="_blank" onclick="return checkProject(this, 'mystery-garden')">
+                    🌿 ورود به باغ
+                </a>
+            </div>
+            
+            <!-- پروژه ۵: تبدیل ۲D به ۳D -->
+            <div class="project-card">
+                <div class="project-icon">🎯</div>
+                <h3 class="project-title">تبدیل ۲D به ۳D</h3>
+                <div class="project-path">
+                    <code>other/2d-to-3d/index.html</code>
+                    <div class="status-active">✅ فعال و آماده</div>
+                </div>
+                <p>تبدیل تصاویر به مدل‌های سه‌بعدی واقعی</p>
+                <a href="other/2d-to-3d/index.html" class="btn" target="_blank" onclick="return checkProject(this, '2d-to-3d')">
+                    🚀 اجرای تبدیل
+                </a>
+            </div>
+            
+            <!-- پروژه ۶: NLP -->
+            <div class="project-card">
+                <div class="project-icon">📚</div>
+                <h3 class="project-title">پردازش زبان طبیعی</h3>
+                <div class="project-path">
+                    <code>projects/nlp-processor/nlp.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>تحلیل و پردازش متون فارسی و انگلیسی</p>
+                <a href="projects/nlp-processor/nlp.html" class="btn" target="_blank" onclick="return checkProject(this, 'nlp-processor')">
+                    📚 تحلیل متن
+                </a>
+            </div>
+            
+            <!-- پروژه ۷: سیستم مدیریت -->
+            <div class="project-card">
+                <div class="project-icon">📊</div>
+                <h3 class="project-title">سیستم مدیریت</h3>
+                <div class="project-path">
+                    <code>projects/management-system/admin.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>پنل مدیریت یکپارچه پروژه‌ها</p>
+                <a href="projects/management-system/admin.html" class="btn" target="_blank" onclick="return checkProject(this, 'management-system')">
+                    📊 ورود به پنل
+                </a>
+            </div>
+            
+            <!-- پروژه ۸: تحلیل داده -->
+            <div class="project-card">
+                <div class="project-icon">📈</div>
+                <h3 class="project-title">تحلیل داده‌ها</h3>
+                <div class="project-path">
+                    <code>projects/data-analyzer/analyze.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>تحلیل و مصورسازی داده‌های پیچیده</p>
+                <a href="projects/data-analyzer/analyze.html" class="btn" target="_blank" onclick="return checkProject(this, 'data-analyzer')">
+                    📈 تحلیل داده
+                </a>
+            </div>
+            
+            <!-- پروژه ۹: API سرویس -->
+            <div class="project-card">
+                <div class="project-icon">🔌</div>
+                <h3 class="project-title">API سرویس</h3>
+                <div class="project-path">
+                    <code>projects/api-service/api.html</code>
+                    <div class="status-inactive">🔧 در حال توسعه</div>
+                </div>
+                <p>ارائه سرویس‌های REST API</p>
+                <a href="projects/api-service/api.html" class="btn" target="_blank" onclick="return checkProject(this, 'api-service')">
+                    🔌 تست API
+                </a>
+            </div>
+        </div>
         
         <footer>
-            <p>سامانه پروژه‌های تتراشاپ | مشکلات رابط کاربری رفع شد</p>
-            <p>🔄 آخرین بروزرسانی: صفحه شطرنجی اصلاح شد | لینک‌ها فعال شدند</p>
+            <p>تتراشاپ | ۹ پروژه هوشمند | نسخه ۳.۰</p>
+            <p>🔄 آخرین بروزرسانی: تمام پروژه‌ها در یک رابط واحد</p>
         </footer>
     </div>
     
     <script>
-    // تست لینک پروژه اصلی
-    function testLink() {
-        const link = 'other/2d-to-3d/index.html';
-        const testBtn = document.getElementById('main-project-link');
+    // سیستم بررسی خودکار پروژه‌ها
+    async function checkProject(linkElement, projectName) {
+        const href = linkElement.href;
         
-        fetch(link)
-            .then(response => {
-                if (response.ok) {
-                    alert('✅ لینک پروژه به درستی کار می‌کند!\nدر حال بازکردن پروژه...');
-                    testBtn.innerHTML = '✅ در حال بازکردن...';
-                    setTimeout(() => {
-                        window.open(link, '_blank');
-                        testBtn.innerHTML = '🚀 اجرای پروژه';
-                    }, 500);
-                } else {
-                    alert(`❌ خطا: سرور پاسخ ${response.status} داد`);
-                    testBtn.innerHTML = '⚠️ مشکل در لینک';
-                    testBtn.style.background = 'linear-gradient(135deg, #f39c12, #e74c3c)';
-                }
-            })
-            .catch(error => {
-                alert(`❌ خطای شبکه: ${error.message}`);
-                testBtn.innerHTML = '❌ خطای اتصال';
-                testBtn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-            });
+        try {
+            const response = await fetch(href, { method: 'HEAD' });
+            
+            if (response.ok) {
+                console.log(`✅ پروژه ${projectName} در دسترس است`);
+                return true; // اجازه باز شدن لینک
+            } else {
+                alert(`⚠️ پروژه ${projectName} هنوز آماده نیست.\nکد: ${response.status}`);
+                return false; // جلوگیری از باز شدن لینک
+            }
+        } catch (error) {
+            alert(`❌ پروژه ${projectName} یافت نشد.\nلطفاً ابتدا آن را ایجاد کنید.`);
+            return false;
+        }
     }
     
-    // بررسی خودکار هنگام بارگذاری
-    window.addEventListener('load', function() {
-        console.log('🔍 بررسی لینک پروژه اصلی...');
-        const link = 'other/2d-to-3d/index.html';
-        fetch(link, { method: 'HEAD' })
-            .then(response => {
-                if (!response.ok) {
-                    console.warn('⚠️ لینک پروژه ممکن است مشکل داشته باشد');
-                }
-            })
-            .catch(() => {
-                console.error('❌ خطا در بررسی لینک');
-            });
+    // بررسی وضعیت همه پروژه‌ها هنگام لود صفحه
+    window.addEventListener('load', async function() {
+        console.log('🔍 بررسی وضعیت پروژه‌ها...');
+        
+        const projects = [
+            { name: 'تبدیل ۲D به ۳D', path: 'other/2d-to-3d/index.html' },
+            { name: 'نویسنده هوشمند', path: 'projects/smart-writer/index.html' },
+            { name: 'نویسنده کوانتومی', path: 'projects/quantum-writer/app.html' },
+            { name: 'شطرنج', path: 'projects/chess-game/chess.html' },
+            { name: 'باغ رازآلود', path: 'projects/mystery-garden/garden.html' },
+            { name: 'NLP', path: 'projects/nlp-processor/nlp.html' }
+        ];
+        
+        for (const project of projects) {
+            try {
+                const response = await fetch(project.path, { method: 'HEAD' });
+                console.log(`${response.ok ? '✅' : '❌'} ${project.name}: ${response.status}`);
+            } catch (error) {
+                console.log(`❌ ${project.name}: خطای شبکه`);
+            }
+        }
     });
     </script>
 </body>
