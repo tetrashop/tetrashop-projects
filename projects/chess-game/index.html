@@ -1,13 +1,115 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>chess-game - تتراشاپ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شطرنج هوشمند - تتراشاپ</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
 </head>
 <body>
-    <h1>پروژه chess-game</h1>
-    <p>در حال توسعه - نسخه اولیه</p>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chess-board"></i> شطرنج هوشمند</h1>
+            <p>مغز الکترونیکی در برابر ذهن انسان</p>
+        </header>
+        
+        <main>
+            <div class="game-container">
+                <div class="chess-section">
+                    <div class="player-info white-player">
+                        <div class="player-avatar">🤖</div>
+                        <div class="player-details">
+                            <h3>هوش مصنوعی</h3>
+                            <p>سطح: استاد بزرگ</p>
+                            <div class="player-time" id="ai-time">زمان: 15:00</div>
+                        </div>
+                    </div>
+                    
+                    <div id="chessboard"></div>
+                    
+                    <div class="player-info black-player">
+                        <div class="player-avatar">👤</div>
+                        <div class="player-details">
+                            <h3>شما</h3>
+                            <p>سطح: در حال یادگیری</p>
+                            <div class="player-time" id="player-time">زمان: 15:00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="control-panel">
+                    <h3><i class="fas fa-gamepad"></i> کنترل بازی</h3>
+                    
+                    <div class="game-controls">
+                        <button class="control-btn new-game" onclick="newGame()">
+                            <i class="fas fa-plus"></i> بازی جدید
+                        </button>
+                        <button class="control-btn undo" onclick="undoMove()">
+                            <i class="fas fa-undo"></i> بازگشت حرکت
+                        </button>
+                        <button class="control-btn hint" onclick="showHint()">
+                            <i class="fas fa-lightbulb"></i> پیشنهاد حرکت
+                        </button>
+                        <button class="control-btn analysis" onclick="analyzePosition()">
+                            <i class="fas fa-chart-line"></i> تحلیل موقعیت
+                        </button>
+                    </div>
+                    
+                    <div class="game-info">
+                        <h4><i class="fas fa-info-circle"></i> اطلاعات بازی</h4>
+                        <div class="info-item">
+                            <span>وضعیت:</span>
+                            <span id="game-status">آماده</span>
+                        </div>
+                        <div class="info-item">
+                            <span>نوبت:</span>
+                            <span id="game-turn">سفید</span>
+                        </div>
+                        <div class="info-item">
+                            <span>حرکت:</span>
+                            <span id="move-number">1</span>
+                        </div>
+                    </div>
+                    
+                    <div class="move-history">
+                        <h4><i class="fas fa-history"></i> تاریخچه حرکات</h4>
+                        <div id="moves-list"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-modes">
+                <h2><i class="fas fa-chess"></i> حالت‌های بازی</h2>
+                <div class="modes-grid">
+                    <div class="mode-card" onclick="setDifficulty('beginner')">
+                        <i class="fas fa-chess-pawn"></i>
+                        <h3>مبتدی</h3>
+                        <p>مناسب برای تازه‌کارها</p>
+                    </div>
+                    <div class="mode-card" onclick="setDifficulty('intermediate')">
+                        <i class="fas fa-chess-knight"></i>
+                        <h3>متوسط</h3>
+                        <p>چالش مناسب</p>
+                    </div>
+                    <div class="mode-card" onclick="setDifficulty('advanced')">
+                        <i class="fas fa-chess-queen"></i>
+                        <h3>پیشرفته</h3>
+                        <p>برای حرفه‌ای‌ها</p>
+                    </div>
+                    <div class="mode-card" onclick="setDifficulty('grandmaster')">
+                        <i class="fas fa-crown"></i>
+                        <h3>استاد بزرگ</h3>
+                        <p>بالاترین سطح</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

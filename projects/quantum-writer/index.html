@@ -1,13 +1,147 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>quantum-writer - تتراشاپ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نویسنده کوانتومی - تتراشاپ</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .quantum-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-    <h1>پروژه quantum-writer</h1>
-    <p>در حال توسعه - نسخه اولیه</p>
+    <div class="quantum-particles" id="quantumCanvas"></div>
+    
+    <div class="container">
+        <header class="quantum-header">
+            <h1><i class="fas fa-atom"></i> نویسنده کوانتومی</h1>
+            <p>نسل بعدی تولید محتوا با الگوریتم‌های کوانتومی</p>
+            <div class="quantum-status">
+                <span id="quantum-state">حالت: برهم‌نهی</span>
+                <span id="entanglement-level">درجه درهم‌تنیدگی: ۰.۸۷</span>
+            </div>
+        </header>
+        
+        <main>
+            <section class="quantum-interface">
+                <div class="qbit-controls">
+                    <h3><i class="fas fa-microchip"></i> کنترل کیوبیت‌ها</h3>
+                    <div class="qbits">
+                        <div class="qbit" data-state="0">|0⟩</div>
+                        <div class="qbit" data-state="1">|1⟩</div>
+                        <div class="qbit superposition">|0⟩ + |1⟩</div>
+                        <div class="qbit entangled">درهم‌تنیده</div>
+                    </div>
+                </div>
+                
+                <div class="quantum-input">
+                    <h3><i class="fas fa-keyboard"></i> ورودی کوانتومی</h3>
+                    <textarea placeholder="ایده خود را در حالت برهم‌نهی قرار دهید..."></textarea>
+                    <button class="quantum-btn" onclick="quantumGenerate()">
+                        <i class="fas fa-play"></i> اجرای الگوریتم کوانتومی
+                    </button>
+                </div>
+                
+                <div class="quantum-output">
+                    <h3><i class="fas fa-wave-square"></i> خروجی کوانتومی</h3>
+                    <div class="output-window">
+                        <div class="probability-bars">
+                            <div class="probability-bar" style="width: 70%">مقاله علمی (70%)</div>
+                            <div class="probability-bar" style="width: 20%">داستان (20%)</div>
+                            <div class="probability-bar" style="width: 10%">شعر (10%)</div>
+                        </div>
+                        <div class="collapsed-output" id="collapsedOutput">
+                            منتظر فروریختن تابع موج...
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="quantum-features">
+                <h2><i class="fas fa-rocket"></i> قابلیت‌های کوانتومی</h2>
+                <div class="features-grid">
+                    <div class="feature-card quantum-card">
+                        <i class="fas fa-infinity"></i>
+                        <h4>محاسبات موازی</h4>
+                        <p>پردازش همزمان میلیون‌ها حالت</p>
+                    </div>
+                    <div class="feature-card quantum-card">
+                        <i class="fas fa-random"></i>
+                        <h4>برهم‌نهی کوانتومی</h4>
+                        <p>ترکیب نامحدود سبک‌های نوشتاری</p>
+                    </div>
+                    <div class="feature-card quantum-card">
+                        <i class="fas fa-link"></i>
+                        <h4>درهم‌تنیدگی</h4>
+                        <p>ارتباط لحظه‌ای بین مفاهیم</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
     <script src="js/main.js"></script>
+    <script>
+        // شبیه‌سازی ذرات کوانتومی
+        const canvas = document.getElementById('quantumCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedX: Math.random() * 2 - 1,
+                speedY: Math.random() * 2 - 1,
+                color: `hsl(${Math.random() * 60 + 180}, 100%, 70%)`
+            });
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                
+                // اتصال ذرات نزدیک به هم
+                particles.forEach(p2 => {
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(100, 200, 255, ${0.2 * (1 - distance/100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
 </body>
 </html>
