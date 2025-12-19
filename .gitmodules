@@ -1,3 +1,0 @@
-[submodule "projects/chess-engine-cpp"]
-	path = projects/chess-engine-cpp
-	url = https://github.com/tetrashop/ChessEngine.git
