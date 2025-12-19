@@ -1,0 +1,39 @@
+# حفاظت کامل از دایرکتوری‌های خارجی
+../
+../*
+
+# فایل‌های سیستمی
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# فایل‌های محیطی
+.env
+.env.local
+.env.*.local
+
+# فایل‌های backup
+*.backup
+*.old
+*.bak
+*.tar.gz
+*.zip
+*.7z
+
+# Build directories
+dist/
+build/
+.out/
+.next/
+public/build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
