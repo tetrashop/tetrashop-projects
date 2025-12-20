@@ -1,190 +1,91 @@
 #!/bin/bash
-echo "🔍 راه‌اندازی خودکار تتراشاپ"
-echo "============================"
 
-# پورت‌های مجاز را امتحان می‌کنیم
-PORTS=(3000 3001 3002 8080 8081 8000 5000)
+echo ""
+echo "🚀 راه‌اندازی پلتفرم TetraShop با ماژول شطرجد درآمدزا"
+echo "===================================================="
 
-for PORT in "${PORTS[@]}"; do
-    echo "🔍 بررسی پورت $PORT..."
-    
-    # بررسی اینکه پورت آزاد است
-    if ! lsof -i :$PORT > /dev/null 2>&1; then
-        echo "✅ پورت $PORT آزاد است"
-        
-        # ایجاد فایل با پورت مناسب
-        cat > tetrashop-$PORT.js << APP_EOF
-const express = require('express');
-const app = express();
-const PORT = $PORT;
+# رنگ‌های ترمینال
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-app.get('/', (req, res) => {
-    res.send(\`
-        <!DOCTYPE html>
-        <html lang="fa" dir="rtl">
-        <head>
-            <meta charset="UTF-8">
-            <title>تتراشاپ - پورت \${PORT}</title>
-            <style>
-                body {
-                    font-family: 'Vazirmatn', sans-serif;
-                    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-                    color: white;
-                    margin: 0;
-                    padding: 40px;
-                    direction: rtl;
-                    text-align: center;
-                }
-                .container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                }
-                .projects {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 15px;
-                    margin: 30px 0;
-                }
-                .project {
-                    background: rgba(255,255,255,0.1);
-                    padding: 20px;
-                    border-radius: 10px;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>🎯 تتراشاپ - راه‌اندازی موفق</h1>
-                <p>سیستم روی پورت \${PORT} فعال شد</p>
-                
-                <div class="projects">
-                    <div class="project">
-                        <h3>♔ شطرنج</h3>
-                        <p>هوش مصنوعی سطح GM</p>
-                    </div>
-                    <div class="project">
-                        <h3>✍️ نویسنده</h3>
-                        <p>تولید محتوای هوشمند</p>
-                    </div>
-                    <div class="project">
-                        <h3>⚛️ کوانتومی</h3>
-                        <p>الگوریتم‌های کوانتومی</p>
-                    </div>
-                    <div class="project">
-                        <h3>🔐 امنیت</h3>
-                        <p>سیستم امنیتی پیشرفته</p>
-                    </div>
-                    <div class="project">
-                        <h3>🎤 گفتار</h3>
-                        <p>تشخیص گفتار فارسی</p>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 30px;">
-                    <h3>🔧 تست API</h3>
-                    <a href="/api/status" style="color: #4cc9f0; margin: 0 10px;">آمار</a>
-                    <a href="/api/projects" style="color: #4cc9f0; margin: 0 10px;">پروژه‌ها</a>
-                    <a href="/api/test" style="color: #4cc9f0; margin: 0 10px;">تست</a>
-                </div>
-            </div>
-        </body>
-        </html>
-    \`);
-});
+# توقف سرورهای قبلی
+echo -e "${YELLOW}🛑 بررسی سرورهای فعال...${NC}"
+pkill -f "node.*server.js" 2>/dev/null
+sleep 2
 
-// APIها
-app.get('/api/status', (req, res) => {
-    res.json({
-        success: true,
-        message: 'سیستم تتراشاپ فعال است',
-        port: PORT,
-        projects: [
-            'شطرنج پیشرفته',
-            'نویسنده هوشمند', 
-            'نویسنده کوانتومی',
-            'باغ امن',
-            'تشخیص گفتار'
-        ],
-        revenue_models: [
-            'فروش اشتراک ماهانه',
-            'فروش پکیج محدود',
-            'API سازمانی',
-            'خدمات سفارشی'
-        ]
-    });
-});
-
-app.get('/api/projects', (req, res) => {
-    res.json({
-        chess: { name: 'شطرنج پیشرفته', price: 99000 },
-        writer: { name: 'نویسنده هوشمند', price: 149000 },
-        quantum: { name: 'نویسنده کوانتومی', price: 199000 },
-        security: { name: 'باغ امن', price: 299000 },
-        speech: { name: 'تشخیص گفتار', price: 99000 }
-    });
-});
-
-app.get('/api/test', (req, res) => {
-    res.json({
-        success: true,
-        timestamp: new Date().toISOString(),
-        system: 'Tetrashop Platform',
-        version: '3.0.0'
-    });
-});
-
-app.listen(PORT, () => {
-    console.log(\`
-    🎉 تتراشاپ روی پورت \${PORT} راه‌اندازی شد!
-    
-    🌐 آدرس: http://localhost:\${PORT}
-    
-    📊 پروژه‌ها:
-       1. ♔ شطرنج پیشرفته
-       2. ✍️ نویسنده هوشمند  
-       3. ⚛️ نویسنده کوانتومی
-       4. 🔐 باغ امن
-       5. 🎤 تشخیص گفتار
-    
-    💰 مدل درآمدزایی:
-       • اشتراک ماهانه: از ۹۹,۰۰۰ ریال
-       • پکیج محدود: از ۱۹۹,۰۰۰ ریال
-       • API سازمانی: از ۴۹۹,۰۰۰ ریال
-    
-    ⚡ برای توقف: Ctrl+C
-    \`);
-});
-APP_EOF
-        
-        # اجرای سرور
-        echo "🚀 راه‌اندازی سرور روی پورت $PORT..."
-        node tetrashop-$PORT.js &
-        SERVER_PID=$!
-        
-        # کمی صبر کن
-        sleep 3
-        
-        # بررسی اینکه سرور کار می‌کند
-        if curl -s http://localhost:$PORT > /dev/null 2>&1; then
-            echo ""
-            echo "✅ موفقیت! سرور فعال شد"
-            echo "🌐 آدرس: http://localhost:$PORT"
-            echo "🆔 PID: $SERVER_PID"
-            echo ""
-            echo "📋 برای تست:"
-            echo "   curl http://localhost:$PORT/api/status"
-            echo ""
-            echo "💰 برای شروع درآمدزایی، محصولات خود را تعریف کنید"
-            exit 0
-        else
-            echo "⚠️  سرور روی پورت $PORT شروع نشد"
-            kill $SERVER_PID 2>/dev/null || true
+# یافتن پورت آزاد
+find_free_port() {
+    for port in {3000..3100}; do
+        if ! netstat -tulpn 2>/dev/null | grep -q :$port && ! lsof -i :$port 2>/dev/null; then
+            echo $port
+            return
         fi
+    done
+    echo 3000
+}
+
+PORT=$(find_free_port)
+
+# ایجاد ساختار داده
+echo -e "${BLUE}📁 بررسی ساختار داده...${NC}"
+mkdir -p /data/data/com.termux/files/home/tetrashop-projects/data/chess
+mkdir -p /data/data/com.termux/files/home/tetrashop-projects/public/modules/chess
+mkdir -p /data/data/com.termux/files/home/tetrashop-projects/modules/chess-revenue/public
+
+# بررسی فایل‌های ضروری
+echo -e "${BLUE}🔍 بررسی فایل‌های سیستم...${NC}"
+required_files=(
+    "server.js"
+    "package.json"
+    "public/index.html"
+    "public/modules/chess/index.html"
+    "modules/chess-revenue/routes.js"
+    "data/chess/users.json"
+)
+
+for file in "${required_files[@]}"; do
+    if [ -f "/data/data/com.termux/files/home/tetrashop-projects/$file" ]; then
+        echo -e "  ✅ $file"
     else
-        echo "⛔ پورت $PORT در حال استفاده"
+        echo -e "  ❌ $file (مفقود)"
     fi
 done
 
-echo "❌ هیچ پورت آزادی پیدا نشد!"
-echo "لطفاً یکی از فرآیندهای زیر را متوقف کنید:"
-lsof -i :3000,3001,3002,8080,8081,8000,5000 2>/dev/null || echo "هیچ فرآیندی پیدا نشد"
+# نصب وابستگی‌ها
+echo -e "${YELLOW}📦 نصب وابستگی‌ها...${NC}"
+cd /data/data/com.termux/files/home/tetrashop-projects
+npm install express cors --silent
+
+# راه‌اندازی سرور
+echo -e "${GREEN}🚀 در حال راه‌اندازی سرور روی پورت ${PORT}...${NC}"
+echo ""
+echo -e "${BLUE}====================================================${NC}"
+echo -e "${GREEN}         پلتفرم TetraShop راه‌اندازی شد!          ${NC}"
+echo -e "${BLUE}====================================================${NC}"
+echo ""
+echo -e "${YELLOW}🌐 آدرس‌های مهم:${NC}"
+echo -e "  🏠 ${GREEN}داشبورد اصلی:${NC} http://localhost:${PORT}"
+echo -e "  ♟️ ${GREEN}ماژول شطرجد:${NC} http://localhost:${PORT}/chess/static"
+echo -e "  📊 ${GREEN}وضعیت سرور:${NC} http://localhost:${PORT}/api/status"
+echo -e "  💰 ${GREEN}وضعیت شطرجد:${NC} http://localhost:${PORT}/chess/api/status"
+echo ""
+echo -e "${YELLOW}🎯 ماژول شطرجد درآمدزا:${NC}"
+echo -e "  • 🎮 بازی رایگان و حرفه‌ای"
+echo -e "  • 💎 فروش سکه (۱۰,۰۰۰ تا ۸۰,۰۰۰ تومان)"
+echo -e "  • 📈 پیش‌بینی درآمد ماهانه: ${GREEN}۹,۵۰۰,۰۰۰ تومان${NC}"
+echo -e "  • 🏆 سیستم رده‌بندی رقابتی"
+echo ""
+echo -e "${YELLOW}👤 حساب‌های تست:${NC}"
+echo -e "  • کاربر عادی: ${GREEN}test_user${NC} / ${GREEN}test${NC}"
+echo -e "  • ادمین: ${GREEN}admin${NC} / ${GREEN}admin${NC}"
+echo ""
+echo -e "${BLUE}====================================================${NC}"
+echo -e "${GREEN}✅ سیستم آماده بهره‌برداری است!${NC}"
+echo -e "${BLUE}====================================================${NC}"
+echo ""
+
+# راه‌اندازی سرور
+PORT=$PORT node server.js

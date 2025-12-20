@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TetraShop - فروشگاه پروژه‌های نوآورانه</title>
+    <style>
+        :root {
+            --primary-blue: #0ea5e9;
+            --primary-purple: #8b5cf6;
+            --primary-green: #10b981;
+            --primary-pink: #ec4899;
+            --dark-bg: #0f172a;
+            --light-bg: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-bg) 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 25px;
+            margin-bottom: 50px;
+            border: 3px solid rgba(14, 165, 233, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .project-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2);
+        }
+        
+        .project-header {
+            padding: 25px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .project-description {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .project-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+        
+        .project-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .project-features li {
+            padding: 8px 0;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .project-features li::before {
+            content: "✓";
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+        
+        .project-footer {
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-revenue {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .revenue-amount {
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .project-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
+        }
+        
+        .stats-section {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            border: 2px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(14, 165, 233, 0.3);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-top: 50px;
+        }
+        
+        .tagline {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .projects-counter {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(14, 165, 233, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .stat-item { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="projects-counter">🚀 ۶ پروژه فعال</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>TetraShop</h1>
+            <div class="subtitle">
+                پلتفرم جامع پروژه‌های نوآورانه و درآمدزای دیجیتال - مجموعه‌ای از ابزارهای پیشرفته برای تولید محتوا، تبدیل فایل‌ها و سیستم‌های مدیریتی هوشمند
+            </div>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                <a href="#projects" class="project-btn" style="width: auto; padding: 15px 30px;">مشاهده پروژه‌ها</a>
+                <a href="#stats" class="project-btn" style="width: auto; padding: 15px 30px; background: linear-gradient(45deg, var(--primary-green), var(--primary-blue));">آمار و گزارش‌ها</a>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin-bottom: 40px; color: var(--primary-blue); font-size: 2rem;">📁 پروژه‌های TetraShop</h2>
+        
+        <div class="projects-grid" id="projects">
+            <!-- پروژه 1: نویسنده کوانتومی -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🌀</div>
+                    <h3 class="project-title">نویسنده کوانتومی</h3>
+                    <p class="project-description">
+                        سیستم تولید محتوای مبتنی بر مکانیک کوانتومی - خلق محتوای چندبعدی با استفاده از اصول سوپرپوزیشن و درهم‌تنیدگی
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>تولید محتوای چندبعدی</li>
+                        <li>الگوریتم‌های کوانتومی</li>
+                        <li>حالت‌های سوپرپوزیشن</li>
+                        <li>درهم‌تنیدگی موضوعی</li>
+                        <li>تحلیل کوانتومی متن</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۵,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/quantum-writer" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+            
+            <!-- پروژه 2: نویسنده هوشمند -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🤖</div>
+                    <h3 class="project-title">نویسنده هوشمند</h3>
+                    <p class="project-description">
+                        سیستم هوش مصنوعی پیشرفته برای تولید محتوای حرفه‌ای - قدرت گرفته از GPT-4 با قابلیت تولید انواع محتوا
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>تولید محتوای چندرسانه‌ای</li>
+                        <li>پشتیبانی از ۸+ نوع محتوا</li>
+                        <li>قالب‌های آماده حرفه‌ای</li>
+                        <li>بهینه‌سازی SEO خودکار</li>
+                        <li>ترجمه هوشمند</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۸,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/ai-writer" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+            
+            <!-- پروژه 3: باغ راز آلود -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🌿</div>
+                    <h3 class="project-title">باغ راز آلود</h3>
+                    <p class="project-description">
+                        باغی پر از گیاهان جادویی، موجودات اسرارآمیز و رازهای پنهان - محیطی تعاملی و آرامش‌بخش با سیستم رشد واقع‌زمان
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>باغ تعاملی سه‌بعدی</li>
+                        <li>گیاهان و موجودات جادویی</li>
+                        <li>سیستم کشف رازها</li>
+                        <li>رشد واقع‌زمان گیاهان</li>
+                        <li>بازار خرید و فروش</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۳,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/secret-garden" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+            
+            <!-- پروژه 4: تبدیل فایل 3D -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔄</div>
+                    <h3 class="project-title">تبدیل فایل‌های 3D</h3>
+                    <p class="project-description">
+                        سیستم پیشرفته تبدیل بین ۵۰+ فرمت فایل سه‌بعدی - پشتیبانی از تمام فرمت‌های رایج با حفظ کیفیت
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>پشتیبانی از ۵۰+ فرمت</li>
+                        <li>تبدیل سریع و باکیفیت</li>
+                        <li>بهینه‌سازی خودکار</li>
+                        <li>پیش‌نمایش سه‌بعدی</li>
+                        <li>تحلیل فنی فایل‌ها</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۴,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/3d-converter" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+            
+            <!-- پروژه 5: تبدیل 2D به 3D -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🖼️ → 🎮</div>
+                    <h3 class="project-title">تبدیل 2D به 3D</h3>
+                    <p class="project-description">
+                        تبدیل هوشمند تصاویر دو بعدی به مدل‌های سه بعدی با استفاده از هوش مصنوعی پیشرفته و استخراج عمق
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>تبدیل هوشمند با AI</li>
+                        <li>استخراج عمق از تصاویر</li>
+                        <li>تنظیمات سطح پیچیدگی</li>
+                        <li>خروجی برای چاپ 3D</li>
+                        <li>بهینه‌سازی برای VR/AR</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۶,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/2d-to-3d" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+            
+            <!-- پروژه 6: مدیریت محتوا -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📚</div>
+                    <h3 class="project-title">مدیریت محتوا</h3>
+                    <p class="project-description">
+                        سیستم جامع مدیریت، انتشار و آنالیز محتوا - کنترل کامل بر همه جنبه‌های محتوا با ابزارهای حرفه‌ای
+                    </p>
+                </div>
+                <div class="project-body">
+                    <ul class="project-features">
+                        <li>ویرایشگر پیشرفته WYSIWYG</li>
+                        <li>تحلیل هوشمند محتوا</li>
+                        <li>سیستم انتشار چندکاناله</li>
+                        <li>مدیریت کاربران پیشرفته</li>
+                        <li>گزارش‌گیری جامع</li>
+                    </ul>
+                </div>
+                <div class="project-footer">
+                    <div class="project-revenue">
+                        <span>درآمد ماهانه:</span>
+                        <span class="revenue-amount">۱۰,۰۰۰,۰۰۰ تومان</span>
+                    </div>
+                    <a href="/projects/content-manager" class="project-btn">ورود به پروژه</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-section" id="stats">
+            <h2 style="text-align: center; margin-bottom: 40px; color: var(--primary-green); font-size: 2rem;">📊 آمار کلی TetraShop</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">۳۶M</div>
+                    <div>درآمد کل پروژه‌ها</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">۶</div>
+                    <div>پروژه‌های فعال</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">۴۲+</div>
+                    <div>ویژگی‌های منحصر به فرد</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">۱۰۰٪</div>
+                    <div>رضایت کاربران</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="tagline">🚀 آینده تولید محتوا و فناوری همینجاست!</div>
+            <p style="color: #94a3b8; margin-bottom: 30px; max-width: 800px; margin: 0 auto 30px;">
+                TetraShop ترکیبی از نوآوری‌ترین پروژه‌های دیجیتال با قابلیت درآمدزایی بالا است. هر پروژه به صورت مستقل قابل توسعه و تجاری‌سازی است.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="#projects" class="project-btn" style="width: auto; padding: 15px 30px; background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));">شروع کار با پروژه‌ها</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // انیمیشن شمارنده پروژه‌ها
+        const counter = document.querySelector('.projects-counter');
+        let count = 6;
+        let targetCount = 6;
+        
+        setInterval(() => {
+            targetCount = 6 + Math.floor(Math.random() * 4);
+        }, 10000);
+        
+        setInterval(() => {
+            if (count < targetCount) count++;
+            if (count > targetCount) count--;
+            
+            counter.textContent = `🚀 ${count} پروژه فعال`;
+            
+            if (count === targetCount) {
+                counter.style.background = 'rgba(16, 185, 129, 0.2)';
+            } else {
+                counter.style.background = 'rgba(14, 165, 233, 0.2)';
+            }
+        }, 500);
+        
+        // انیمیشن کارت‌ها
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+        
+        // آمار پویا
+        const stats = document.querySelectorAll('.stat-value');
+        const targetValues = [36000000, 6, 42, 100];
+        
+        stats.forEach((stat, index) => {
+            let current = 0;
+            const target = targetValues[index];
+            const increment = target / 50;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    stat.textContent = index === 0 ? 
+                        `${Math.floor(current / 1000000)}M` : 
+                        `${Math.floor(current)}${index === 3 ? '٪' : '+'}`;
+                    setTimeout(updateCounter, 30);
+                }
+            };
+            
+            setTimeout(updateCounter, 1000 + (index * 500));
+        });
+    </script>
+</body>
+</html>
