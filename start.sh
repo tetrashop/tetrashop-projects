@@ -1,52 +1,60 @@
 #!/bin/bash
-
-echo ""
 echo "🚀 راه‌اندازی TetraShop در Termux"
 echo "================================="
 
-# رنگ‌ها
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m'
+echo "🛑 توقف سرورهای قبلی..."
+pkill -f "python3 -m http.server" 2>/dev/null
+pkill -f "php -S" 2>/dev/null
 
-# توقف سرورهای قبلی
-echo -e "${YELLOW}🛑 توقف سرورهای قبلی...${NC}"
-pkill -f "node.*index.js" 2>/dev/null
-sleep 2
+echo "🔍 بررسی پورت 8080..."
+if netstat -tuln 2>/dev/null | grep :8080 > /dev/null; then
+    echo "⚠️  پورت 8080 در حال استفاده است. آزادسازی..."
+    fuser -k 8080/tcp 2>/dev/null
+    sleep 2
+fi
 
-# بررسی پورت
-PORT=3000
-echo -e "${BLUE}🔍 بررسی پورت ${PORT}...${NC}"
+echo "🚀 در حال راه‌اندازی سرور..."
+
+echo "=================================================="
+echo "🚀 TetraShop - نسخه Termux"
+echo "=================================================="
+
+# بررسی وجود پوشه public
+if [ -d "public" ]; then
+    echo "📁 استفاده از پوشه public"
+    cd public
+else
+    echo "📁 استفاده از پوشه جاری"
+fi
 
 # راه‌اندازی سرور
-echo -e "${GREEN}🚀 در حال راه‌اندازی سرور...${NC}"
-echo ""
+echo "🌐 راه‌اندازی سرور روی پورت 8080..."
+python3 -m http.server 8080 &
 
-# اجرای سرور در پس‌زمینه
-node index.js &
-SERVER_PID=$!
-
-# صبر برای راه‌اندازی
 sleep 3
 
-# بررسی وضعیت سرور
-echo ""
-echo -e "${GREEN}✅ سرور TetraShop راه‌اندازی شد!${NC}"
-echo ""
-echo -e "${BLUE}📋 اطلاعات دسترسی:${NC}"
-echo "   🌐 صفحه اصلی: ${GREEN}http://localhost:3000${NC}"
-echo "   🌐 صفحه اصلی: ${GREEN}http://127.0.0.1:3000${NC}"
-echo "   ♟️ شطرجد:     ${GREEN}http://localhost:3000/chess${NC}"
-echo ""
-echo -e "${YELLOW}📢 لطفاً مرورگر خود را باز کنید و یکی از آدرس‌های بالا را وارد کنید${NC}"
-echo ""
-echo -e "${BLUE}⚙️  کنترل سرور:${NC}"
-echo "   • برای متوقف کردن: ${RED}kill $SERVER_PID${NC}"
-echo "   • برای دیدن لاگ‌ها: ${YELLOW}tail -f nohup.out${NC}"
-echo ""
-echo "=".repeat(50)
+echo "✅ سرور با موفقیت راه‌اندازی شد"
+echo "📌 پورت: 8080"
+echo "🏠 میزبان: localhost"
 
-# منتظر بمان
-wait $SERVER_PID
+echo ""
+echo "🌐 آدرس‌های مهم:"
+echo "   📍 صفحه اصلی: http://localhost:8080"
+echo "   📍 صفحه اصلی: http://127.0.0.1:8080"
+echo "   📁 پروژه‌ها:  http://localhost:8080/projects/"
+echo ""
+echo "💰 پیش‌بینی درآمد:"
+echo "   • ماهانه: ۳۶,۰۰۰,۰۰۰ تومان"
+echo ""
+echo "🎯 برای تست:"
+echo "   1. مرورگر خود را باز کنید"
+echo "   2. آدرس http://localhost:8080 را وارد کنید"
+echo "   3. روی پروژه‌ها کلیک کنید"
+echo ""
+echo "=================================================="
+echo "⏳ سرور در حال اجرا..."
+echo "برای خروج: Ctrl+C"
+echo "=================================================="
+
+# نگه داشتن اسکریپت فعال
+wait

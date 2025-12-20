@@ -1,39 +1,53 @@
-# حفاظت کامل از دایرکتوری‌های خارجی
-../
-../*
+# لاگ‌ها و فایل‌های موقت
+*.log
+*.pid
+*.tmp
+*.swp
+*.bak
+*.DS_Store
 
-# فایل‌های سیستمی
+# پوشه‌های موقت
 node_modules/
-.DS_Store
-Thumbs.db
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+env.bak/
+venv.bak/
+
+# فایل‌های PID
+tetra-pids/
+
+# لاگ‌های اجرایی
 *.log
 
-# فایل‌های محیطی
+# تنظیمات محلی
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# فایل‌های backup
-*.backup
-*.old
-*.bak
-*.tar.gz
-*.zip
-*.7z
-
-# Build directories
-dist/
-build/
-.out/
-.next/
-public/build/
-
-# IDE
-.vscode/
+# ایده‌ها و تنظیمات IDE
 .idea/
+.vscode/
 *.swp
 *.swo
 
-# Temporary files
-tmp/
-temp/
+# فایل‌های تولیدی
+build/
+dist/
+*.egg-info/
+__pycache__/
+
+# سیستم‌های مدیریت بسته
+package-lock.json
+yarn.lock
+
+# داکر
+Dockerfile
+docker-compose.yml
