@@ -1,27 +1,27 @@
 {
-  "name": "tetrasaas-dashboard",
+  "name": "tetrasaas-platform",
   "version": "1.0.0",
-  "description": "Dashboard for 23 TetraSaaS services with beautiful UI",
-  "main": "dashboard-main.html",
+  "description": "TetraSaaS - 23 Microservices Platform",
+  "main": "api/index.js",
   "scripts": {
-    "start": "python3 -m http.server 8080",
-    "dev": "python3 -m http.server 8080",
-    "build": "echo 'Build completed'",
-    "vercel-build": "echo 'Vercel build completed'"
+    "start": "node api/index.js",
+    "dev": "node api/index.js",
+    "test": "./test-prod-fixed.sh"
   },
   "keywords": [
-    "dashboard",
     "saas",
-    "ai",
     "microservices",
-    "persian",
-    "ui"
+    "ai",
+    "quantum",
+    "productivity"
   ],
-  "author": "TetraShop Team",
+  "author": "TetraShop",
   "license": "MIT",
-  "engines": {
-    "node": ">=18.x"
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.22.1"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "engines": {
+    "node": ">=16.x"
+  }
 }

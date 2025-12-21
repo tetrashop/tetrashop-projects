@@ -2,35 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "service-interfaces/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.json",
-      "use": "@vercel/static"
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dashboard-main.html"
+      "dest": "api/index.js"
     }
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "regions": ["fra1"],
-  "github": {
-    "silent": true,
-    "autoJobCancelation": true
-  },
-  "public": true
+  }
 }
