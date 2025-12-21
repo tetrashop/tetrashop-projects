@@ -1,26 +1,27 @@
 {
-  "name": "tetrashop-quantum",
-  "version": "4.0.0",
-  "description": "پلتفرم جامع TetraShop Quantum با تمام ماژول‌های اصلی",
-  "main": "server.js",
+  "name": "tetrasaas-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard for 23 TetraSaaS services with beautiful UI",
+  "main": "dashboard-main.html",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "chess": "node --watch server.js",
-    "test": "echo \"✅ تمام تست‌ها موفقیت‌آمیز بودند!\" && exit 0"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.22.1"
+    "start": "python3 -m http.server 8080",
+    "dev": "python3 -m http.server 8080",
+    "build": "echo 'Build completed'",
+    "vercel-build": "echo 'Vercel build completed'"
   },
   "keywords": [
-    "tetrashop",
-    "quantum",
-    "chess",
-    "ecommerce",
-    "crm",
-    "analytics"
+    "dashboard",
+    "saas",
+    "ai",
+    "microservices",
+    "persian",
+    "ui"
   ],
-  "author": "TetraShop Quantum Team",
-  "license": "Commercial"
+  "author": "TetraShop Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
