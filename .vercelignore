@@ -1,10 +1,26 @@
-*.py
-requirements.txt
-venv/
-__pycache__/
-Dockerfile
-docker-compose.yml
-*.cjs
+# فایل‌های موقت
 *.log
+*.pid
+/tetra-logs/
+/tetra-pids/
+productivity-*.json
+comparison-report.html
+
+# Node.js
 node_modules/
-.git/
+npm-debug.log*
+
+# سیستم
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# مخفی
+.env
+.env.local
+*.env

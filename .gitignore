@@ -1,27 +1,68 @@
-# لاگ‌ها و فایل‌های موقت
+# لاگ‌ها
 *.log
-*.pid
-/tetra-logs/
-/tetra-pids/
-productivity-*.json
-comparison-report.html
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+git-auto-update.log
 
-# محیط‌های مجازی
+# محیط‌های اجرایی
 .env
 .env.local
-.env.development.local
 .env.production.local
+.env.development.local
 
 # وابستگی‌ها
 node_modules/
-npm-debug.log*
+.npm
+.yarn-integrity
+package-lock.json
+yarn.lock
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.swn
+*.bak
 
 # سیستم
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel/
+
+# فایل‌های موقت
+tmp/
+temp/
+*.tmp
+*.temp
+
+# پوشه‌های پشتیبان
+backup/
+*.backup
+
+# فایل‌های محرمانه
+*.pem
+*.key
+*.crt
+
+# لاگ‌های سیستم
+logs/
+*.pid
+
+# فایل‌های تولید شده
+dist/
+build/
+.out/
+.next/
+
+# فایل‌های بزرگ
+*.zip
+*.tar
+*.gz
+
+# دیتابیس
+*.db
+*.sqlite
