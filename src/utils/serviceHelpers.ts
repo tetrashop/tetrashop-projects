@@ -1,6 +1,17 @@
 // ابزارهای کمکی برای مدیریت سرویس‌ها
 
-import { Service } from '../App';
+// تعریف نوع Service اینجا
+interface Service {
+  id: number
+  name: string
+  description: string
+  status: 'active' | 'inactive'
+  endpoint: string
+  category: string
+  icon: string
+  usageCount: number
+  lastUsed: string
+}
 
 // ذخیره‌سازی در localStorage
 export const STORAGE_KEYS = {

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import './index.css'
 
+// نوع داده سرویس - انتقال به اینجا از types
 interface Service {
   id: number
   name: string
@@ -40,6 +41,7 @@ interface ServiceExecutionResult {
 }
 
 function App() {
+  // لیست کامل ۲۳ سرویس TetraSaaS
   const [services, setServices] = useState<Service[]>([
     { id: 1, name: 'تحلیلگر محتوا (NLP)', description: 'پردازش متن فارسی با 244 پست آموزشی - پست 244 فعال', status: 'active', endpoint: '/api/content/analyze', category: 'ai', icon: 'brain', usageCount: 1245, lastUsed: '2024-01-15T10:30:00' },
     { id: 2, name: 'حل کننده فرمول', description: 'محاسبه فرمول‌های ریاضی پیچیده', status: 'active', endpoint: '/api/formula/solve', category: 'compute', icon: 'cpu', usageCount: 892, lastUsed: '2024-01-14T14:20:00' },
@@ -220,6 +222,11 @@ function App() {
       remaining_credits: remainingCredits,
       data: mockData
     }
+  }
+
+  // تابع handleServiceClick که گم شده بود
+  const handleServiceClick = (service: Service) => {
+    setSelectedService(service)
   }
 
   const executeService = async () => {
