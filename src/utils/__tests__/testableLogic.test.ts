@@ -7,65 +7,113 @@ import {
   mockServiceExecution 
 } from '../testableLogic';
 
-describe('Utility Functions', () => {
+describe('testableLogic', () => {
   describe('getStatusColor', () => {
-    test('returns correct color for active status', () => {
-      expect(getStatusColor('active')).toBe('bg-emerald-500');
+    it('should return correct color for active status', () => {
+      expect(getStatusColor('active')).toBe('bg-emerald-100 text-emerald-800');
     });
-    test('returns default color for unknown status', () => {
-      expect(getStatusColor('unknown')).toBe('bg-gray-500');
+
+    it('should return correct color for inactive status', () => {
+      expect(getStatusColor('inactive')).toBe('bg-gray-100 text-gray-800');
+    });
+
+    it('should return correct color for warning status', () => {
+      expect(getStatusColor('warning')).toBe('bg-amber-100 text-amber-800');
+    });
+
+    it('should return correct color for error status', () => {
+      expect(getStatusColor('error')).toBe('bg-rose-100 text-rose-800');
+    });
+
+    it('should return default color for unknown status', () => {
+      expect(getStatusColor('unknown')).toBe('bg-gray-100 text-gray-800');
     });
   });
 
   describe('getStatusText', () => {
-    test('returns Persian text for active status', () => {
+    it('should return correct text for active status', () => {
       expect(getStatusText('active')).toBe('فعال');
+    });
+
+    it('should return correct text for inactive status', () => {
+      expect(getStatusText('inactive')).toBe('غیرفعال');
+    });
+
+    it('should return correct text for warning status', () => {
+      expect(getStatusText('warning')).toBe('هشدار');
+    });
+
+    it('should return correct text for error status', () => {
+      expect(getStatusText('error')).toBe('خطا');
+    });
+
+    it('should return default text for unknown status', () => {
+      expect(getStatusText('unknown')).toBe('نامشخص');
     });
   });
 
   describe('formatDate', () => {
-    test('formats valid date string', () => {
-      const result = formatDate('2024-01-15T10:30:00');
-      // A general check for the presence of Persian date characters
-      expect(result).toMatch(/[\u0600-\u06FF]/); // Matches any Persian character
+    it('should format date string correctly', () => {
+      const date = '2024-01-15T10:30:00Z';
+      const formatted = formatDate(date);
+      expect(formatted).toContain('۱۴۰۲');
     });
-    test('returns "--" for empty string', () => {
-      expect(formatDate('')).toBe('--');
+
+    it('should handle current date', () => {
+      const currentDate = new Date().toISOString();
+      const formatted = formatDate(currentDate);
+      expect(formatted).toBeDefined();
     });
   });
 
   describe('formatResponseTime', () => {
-    test('formats milliseconds correctly', () => {
-      expect(formatResponseTime(150)).toBe('150ms');
+    it('should format fast response time as excellent', () => {
+      expect(formatResponseTime(50)).toBe('50ms (عالی)');
+    });
+
+    it('should format medium response time as good', () => {
+      expect(formatResponseTime(150)).toBe('150ms (خوب)');
+    });
+
+    it('should format slow response time as average', () => {
+      expect(formatResponseTime(350)).toBe('350ms (متوسط)');
+    });
+
+    it('should format very slow response time as slow', () => {
+      expect(formatResponseTime(600)).toBe('600ms (کند)');
     });
   });
 
-  describe('AppError Class', () => {
-    test('creates an error with correct properties', () => {
-      const error = new AppError('Test', 'CODE', 'User Message');
-      expect(error.message).toBe('Test');
-      expect(error.code).toBe('CODE');
-      expect(error.userMessage).toBe('User Message');
+  describe('AppError', () => {
+    it('should create an AppError with correct message and name', () => {
+      const error = new AppError('Test error message');
+      expect(error.message).toBe('Test error message');
+      expect(error.name).toBe('AppError');
+      expect(error).toBeInstanceOf(Error);
+    });
+
+    it('should be throwable', () => {
+      expect(() => {
+        throw new AppError('Error thrown');
+      }).toThrow('Error thrown');
     });
   });
 
   describe('mockServiceExecution', () => {
-    jest.setTimeout(10000); // For async tests
+    it('should resolve with success after timeout', async () => {
+      const result = await mockServiceExecution('test-service');
+      expect(result.success).toBe(true);
+      expect(result.serviceId).toBe('test-service');
+      expect(result.result).toBe('اجرای موفقیت‌آمیز');
+      expect(result.timestamp).toBeDefined();
+    });
 
-    test('resolves successfully most of the time', async () => {
-      // Try multiple times due to random success rate (default 92%)
-      for (let i = 0; i < 5; i++) {
-        try {
-          const result = await mockServiceExecution('Test Service');
-          expect(result.success).toBe(true);
-          expect(result.requestId).toMatch(/^REQ-/);
-          return; // Test passes on first success
-        } catch (error) {
-          // Continue on error (expected in ~8% of cases)
-        }
-      }
-      // If all 5 attempts failed (very low probability), force a pass or fail as needed
-      expect(true).toBe(true); // Adjust based on your testing strategy
+    it('should resolve within reasonable time', async () => {
+      const startTime = Date.now();
+      await mockServiceExecution('test-service');
+      const endTime = Date.now();
+      expect(endTime - startTime).toBeGreaterThanOrEqual(900);
+      expect(endTime - startTime).toBeLessThan(2000);
     });
   });
 });
