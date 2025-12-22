@@ -1,0 +1,592 @@
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m cd "$PROJECT_DIR" || {
+[?2004l[?2004h>     echo "❌ خطا: دایرکتوری پروژه یافت نشد"
+[?2004l[?2004h>     exit 1
+[?2004l[?2004h> }
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # بررسی وجود Git
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if [ ! -d ".git" ]; then
+[?2004l[?2004h>     echo "⚠️ مخزن Git یافت نشد. ایجاد مخزن جدید..."
+[?2004l[?2004h>     git init
+[?2004l[?2004h>     git config user.email "tetrasaas@example.com"
+[?2004l[?2004h>     git config user.name "TetraSaaS Auto-Updater"
+[?2004l[?2004h>     git branch -M main
+[?2004l[?2004h> fi
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # بررسی remote
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if ! git remote | grep -q "origin"; then
+[?2004l[?2004h>     echo "⚠️ Remote تنظیم نشده است."
+[?2004l[?2004h>     echo "لطفا remote را تنظیم کنید:"
+[?2004l[?2004h>     echo "git remote add origin https://github.com/YOUR-USERNAME/tetrashop-projects.git"
+[?2004l[?2004h>     exit 1
+[?2004l[?2004h> fi
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # تابع لاگ
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log() {
+[?2004l[?2004h>     echo "[$(date '+%Y/%m/%d %H:%M:%S')] $1"
+[?2004l[?2004h> }
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log "شروع بروزرسانی خودکار..."
+[?2004l[2025/12/21 13:52:28] شروع بروزرسانی خودکار...
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # 1. دریافت تغییرات از remote
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log "دریافت تغییرات از remote..."
+[?2004l[2025/12/21 13:52:28] دریافت تغییرات از remote...
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m git fetch origin
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # بررسی وضعیت
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m LOCAL_COMMIT=$(git rev-parse @)
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m REMOTE_COMMIT=$(git rev-parse origin/main)
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if [ "$LOCAL_COMMIT" = "$REMOTE_COMMIT" ]; then
+[?2004l[?2004h>     log "✅ هیچ تغییری در remote وجود ندارد"
+[?2004l[?2004h> else
+[?2004l[?2004h>     log "🔄 تغییرات جدید در remote یافت شد"
+[?2004l[?2004h>     
+[?2004l[?2004h>     # سعی در pull بدون conflict
+[?2004l[?2004h>     if git pull --rebase origin main; then
+[?2004l[?2004h>         log "✅ Pull موفقیت‌آمیز بود"
+[?2004l[?2004h>     else
+[?2004l[?2004h>         log "⚠️ Conflict در pull - ذخیره تغییرات..."
+[?2004l[?2004h>         
+[?2004l[?2004h>         # stash تغییرات local
+[?2004l[?2004h>         git stash push -m "Auto-stash before merge $(date '+%Y-%m-%d %H:%M')"
+[?2004l[?2004h>         
+[?2004l[?2004h>         # reset و pull مجدد
+[?2004l[?2004h>         git reset --hard origin/main
+[?2004l[?2004h>         
+[?2004l[?2004h>         # بازیابی stash (اگر ممکن باشد)
+[?2004l[?2004h>         if git stash pop; then
+[?2004l[?2004h>             log "✅ تغییرات local بازیابی شدند"
+[?2004l[?2004h>         else
+[?2004l[?2004h>             log "⚠️ خطا در بازیابی stash - نگهداری در stash"
+[?2004l[?2004h>             git stash list
+[?2004l[?2004h>         fi
+[?2004l[?2004h>     fi
+[?2004l[?2004h> fi
+[?2004l[2025/12/21 13:52:32] ✅ هیچ تغییری در remote وجود ندارد
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # 2. اضافه کردن فایل‌های جدید
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log "بررسی فایل‌های جدید..."
+[?2004l[2025/12/21 13:52:32] بررسی فایل‌های جدید...
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m NEW_FILES=$(git status --porcelain | grep "^??" | cut -c4-)
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if [ -n "$NEW_FILES" ]; then
+[?2004l[?2004h>     log "📁 فایل‌های جدید یافت شد:"
+[?2004l[?2004h>     echo "$NEW_FILES" | while read file; do
+[?2004l[?2004h>         echo "  - $file"
+[?2004l[?2004h>     done
+[?2004l[?2004h>     
+[?2004l[?2004h>     git add -A
+[?2004l[?2004h>     log "✅ همه فایل‌ها اضافه شدند"
+[?2004l[?2004h> fi
+[?2004l[2025/12/21 13:52:33] 📁 فایل‌های جدید یافت شد:
+  - auto-git-update.sh
+  - docs/
+  - git-sync-master.sh
+  - public/404.html
+  - public/admin-dashboard.html
+  - public/admin-monitoring.html
+  - public/aman-interface.html
+  - public/chess-ai.html
+  - public/chess-interface.html
+  - public/chess_ui.html
+  - public/crypto-dashboard.html
+  - public/dashboard-main.html
+  - public/debug-projects.html
+  - public/login.html
+  - public/monitoring-dashboard.html
+  - public/natiq-interface.html
+  - public/productivity-comparison-report.html
+  - public/productivity-dashboard.html
+  - public/productivity-report.html
+  - public/quantum-interface.html
+  - public/test-access.html
+  - public/test-navigation.html
+  - public/test-projects.html
+  - public/tetrashop-demo.html
+  - public/unified-dashboard.html
+  - public/unsupported-browser.html
+  - public/writer-ai.html
+  - public/writer-interface.html
+  - scripts/add-chess-engine.sh
+  - scripts/add-inline-styles.sh
+  - scripts/analyze-productivity-trend.sh
+  - scripts/apply-optimizations.sh
+  - scripts/auto_fix_projects.sh
+  - scripts/build.sh
+  - scripts/check-projects.sh
+  - scripts/check-status.sh
+  - scripts/create-all-services.sh
+  - scripts/create-comparison-report.sh
+  - scripts/create-env.sh
+  - scripts/create-premium-chess.sh
+  - scripts/create-services-quick.sh
+  - scripts/deploy-cloud.sh
+  - scripts/deploy-full.sh
+  - scripts/deploy-vercel.sh
+  - scripts/final-deploy-fix.sh
+  - scripts/final-launch.sh
+  - scripts/final_upgrade.sh
+  - scripts/fix-all-projects-cover.sh
+  - scripts/fix-all.sh
+  - scripts/fix-chess-engine.sh
+  - scripts/fix-chess.sh
+  - scripts/fix-deploy.sh
+  - scripts/fix-git-push.sh
+  - scripts/fix-manager.sh
+  - scripts/fix-routing.sh
+  - scripts/fix-styles.sh
+  - scripts/fix-test-script.sh
+  - scripts/fix-viewport.sh
+  - scripts/fixed-comparison-report.sh
+  - scripts/generate-cat-output.sh
+  - scripts/generate-complete-output.sh
+  - scripts/git-commands.sh
+  - scripts/launch-all-projects.sh
+  - scripts/launch-business.sh
+  - scripts/launch-chess.sh
+  - scripts/launch-fixed.sh
+  - scripts/launch-tetrashop.sh
+  - scripts/manage-projects.sh
+  - scripts/manage-services.sh
+  - scripts/manage-tetra.sh
+  - scripts/manage.sh
+  - scripts/monitor-system.sh
+  - scripts/quick-access.sh
+  - scripts/quick-test.sh
+  - scripts/run-dashboard.sh
+  - scripts/run.sh
+  - scripts/setup-chess-complete.sh
+  - scripts/setup-github.sh
+  - scripts/setup-structure.sh
+  - scripts/setup.sh
+  - scripts/start-all-services.sh
+  - scripts/start-all.sh
+  - scripts/start-daemon.sh
+  - scripts/start-easy.sh
+  - scripts/start-integrated.sh
+  - scripts/start-optimized.sh
+  - scripts/start-revenue.sh
+  - scripts/start-saas-fixed.sh
+  - scripts/start-saas-pro.sh
+  - scripts/start-server.sh
+  - scripts/start-simple-saas.sh
+  - scripts/start-tetra-saas.sh
+  - scripts/start-tetrashop.sh
+  - scripts/start.sh
+  - scripts/start_writer.sh
+  - scripts/stop-all.sh
+  - scripts/stop-tetra-saas.sh
+  - scripts/test-all-services-comprehensive.sh
+  - scripts/test-integration.sh
+  - scripts/test-prod-fixed.sh
+  - scripts/test-productivity-comparison.sh
+  - scripts/test-services-fixed.sh
+  - scripts/test-services.sh
+  - scripts/test-vercel-deployment.sh
+  - scripts/test-vercel-site.sh
+  - scripts/transfer-projects.sh
+  - scripts/update-and-push.sh
+  - scripts/update_all_projects.sh
+  - scripts/upgrade_to_full_version.sh
+  - services/add-unified-api.js
+  - services/app-simple.js
+  - services/check-paths.js
+  - services/debug-index.js
+  - services/fix-navigation.js
+  - services/fix-white-bars.js
+  - services/force-show-projects.js
+  - services/index.js
+  - services/integrate-projects.js
+  - services/server-final.js
+  - services/server.js
+  - services/service-loader.js
+  - services/simple-server.js
+  - services/start-fixed.js
+  - services/test-now.js
+  - services/test-server.js
+  - setup-cron.sh
+  - ui/.gitignore
+  - ui/README.md
+  - ui/css/
+  - ui/index.html
+  - ui/js/
+  - ui/start-ui.sh
+  - ui/vercel.json
+[2025/12/21 13:52:33] ✅ همه فایل‌ها اضافه شدند
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # 3. بررسی تغییرات
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m CHANGES=$(git status --porcelain | grep -v "^??")
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if [ -n "$CHANGES" ]; then
+[?2004l[?2004h>     log "📝 تغییرات برای commit:"
+[?2004l[?2004h>     git status --short
+[?2004l[?2004h>     
+[?2004l[?2004h>     # ایجاد commit
+[?2004l[?2004h>     COMMIT_MSG="🤖 بروزرسانی خودکار $(date '+%Y/%m/%d %H:%M')
+[?2004l[?2004h>     
+[?2004l[?2004h> تغییرات شامل:
+[?2004l[?2004h> $(git diff --cached --name-only | sed 's/^/- /')
+[?2004l[?2004h>     
+[?2004l[?2004h> Auto-update توسط سیستم TetraSaaS"
+[?2004l[?2004h>     
+[?2004l[?2004h>     git commit -m "$COMMIT_MSG"
+[?2004l[?2004h>     log "✅ Commit ایجاد شد"
+[?2004l[?2004h>     
+[?2004l[?2004h>     # 4. Push به remote
+[?2004l[?2004h>     log "ارسال تغییرات به remote..."
+[?2004l[?2004h>     if git push origin main; then
+[?2004l[?2004h>         log "✅ Push موفقیت‌آمیز بود"
+[?2004l[?2004h>     else
+[?2004l[?2004h>         log "⚠️ خطا در push - سعی مجدد با force"
+[?2004l[?2004h>         if git push --force-with-lease origin main; then
+[?2004l[?2004h>             log "✅ Push با force موفق بود"
+[?2004l[?2004h>         else
+[?2004l[?2004h>             log "❌ خطا در push - نیاز به بررسی دستی"
+[?2004l[?2004h>         fi
+[?2004l[?2004h>     fi
+[?2004l[?2004h> else
+[?2004l[?2004h>     log "✅ هیچ تغییراتی برای commit وجود ندارد"
+[?2004l[?2004h> fi
+[?2004l[2025/12/21 13:52:33] 📝 تغییرات برای commit:
+M  .gitignore
+M  .vercelignore
+M  api/index.js
+A  auto-git-update.sh
+D  deploy-optimized.sh
+R  config.json -> docs/config.json
+A  docs/package.json
+A  docs/productivity-20251221-104458.json
+A  docs/productivity-20251221-104858.json
+A  docs/productivity-20251221-111437.json
+A  docs/productivity-20251221.json
+R  test-results-20251220-211144.json -> docs/test-results-20251220-211144.json
+A  docs/vercel.json
+A  git-sync-master.sh
+D  index.html
+D  manage.sh
+D  package-lock.json
+M  package.json
+R  404.html -> public/404.html
+R  admin-dashboard.html -> public/admin-dashboard.html
+R  admin-monitoring.html -> public/admin-monitoring.html
+R  aman-interface.html -> public/aman-interface.html
+R  chess-ai.html -> public/chess-ai.html
+R  chess-interface.html -> public/chess-interface.html
+R  chess_ui.html -> public/chess_ui.html
+R  crypto-dashboard.html -> public/crypto-dashboard.html
+R  dashboard-main.html -> public/dashboard-main.html
+R  debug-projects.html -> public/debug-projects.html
+M  public/index.html
+R  login.html -> public/login.html
+R  monitoring-dashboard.html -> public/monitoring-dashboard.html
+R  natiq-interface.html -> public/natiq-interface.html
+R  productivity-comparison-report.html -> public/productivity-comparison-report.html
+R  productivity-dashboard.html -> public/productivity-dashboard.html
+R  productivity-report.html -> public/productivity-report.html
+R  quantum-interface.html -> public/quantum-interface.html
+R  test-access.html -> public/test-access.html
+R  test-navigation.html -> public/test-navigation.html
+R  test-projects.html -> public/test-projects.html
+R  tetrashop-demo.html -> public/tetrashop-demo.html
+R  unified-dashboard.html -> public/unified-dashboard.html
+R  unsupported-browser.html -> public/unsupported-browser.html
+R  writer-ai.html -> public/writer-ai.html
+R  writer-interface.html -> public/writer-interface.html
+R  add-chess-engine.sh -> scripts/add-chess-engine.sh
+R  add-inline-styles.sh -> scripts/add-inline-styles.sh
+R  analyze-productivity-trend.sh -> scripts/analyze-productivity-trend.sh
+R  apply-optimizations.sh -> scripts/apply-optimizations.sh
+R  auto_fix_projects.sh -> scripts/auto_fix_projects.sh
+R  build.sh -> scripts/build.sh
+R  check-projects.sh -> scripts/check-projects.sh
+R  check-status.sh -> scripts/check-status.sh
+R  create-all-services.sh -> scripts/create-all-services.sh
+R  create-comparison-report.sh -> scripts/create-comparison-report.sh
+R  create-env.sh -> scripts/create-env.sh
+R  create-premium-chess.sh -> scripts/create-premium-chess.sh
+R  create-services-quick.sh -> scripts/create-services-quick.sh
+R  deploy-cloud.sh -> scripts/deploy-cloud.sh
+A  scripts/deploy-full.sh
+M  scripts/deploy-optimized.sh
+R  deploy-vercel.sh -> scripts/deploy-vercel.sh
+R  final-deploy-fix.sh -> scripts/final-deploy-fix.sh
+R  final-launch.sh -> scripts/final-launch.sh
+R  final_upgrade.sh -> scripts/final_upgrade.sh
+R  fix-all-projects-cover.sh -> scripts/fix-all-projects-cover.sh
+R  fix-all.sh -> scripts/fix-all.sh
+R  fix-chess-engine.sh -> scripts/fix-chess-engine.sh
+R  fix-chess.sh -> scripts/fix-chess.sh
+R  fix-deploy.sh -> scripts/fix-deploy.sh
+R  fix-git-push.sh -> scripts/fix-git-push.sh
+R  fix-manager.sh -> scripts/fix-manager.sh
+R  fix-routing.sh -> scripts/fix-routing.sh
+R  fix-styles.sh -> scripts/fix-styles.sh
+R  fix-test-script.sh -> scripts/fix-test-script.sh
+R  fix-viewport.sh -> scripts/fix-viewport.sh
+R  fixed-comparison-report.sh -> scripts/fixed-comparison-report.sh
+R  generate-cat-output.sh -> scripts/generate-cat-output.sh
+R  generate-complete-output.sh -> scripts/generate-complete-output.sh
+R  git-commands.sh -> scripts/git-commands.sh
+R  launch-all-projects.sh -> scripts/launch-all-projects.sh
+R  launch-business.sh -> scripts/launch-business.sh
+R  launch-chess.sh -> scripts/launch-chess.sh
+R  launch-fixed.sh -> scripts/launch-fixed.sh
+R  launch-tetrashop.sh -> scripts/launch-tetrashop.sh
+R  manage-projects.sh -> scripts/manage-projects.sh
+R  manage-services.sh -> scripts/manage-services.sh
+R  manage-tetra.sh -> scripts/manage-tetra.sh
+A  scripts/manage.sh
+R  monitor-system.sh -> scripts/monitor-system.sh
+R  quick-access.sh -> scripts/quick-access.sh
+R  quick-test.sh -> scripts/quick-test.sh
+R  run-dashboard.sh -> scripts/run-dashboard.sh
+R  run.sh -> scripts/run.sh
+R  setup-chess-complete.sh -> scripts/setup-chess-complete.sh
+R  setup-github.sh -> scripts/setup-github.sh
+R  setup-structure.sh -> scripts/setup-structure.sh
+R  setup.sh -> scripts/setup.sh
+R  start-all-services.sh -> scripts/start-all-services.sh
+R  start-all.sh -> scripts/start-all.sh
+R  start-daemon.sh -> scripts/start-daemon.sh
+R  start-easy.sh -> scripts/start-easy.sh
+R  start-integrated.sh -> scripts/start-integrated.sh
+R  start-optimized.sh -> scripts/start-optimized.sh
+R  start-revenue.sh -> scripts/start-revenue.sh
+R  start-saas-fixed.sh -> scripts/start-saas-fixed.sh
+R  start-saas-pro.sh -> scripts/start-saas-pro.sh
+R  start-server.sh -> scripts/start-server.sh
+R  start-simple-saas.sh -> scripts/start-simple-saas.sh
+R  start-tetra-saas.sh -> scripts/start-tetra-saas.sh
+R  start-tetrashop.sh -> scripts/start-tetrashop.sh
+R  start.sh -> scripts/start.sh
+R  start_writer.sh -> scripts/start_writer.sh
+R  stop-all.sh -> scripts/stop-all.sh
+R  stop-tetra-saas.sh -> scripts/stop-tetra-saas.sh
+R  test-all-services-comprehensive.sh -> scripts/test-all-services-comprehensive.sh
+R  test-integration.sh -> scripts/test-integration.sh
+R  test-prod-fixed.sh -> scripts/test-prod-fixed.sh
+R  test-productivity-comparison.sh -> scripts/test-productivity-comparison.sh
+R  test-services-fixed.sh -> scripts/test-services-fixed.sh
+R  test-services.sh -> scripts/test-services.sh
+R  test-vercel-deployment.sh -> scripts/test-vercel-deployment.sh
+R  test-vercel-site.sh -> scripts/test-vercel-site.sh
+R  transfer-projects.sh -> scripts/transfer-projects.sh
+R  update-and-push.sh -> scripts/update-and-push.sh
+R  update_all_projects.sh -> scripts/update_all_projects.sh
+R  upgrade_to_full_version.sh -> scripts/upgrade_to_full_version.sh
+R  add-unified-api.js -> services/add-unified-api.js
+R  app-simple.js -> services/app-simple.js
+R  check-paths.js -> services/check-paths.js
+R  debug-index.js -> services/debug-index.js
+R  fix-navigation.js -> services/fix-navigation.js
+R  fix-white-bars.js -> services/fix-white-bars.js
+R  force-show-projects.js -> services/force-show-projects.js
+R  index.js -> services/index.js
+R  integrate-projects.js -> services/integrate-projects.js
+R  server-final.js -> services/server-final.js
+R  server.js -> services/server.js
+R  service-loader.js -> services/service-loader.js
+R  simple-server.js -> services/simple-server.js
+R  start-fixed.js -> services/start-fixed.js
+R  test-now.js -> services/test-now.js
+R  test-server.js -> services/test-server.js
+A  setup-cron.sh
+A  ui/.gitignore
+A  ui/README.md
+A  ui/css/style.css
+A  ui/index.html
+A  ui/js/dashboard.js
+A  ui/js/services-data.js
+A  ui/start-ui.sh
+A  ui/vercel.json
+M  vercel.json
+[main 0bbce26] 🤖 بروزرسانی خودکار 2025/12/21 13:52
+ 152 files changed, 4843 insertions(+), 2344 deletions(-)
+ create mode 100755 auto-git-update.sh
+ delete mode 100755 deploy-optimized.sh
+ rename config.json => docs/config.json (100%)
+ create mode 100644 docs/package.json
+ create mode 100644 docs/productivity-20251221-104458.json
+ create mode 100644 docs/productivity-20251221-104858.json
+ create mode 100644 docs/productivity-20251221-111437.json
+ create mode 100644 docs/productivity-20251221.json
+ rename test-results-20251220-211144.json => docs/test-results-20251220-211144.json (100%)
+ create mode 100644 docs/vercel.json
+ create mode 100755 git-sync-master.sh
+ delete mode 100644 index.html
+ delete mode 100755 manage.sh
+ delete mode 100644 package-lock.json
+ rename 404.html => public/404.html (100%)
+ rename admin-dashboard.html => public/admin-dashboard.html (100%)
+ rename admin-monitoring.html => public/admin-monitoring.html (100%)
+ rename aman-interface.html => public/aman-interface.html (100%)
+ rename chess-ai.html => public/chess-ai.html (100%)
+ rename chess-interface.html => public/chess-interface.html (100%)
+ rename chess_ui.html => public/chess_ui.html (100%)
+ rename crypto-dashboard.html => public/crypto-dashboard.html (100%)
+ rename dashboard-main.html => public/dashboard-main.html (100%)
+ rename debug-projects.html => public/debug-projects.html (100%)
+ rename login.html => public/login.html (100%)
+ rename monitoring-dashboard.html => public/monitoring-dashboard.html (100%)
+ rename natiq-interface.html => public/natiq-interface.html (100%)
+ rename productivity-comparison-report.html => public/productivity-comparison-report.html (100%)
+ rename productivity-dashboard.html => public/productivity-dashboard.html (100%)
+ rename productivity-report.html => public/productivity-report.html (100%)
+ rename quantum-interface.html => public/quantum-interface.html (100%)
+ rename test-access.html => public/test-access.html (100%)
+ rename test-navigation.html => public/test-navigation.html (100%)
+ rename test-projects.html => public/test-projects.html (100%)
+ rename tetrashop-demo.html => public/tetrashop-demo.html (100%)
+ rename unified-dashboard.html => public/unified-dashboard.html (100%)
+ rename unsupported-browser.html => public/unsupported-browser.html (100%)
+ rename writer-ai.html => public/writer-ai.html (100%)
+ rename writer-interface.html => public/writer-interface.html (100%)
+ rename add-chess-engine.sh => scripts/add-chess-engine.sh (100%)
+ rename add-inline-styles.sh => scripts/add-inline-styles.sh (100%)
+ rename analyze-productivity-trend.sh => scripts/analyze-productivity-trend.sh (100%)
+ rename apply-optimizations.sh => scripts/apply-optimizations.sh (100%)
+ rename auto_fix_projects.sh => scripts/auto_fix_projects.sh (100%)
+ rename build.sh => scripts/build.sh (100%)
+ rename check-projects.sh => scripts/check-projects.sh (100%)
+ rename check-status.sh => scripts/check-status.sh (100%)
+ rename create-all-services.sh => scripts/create-all-services.sh (100%)
+ rename create-comparison-report.sh => scripts/create-comparison-report.sh (100%)
+ rename create-env.sh => scripts/create-env.sh (100%)
+ rename create-premium-chess.sh => scripts/create-premium-chess.sh (100%)
+ rename create-services-quick.sh => scripts/create-services-quick.sh (100%)
+ rename deploy-cloud.sh => scripts/deploy-cloud.sh (100%)
+ create mode 100755 scripts/deploy-full.sh
+ rename deploy-vercel.sh => scripts/deploy-vercel.sh (100%)
+ rename final-deploy-fix.sh => scripts/final-deploy-fix.sh (100%)
+ rename final-launch.sh => scripts/final-launch.sh (100%)
+ rename final_upgrade.sh => scripts/final_upgrade.sh (100%)
+ rename fix-all-projects-cover.sh => scripts/fix-all-projects-cover.sh (100%)
+ rename fix-all.sh => scripts/fix-all.sh (100%)
+ rename fix-chess-engine.sh => scripts/fix-chess-engine.sh (100%)
+ rename fix-chess.sh => scripts/fix-chess.sh (100%)
+ rename fix-deploy.sh => scripts/fix-deploy.sh (100%)
+ rename fix-git-push.sh => scripts/fix-git-push.sh (100%)
+ rename fix-manager.sh => scripts/fix-manager.sh (100%)
+ rename fix-routing.sh => scripts/fix-routing.sh (100%)
+ rename fix-styles.sh => scripts/fix-styles.sh (100%)
+ rename fix-test-script.sh => scripts/fix-test-script.sh (100%)
+ rename fix-viewport.sh => scripts/fix-viewport.sh (100%)
+ rename fixed-comparison-report.sh => scripts/fixed-comparison-report.sh (100%)
+ rename generate-cat-output.sh => scripts/generate-cat-output.sh (100%)
+ rename generate-complete-output.sh => scripts/generate-complete-output.sh (100%)
+ rename git-commands.sh => scripts/git-commands.sh (100%)
+ rename launch-all-projects.sh => scripts/launch-all-projects.sh (100%)
+ rename launch-business.sh => scripts/launch-business.sh (100%)
+ rename launch-chess.sh => scripts/launch-chess.sh (100%)
+ rename launch-fixed.sh => scripts/launch-fixed.sh (100%)
+ rename launch-tetrashop.sh => scripts/launch-tetrashop.sh (100%)
+ rename manage-projects.sh => scripts/manage-projects.sh (100%)
+ rename manage-services.sh => scripts/manage-services.sh (100%)
+ rename manage-tetra.sh => scripts/manage-tetra.sh (100%)
+ create mode 100755 scripts/manage.sh
+ rename monitor-system.sh => scripts/monitor-system.sh (100%)
+ rename quick-access.sh => scripts/quick-access.sh (100%)
+ rename quick-test.sh => scripts/quick-test.sh (100%)
+ rename run-dashboard.sh => scripts/run-dashboard.sh (100%)
+ rename run.sh => scripts/run.sh (100%)
+ rename setup-chess-complete.sh => scripts/setup-chess-complete.sh (100%)
+ rename setup-github.sh => scripts/setup-github.sh (100%)
+ rename setup-structure.sh => scripts/setup-structure.sh (100%)
+ rename setup.sh => scripts/setup.sh (100%)
+ rename start-all-services.sh => scripts/start-all-services.sh (100%)
+ rename start-all.sh => scripts/start-all.sh (100%)
+ rename start-daemon.sh => scripts/start-daemon.sh (100%)
+ rename start-easy.sh => scripts/start-easy.sh (100%)
+ rename start-integrated.sh => scripts/start-integrated.sh (100%)
+ rename start-optimized.sh => scripts/start-optimized.sh (100%)
+ rename start-revenue.sh => scripts/start-revenue.sh (100%)
+ rename start-saas-fixed.sh => scripts/start-saas-fixed.sh (100%)
+ rename start-saas-pro.sh => scripts/start-saas-pro.sh (100%)
+ rename start-server.sh => scripts/start-server.sh (100%)
+ rename start-simple-saas.sh => scripts/start-simple-saas.sh (100%)
+ rename start-tetra-saas.sh => scripts/start-tetra-saas.sh (100%)
+ rename start-tetrashop.sh => scripts/start-tetrashop.sh (100%)
+ rename start.sh => scripts/start.sh (100%)
+ rename start_writer.sh => scripts/start_writer.sh (100%)
+ rename stop-all.sh => scripts/stop-all.sh (100%)
+ rename stop-tetra-saas.sh => scripts/stop-tetra-saas.sh (100%)
+ rename test-all-services-comprehensive.sh => scripts/test-all-services-comprehensive.sh (100%)
+ rename test-integration.sh => scripts/test-integration.sh (100%)
+ rename test-prod-fixed.sh => scripts/test-prod-fixed.sh (100%)
+ rename test-productivity-comparison.sh => scripts/test-productivity-comparison.sh (100%)
+ rename test-services-fixed.sh => scripts/test-services-fixed.sh (100%)
+ rename test-services.sh => scripts/test-services.sh (100%)
+ rename test-vercel-deployment.sh => scripts/test-vercel-deployment.sh (100%)
+ rename test-vercel-site.sh => scripts/test-vercel-site.sh (100%)
+ rename transfer-projects.sh => scripts/transfer-projects.sh (100%)
+ rename update-and-push.sh => scripts/update-and-push.sh (100%)
+ rename update_all_projects.sh => scripts/update_all_projects.sh (100%)
+ rename upgrade_to_full_version.sh => scripts/upgrade_to_full_version.sh (100%)
+ rename add-unified-api.js => services/add-unified-api.js (100%)
+ rename app-simple.js => services/app-simple.js (100%)
+ rename check-paths.js => services/check-paths.js (100%)
+ rename debug-index.js => services/debug-index.js (100%)
+ rename fix-navigation.js => services/fix-navigation.js (100%)
+ rename fix-white-bars.js => services/fix-white-bars.js (100%)
+ rename force-show-projects.js => services/force-show-projects.js (100%)
+ rename index.js => services/index.js (100%)
+ rename integrate-projects.js => services/integrate-projects.js (100%)
+ rename server-final.js => services/server-final.js (100%)
+ rename server.js => services/server.js (100%)
+ rename service-loader.js => services/service-loader.js (100%)
+ rename simple-server.js => services/simple-server.js (100%)
+ rename start-fixed.js => services/start-fixed.js (100%)
+ rename test-now.js => services/test-now.js (100%)
+ rename test-server.js => services/test-server.js (100%)
+ create mode 100755 setup-cron.sh
+ create mode 100644 ui/.gitignore
+ create mode 100644 ui/README.md
+ create mode 100644 ui/css/style.css
+ create mode 100644 ui/index.html
+ create mode 100644 ui/js/dashboard.js
+ create mode 100644 ui/js/services-data.js
+ create mode 100755 ui/start-ui.sh
+ create mode 100644 ui/vercel.json
+[2025/12/21 13:52:33] ✅ Commit ایجاد شد
+[2025/12/21 13:52:33] ارسال تغییرات به remote...
+To https://github.com/tetrashop/tetrashop-projects.git
+   9d96b80..0bbce26  main -> main
+[2025/12/21 13:52:35] ✅ Push موفقیت‌آمیز بود
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # 5. لاگ وضعیت نهایی
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log "وضعیت نهایی:"
+[?2004l[2025/12/21 13:52:35] وضعیت نهایی:
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "├─ Branch: $(git branch --show-current)"
+[?2004l├─ Branch: main
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "├─ آخرین commit: $(git log --oneline -1)"
+[?2004l├─ آخرین commit: 0bbce26 🤖 بروزرسانی خودکار 2025/12/21 13:52
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "├─ فایل‌های تغییر یافته: $(git status --short | wc -l)"
+[?2004l├─ فایل‌های تغییر یافته: 0
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "└─ زمان: $(date '+%Y/%m/%d %H:%M:%S')" [A
+[?2004l└─ زمان: 2025/12/21 13:52:35
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m log "✅ بروزرسانی خودکار کامل شد"
+[?2004l[2025/12/21 13:52:35] ✅ بروزرسانی خودکار کامل شد
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "=========================================="
+[?2004l==========================================
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m [K[0;32m~/tetrashop-projects[0m [0;97m$[0m [K[0;32m~/tetrashop-projects[0m [0;97m$[0m #!/bin/bash
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "⏰ تنظیم بروزرسانی خودکار با cron"
+[?2004l⏰ تنظیم بروزرسانی خودکار با cron
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m echo "================================"
+[?2004l================================
+[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m PROJECT_DIR="/data/data/com.termux/files/home/tetrashop-projects"
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m CRON_JOB="0 */2 * * * cd $PROJECT_DIR && ./auto-git-update.sh"
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m 
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m # بررسی وجود crontab
+[?2004l[?2004h[0;32m~/tetrashop-projects[0m [0;97m$[0m if ! command -v crontab &> /dev/null; then
+[?2004l[?2004h>     echo "❌ crontab یافت نشد. نصب کنید:"
+[?2004l[?2004h>     echo "   pkg install cronie"
+[?2004l[?2004h>     exit 1
+[?2004l[?2004h> fi
+[?2004l❌ crontab یافت نشد. نصب کنید:
+   pkg install cronie
+logout

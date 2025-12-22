@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { 
-  Cloud, Cpu, Brain, Shield, Zap, BarChart3, Users, CheckCircle, 
-  Activity, Server, Lock, Code, Wifi, Battery, FileText, Video, 
-  Image, Volume2, Globe, Database, Settings, Rocket, ShieldCheck, 
-  Folder, Key, Eye, Send, Palette, Box, Wind, Atom, Search, 
-  ArrowLeft, ChevronLeft, X, Play, Loader2, FileText as DocIcon
+  Cpu, Brain, BarChart3, CheckCircle, Activity, Server, Lock, 
+  Code, Wifi, Battery, FileText, Video, Image, Volume2, Globe, 
+  Database, Rocket, ShieldCheck, Folder, Key, Eye, Send, Palette, 
+  Box, Wind, Atom, Search, ArrowLeft, ChevronLeft, X, Play, 
+  Loader2, FileText as DocIcon
 } from 'lucide-react'
 import './index.css'
 
@@ -31,11 +31,11 @@ interface Stats {
 
 function App() {
   // لیست کامل ۲۳ سرویس TetraSaaS
-  const [services, setServices] = useState<Service[]>([
+  const [services] = useState<Service[]>([
     {
       id: 1,
       name: 'تحلیلگر محتوا (NLP)',
-      description: 'پردازش متن فارسی با 243 پست آموزشی - پست 243 فعال',
+      description: 'پردازش متن فارسی با 244 پست آموزشی - پست 244 فعال',
       status: 'active',
       endpoint: '/api/content/analyze',
       category: 'ai',
@@ -305,27 +305,15 @@ function App() {
       'video': Video,
       'code': Code,
       'database': Database,
-      'shield': Shield,
-      'wind': Wind,
       'shield-check': ShieldCheck,
+      'wind': Wind,
       'server': Server,
       'globe': Globe,
-      'default': Zap
+      'default': Rocket
     }
     
     const IconComponent = icons[iconName] || icons.default
     return <IconComponent className="w-5 h-5" />
-  }
-
-  const getStatusColor = (status: 'active' | 'inactive' | 'online' | 'offline' | 'checking') => {
-    const colors = {
-      active: 'bg-green-100 text-green-800 border-green-200',
-      inactive: 'bg-red-100 text-red-800 border-red-200',
-      online: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-      offline: 'bg-rose-100 text-rose-800 border-rose-200',
-      checking: 'bg-amber-100 text-amber-800 border-amber-200'
-    }
-    return colors[status]
   }
 
   const getStatusText = (status: string) => {
