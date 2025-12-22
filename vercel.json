@@ -1,21 +1,21 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "regions": ["fra1"],
+  "functions": {
+    "src/**/*.ts": {
+      "maxDuration": 10
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  },
   "env": {
-    "VITE_API_URL": "https://tetrashop-projects.vercel.app"
+    "NODE_ENV": "production",
+    "VITE_APP_VERSION": "2.0.0"
+  },
+  "github": {
+    "enabled": true,
+    "silent": false
   }
 }
