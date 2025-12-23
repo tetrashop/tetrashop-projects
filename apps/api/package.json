@@ -1,0 +1,34 @@
+{
+  "name": "@tetrasaas/api",
+  "version": "3.0.0",
+  "description": "TetraSaaS API Server - Complete AI Services Platform",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node test-api.js",
+    "setup": "npm install && npm run test"
+  },
+  "keywords": [
+    "tetrasaas",
+    "ai-services",
+    "api",
+    "machine-learning",
+    "saas"
+  ],
+  "author": "TetraSaaS Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "@tetrasaas/database": "file:../../packages/database",
+    "@tetrasaas/auth": "file:../../packages/auth"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

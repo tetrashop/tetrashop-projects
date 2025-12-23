@@ -1,17 +1,1 @@
-{
-  "name": "tetrashop-api",
-  "version": "3.0.0",
-  "description": "TetraSaaS API Platform",
-  "main": "api/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node api/index.js",
-    "vercel-build": "echo 'Building for Vercel...'"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
-}
+{"name": "tetrasaas", "version": "1.0.0", "main": "api/index.js", "dependencies": {"express": "^4.18.2"}}
