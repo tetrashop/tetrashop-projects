@@ -42,3 +42,6 @@ src/*.old
 
 # Vercel
 .vercel
+node_modules/
+.env
+*.db
