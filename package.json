@@ -1,11 +1,14 @@
 {
   "name": "tetrashop-saas-platform",
   "version": "3.0.0",
-  "description": "TetraShop SaaS Platform - AI Services API",
+  "description": "TetraShop SaaS Platform - AI Services API with 251 NLP posts",
   "main": "api/index.js",
+  "type": "module",
   "scripts": {
     "start": "node api/index.js",
-    "vercel-build": "echo 'Building for Vercel...'"
+    "dev": "node --watch api/index.js",
+    "vercel-build": "echo 'Building for Vercel...'",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -13,7 +16,20 @@
     "helmet": "^7.0.0",
     "morgan": "^1.10.0"
   },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "keywords": [
+    "saas",
+    "ai",
+    "nlp",
+    "api",
+    "vercel",
+    "tetrashop"
+  ],
+  "author": "TetraShop Team",
+  "license": "MIT"
 }
