@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/.prisma/client" // رفع هشدار خروجی
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// ۱. کاربران سیستم (برای پنل ادمین)
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String
+  apiKeys       ApiKey[]
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ۲. کلیدهای API (برای دسترسی مشتریان)
+model ApiKey {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenantId    String   @unique // شناسه یکتای مشتری
+  rateLimit   Int      @default(100) // حداکثر درخواست در روز
+  isActive    Boolean  @default(true)
+  lastUsed    DateTime?
+  createdAt   DateTime @default(now())
+
+  serviceLogs ServiceLog[]
+
+  @@map("api_keys")
+  @@index([key])
+  @@index([tenantId])
+}
+
+// ۳. سرویس‌های پلتفرم (۲۶ سرویس شما)
+model Service {
+  id            String   @id @default(cuid())
+  slug          String   @unique // مثال: "image-enhancement"
+  name          String   // فارسی: "بهبود تصویر"
+  nameEn        String?  // انگلیسی: "Image Enhancement"
+  description   String?
+  category      String   // "بینایی کامپیوتر", "NLP", "پردازش صوت"
+  icon          String?  // "👁️"
+  endpointPath  String?  // مسیر API داخلی
+  pricePerCall  Float    @default(0.0) // قیمت به واحد اعتبار
+  isActive      Boolean  @default(true)
+  config        Json?    // تنظیمات خاص سرویس
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  logs          ServiceLog[]
+
+  @@map("services")
+}
+
+// ۴. لاگ اجرای سرویس‌ها
+model ServiceLog {
+  id           String   @id @default(cuid())
+  apiKeyId     String
+  apiKey       ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
+  inputData    Json?    // داده‌های ورودی کاربر
+  outputData   Json?    // نتیجه خروجی سرویس
+  status       LogStatus @default(SUCCESS)
+  errorMessage String?
+  durationMs   Int?     // مدت زمان اجرا به میلی‌ثانیه
+  cost         Float?   // هزینه محاسبه شده
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@map("service_logs")
+  @@index([apiKeyId, createdAt])
+  @@index([serviceId])
+  @@index([createdAt])
+}
+
+// ۵. موجودی اعتبار هر مشتری
+model CreditBalance {
+  id          String   @id @default(cuid())
+  tenantId    String   @unique // مرتبط با ApiKey.tenantId
+  balance     Float    @default(0.0)
+  totalSpent  Float    @default(0.0)
+  lastTopUpAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  transactions CreditTransaction[]
+
+  @@map("credit_balances")
+}
+
+// ۶. تاریخچه افزایش اعتبار
+model CreditTransaction {
+  id          String   @id @default(cuid())
+  balanceId   String
+  balance     CreditBalance @relation(fields: [balanceId], references: [id], onDelete: Cascade)
+  amount      Float    // مبلغ مثبت = افزایش اعتبار
+  reason      String   // "خرید آنلاین", "هدیه تبلیغاتی"
+  referenceId String?  // شناسه پرداخت خارجی
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@map("credit_transactions")
+  @@index([balanceId, createdAt])
+}
+
+// انواع (Enums)
+enum Role {
+  ADMIN
+  USER
+}
+
+enum LogStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+  RATE_LIMITED
+}

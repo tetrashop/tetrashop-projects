@@ -1,0 +1,1 @@
+UPDATE api_keys SET last_used = datetime("now") WHERE id = 7;
