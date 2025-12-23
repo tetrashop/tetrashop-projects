@@ -2,6 +2,8 @@ node_modules/
 .env
 *.db
 .DS_Store
+packages-backup/
+packages/
 *.log
-.vscode/
 .vercel/
+.vscode/
