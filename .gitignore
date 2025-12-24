@@ -7,3 +7,5 @@ packages/
 *.log
 .vercel/
 .vscode/
+.vercel
+.env*.local
