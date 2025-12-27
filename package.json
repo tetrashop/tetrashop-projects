@@ -4,9 +4,11 @@
   "description": "TetraSaaS API با ۲۵۱ پست NLP",
   "main": "api/index.js",
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "node api/index.js"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
+},
   "dependencies": {
     "express": "^4.18.2"
   },
