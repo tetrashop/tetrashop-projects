@@ -1,10 +1,1 @@
-{
-  "/page": "/",
-  "/dashboard/page": "/dashboard",
-  "/api/nlp-proxy/route": "/api/nlp-proxy",
-  "/api/subscribe/route": "/api/subscribe",
-  "/nlp/page": "/nlp",
-  "/services/page": "/services",
-  "/nlp/[id]/page": "/nlp/[id]",
-  "/services/[serviceName]/page": "/services/[serviceName]"
-}
+{"/_not-found":"/_not-found","/page":"/","/api/subscribe/route":"/api/subscribe","/api/nlp-proxy/route":"/api/nlp-proxy","/dashboard/page":"/dashboard","/services/[serviceName]/page":"/services/[serviceName]","/nlp/[id]/page":"/nlp/[id]","/services/page":"/services","/nlp/page":"/nlp"}
