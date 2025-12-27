@@ -1,5 +1,10 @@
 {
+  "/page": "app/page.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/api/nlp-proxy/route": "app/api/nlp-proxy/route.js",
+  "/api/subscribe/route": "app/api/subscribe/route.js",
+  "/nlp/page": "app/nlp/page.js",
   "/services/page": "app/services/page.js",
-  "/nlp/page": "app/nlp/page.js"
+  "/nlp/[id]/page": "app/nlp/[id]/page.js",
+  "/services/[serviceName]/page": "app/services/[serviceName]/page.js"
 }

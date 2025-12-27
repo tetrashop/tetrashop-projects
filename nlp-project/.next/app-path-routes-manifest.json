@@ -1,0 +1,10 @@
+{
+  "/page": "/",
+  "/dashboard/page": "/dashboard",
+  "/api/nlp-proxy/route": "/api/nlp-proxy",
+  "/api/subscribe/route": "/api/subscribe",
+  "/nlp/page": "/nlp",
+  "/services/page": "/services",
+  "/nlp/[id]/page": "/nlp/[id]",
+  "/services/[serviceName]/page": "/services/[serviceName]"
+}

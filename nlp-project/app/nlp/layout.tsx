@@ -1,10 +1,7 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import '../globals.css';
 import NLPHeader from '@/components/nlp/NLPHeader';
 import NLPFooter from '@/components/nlp/NLPFooter';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'پروژه‌های پردازش زبان طبیعی | Tetrashop',
@@ -18,7 +15,7 @@ export default function NPLLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`${inter.className} min-h-screen flex flex-col`}>
+    <div className="min-h-screen flex flex-col">
       <NLPHeader />
       <main className="flex-grow">
         {children}

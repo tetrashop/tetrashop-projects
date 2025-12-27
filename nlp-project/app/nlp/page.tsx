@@ -50,8 +50,9 @@ export default function NLPProjectsPage() {
     setFilteredProjects(results);
   }, [searchQuery, selectedCategory, showOnlyWithAPI, projects]);
 
-  // استخراج دسته‌بندی‌های منحصربفرد
-  const categories = ['همه', ...new Set(projects.map(p => p.category))];
+  // استخراج دسته‌بندی‌های منحصربفرد - رفع خطای Set
+  const uniqueCategories = Array.from(new Set(projects.map(p => p.category)));
+  const categories = ['همه', ...uniqueCategories];
 
   if (loading) {
     return (
