@@ -194,5 +194,10 @@ app.use((req, res) => {
     available: ['/', '/api/health', '/api/nlp', '/api/nlp/1..251', '/api/services', '/api/stats', '/api/search']
   });
 });
-
-module.exports = app;
+module.exports = (req, res) => {
+  res.json({
+    message: "TetraSaaS API",
+    nlpPosts: 251,
+    status: "✅ Running on Vercel"
+  });
+};
