@@ -1,0 +1,76 @@
+{
+  "project": "Tetrashop AI Production System",
+  "version": "2.0.0",
+  "description": "سیستم ۳۲ سرویس هوش مصنوعی - نسخه تولیدی",
+  "status": "active",
+  "author": "Tetrashop Team",
+  "created": "2024-01-04",
+  
+  "gateway": {
+    "port": 5000,
+    "host": "0.0.0.0",
+    "debug": false,
+    "simple_mode": true,
+    "no_login_required": true
+  },
+  
+  "services": {
+    "total_count": 32,
+    "active_ports": [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010, 5011, 5012, 5013, 5014, 5015, 5016, 5017, 5018, 5019, 5020, 5021, 5022, 5023, 5024, 5025, 5026, 5027, 5028, 5029, 5030, 5031, 5032],
+    
+    "categories": {
+      "computer_vision": ["01-ocr", "02-image2dto3d", "15-imagegen", "16-audiogen", "17-videogen"],
+      "natural_language": ["04-speech", "05-summary", "06-translate", "07-chatbot", "08-sentiment", "09-tagging", "10-keywords", "11-ner", "12-qna", "13-textgen"],
+      "data_science": ["18-anomaly", "19-recommend", "20-forecast", "21-optimization", "22-clustering", "23-classification", "24-regression"],
+      "deep_learning": ["25-dnn", "26-cnn", "27-rnn", "28-gan", "29-transformers", "30-rl"],
+      "special": ["31-federated", "32-edge", "03-chess", "14-codegen"]
+    },
+    
+    "pricing": {
+      "basic": ["01-ocr", "05-summary", "06-translate", "08-sentiment"],
+      "standard": ["02-image2dto3d", "04-speech", "07-chatbot", "09-tagging", "10-keywords"],
+      "premium": ["03-chess", "11-ner", "12-qna", "13-textgen", "14-codegen"],
+      "enterprise": ["15-imagegen", "16-audiogen", "17-videogen", "18-anomaly", "19-recommend"],
+      "advanced": ["20-forecast", "21-optimization", "22-clustering", "23-classification", "24-regression"],
+      "ai_research": ["25-dnn", "26-cnn", "27-rnn", "28-gan", "29-transformers", "30-rl", "31-federated", "32-edge"]
+    }
+  },
+  
+  "paths": {
+    "outputs": "~/tetrashop-projects/outputs/",
+    "logs": "~/tetrashop-projects/production-system/logs/",
+    "configs": "~/tetrashop-projects/production-system/config/",
+    "services": "~/tetrashop-projects/production-system/services/",
+    "gateway": "~/tetrashop-projects/production-system/gateway/"
+  },
+  
+  "monitoring": {
+    "health_check_interval": 60,
+    "log_rotation": "daily",
+    "max_log_size": "100MB",
+    "alert_email": "admin@tetrashop.ir",
+    "telegram_bot": "@tetrashop_monitor"
+  },
+  
+  "revenue": {
+    "currency": "تومان",
+    "basic_price": 500,
+    "standard_price": 1500,
+    "premium_price": 3000,
+    "enterprise_price": 5000,
+    "advanced_price": 8000,
+    "ai_research_price": 15000,
+    "daily_target": 1000000,
+    "monthly_target": 30000000
+  },
+  
+  "features": {
+    "auto_start": true,
+    "auto_update": false,
+    "backup_enabled": true,
+    "multi_language": true,
+    "api_documentation": true,
+    "mobile_friendly": true,
+    "dark_mode": true
+  }
+}

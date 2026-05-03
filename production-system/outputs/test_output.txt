@@ -1,0 +1,20 @@
+# فایل تست برای Tetrashop
+# تاریخ: 2024-01-04
+
+این یک فایل تست است.
+
+## دستور cat برای نمایش:
+cat "/data/data/com.termux/files/home/tetrashop-projects/production-system/outputs/test_output.txt"
+
+## محتوای تست:
+سرویس‌های Tetrashop:
+1. OCR فارسی
+2. تبدیل 2D به 3D  
+3. شطرنج هوشمند
+4. تشخیص گفتار
+5. خلاصه‌سازی متن
+
+## وضعیت:
+✅ تمام سرویس‌ها فعال
+✅ قابلیت cat فعال
+✅ قابل کپی/پیست

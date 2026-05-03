@@ -1,0 +1,344 @@
+[
+  {
+    "id": "bots-bale-tetrashop-py",
+    "name": "Bale Tetrashop",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "bots-bale-bot-py",
+    "name": "Bale-Bot",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "bots-atlas-bot-py",
+    "name": "Atlas Bot",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "bots-tetrashop-py",
+    "name": "Tetrashop",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "bots-tetrashop-bridge-py",
+    "name": "Tetrashop Bridge",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "bots-tetrashop-health-check-py",
+    "name": "Tetrashop Health Check",
+    "description": "Digital product from TetraShop.",
+    "type": "Python",
+    "price": 99000,
+    "category": "bot",
+    "image": "https://picsum.photos/seed/626f7473/400/400"
+  },
+  {
+    "id": "ml-services-nlp-gateway-clean",
+    "name": "Nlp-Gateway-Clean",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/6d6c2d73/400/400"
+  },
+  {
+    "id": "ml-services-nlp-project-fixed",
+    "name": "Nlp-Project-Fixed",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/6d6c2d73/400/400"
+  },
+  {
+    "id": "ml-services-ocr-service",
+    "name": "Ocr-Service",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/6d6c2d73/400/400"
+  },
+  {
+    "id": "games-chess-engine",
+    "name": "Chess-Engine",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "game",
+    "image": "https://picsum.photos/seed/67616d65/400/400"
+  },
+  {
+    "id": "games-chess-integrated",
+    "name": "Chess-Integrated",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "game",
+    "image": "https://picsum.photos/seed/67616d65/400/400"
+  },
+  {
+    "id": "games-chess-premium",
+    "name": "Chess-Premium",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "game",
+    "image": "https://picsum.photos/seed/67616d65/400/400"
+  },
+  {
+    "id": "speech-recognition",
+    "name": "Speech-Recognition",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/73706565/400/400"
+  },
+  {
+    "id": "writer",
+    "name": "Writer",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/77726974/400/400"
+  },
+  {
+    "id": "voice-recognition",
+    "name": "Voice-Recognition",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/766f6963/400/400"
+  },
+  {
+    "id": "tetrashop-production",
+    "name": "Tetrashop-Production",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/74657472/400/400"
+  },
+  {
+    "id": "tetra-saas-platform",
+    "name": "Tetra-Saas-Platform",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/74657472/400/400"
+  },
+  {
+    "id": "tetra-error-system",
+    "name": "Tetra-Error-System",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/74657472/400/400"
+  },
+  {
+    "id": "user-management",
+    "name": "User-Management",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/75736572/400/400"
+  },
+  {
+    "id": "payment",
+    "name": "Payment",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "finance",
+    "image": "https://picsum.photos/seed/7061796d/400/400"
+  },
+  {
+    "id": "api",
+    "name": "Api",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/617069/400/400"
+  },
+  {
+    "id": "gateway",
+    "name": "Gateway",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/67617465/400/400"
+  },
+  {
+    "id": "services",
+    "name": "Services",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/73657276/400/400"
+  },
+  {
+    "id": "cms",
+    "name": "Cms",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/636d73/400/400"
+  },
+  {
+    "id": "admin",
+    "name": "Admin",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/61646d69/400/400"
+  },
+  {
+    "id": "dashboard",
+    "name": "Dashboard",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/64617368/400/400"
+  },
+  {
+    "id": "client-sdk",
+    "name": "Client-Sdk",
+    "description": "Digital product from TetraShop.",
+    "type": "Node.js",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/636c6965/400/400"
+  },
+  {
+    "id": "cloud-server",
+    "name": "Cloud-Server",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/636c6f75/400/400"
+  },
+  {
+    "id": "quantum-calligraphy-advanced",
+    "name": "Quantum-Calligraphy-Advanced",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/7175616e/400/400"
+  },
+  {
+    "id": "quantum-writer",
+    "name": "Quantum-Writer",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/7175616e/400/400"
+  },
+  {
+    "id": "common-rhetoric-pro",
+    "name": "Common-Rhetoric-Pro",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/636f6d6d/400/400"
+  },
+  {
+    "id": "aman-secret-cluster",
+    "name": "Aman-Secret-Cluster",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/616d616e/400/400"
+  },
+  {
+    "id": "secret-garden",
+    "name": "Secret-Garden",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/73656372/400/400"
+  },
+  {
+    "id": "wish-garden",
+    "name": "Wish-Garden",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/77697368/400/400"
+  },
+  {
+    "id": "infrastructure",
+    "name": "Infrastructure",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/696e6672/400/400"
+  },
+  {
+    "id": "algorithms",
+    "name": "Algorithms",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "ai",
+    "image": "https://picsum.photos/seed/616c676f/400/400"
+  },
+  {
+    "id": "apps",
+    "name": "Apps",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/61707073/400/400"
+  },
+  {
+    "id": "modules",
+    "name": "Modules",
+    "description": "Digital product from TetraShop.",
+    "type": "Other",
+    "price": 99000,
+    "category": "platform",
+    "image": "https://picsum.photos/seed/6d6f6475/400/400"
+  }
+]

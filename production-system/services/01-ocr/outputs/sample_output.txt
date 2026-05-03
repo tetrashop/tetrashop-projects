@@ -1,0 +1,24 @@
+# خروجی سرویس OCR - شناسه: OCR_001
+# تاریخ تولید: 2024-01-04 15:30:00
+
+✅ پردازش تصویر با موفقیت انجام شد.
+
+## متن استخراج شده:
+این یک متن نمونه فارسی است که از تصویر استخراج شده است.
+متن شامل کاراکترهای فارسی، انگلیسی و اعداد می‌باشد.
+
+## آمار پردازش:
+- تعداد کلمات: 24
+- تعداد خطوط: 5  
+- دقت تشخیص: 96.7%
+- زمان پردازش: 1.2 ثانیه
+
+## دستور cat برای نمایش این فایل:
+cat "/data/data/com.termux/files/home/tetrashop-projects/production-system/services/01-ocr/outputs/sample_output.txt"
+
+## یا کپی این مسیر:
+/data/data/com.termux/files/home/tetrashop-projects/production-system/services/01-ocr/outputs/sample_output.txt
+
+---
+سیستم تولیدی Tetrashop
+برای کپی/پیست مستقیم طراحی شده است.

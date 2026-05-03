@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست نمایش ۳۲ سرویس Tetrashop</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; background: #f5f7fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #1a73e8; text-align: center; }
+        .test-section { background: white; padding: 30px; border-radius: 15px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .btn { padding: 12px 24px; background: #1a73e8; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin: 5px; }
+        .btn:hover { background: #0d62d9; }
+        .result { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; font-family: monospace; }
+        .service-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        .service-item:nth-child(even) { background: #f8f9fa; }
+        .status-active { color: green; }
+        .status-inactive { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 تست نمایش ۳۲ سرویس Tetrashop</h1>
+        
+        <div class="test-section">
+            <h2>۱. تست سلامت Gateway</h2>
+            <button class="btn" onclick="testHealth()">تست سلامت</button>
+            <div id="health-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>۲. دریافت لیست ۳۲ سرویس</h2>
+            <button class="btn" onclick="getServices()">دریافت سرویس‌ها</button>
+            <div id="services-result" class="result"></div>
+            <div id="services-list"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>۳. شمارش سرویس‌ها</h2>
+            <button class="btn" onclick="countServices()">شمارش بر اساس دسته</button>
+            <div id="count-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>۴. تست کامل سیستم</h2>
+            <button class="btn" onclick="testAll()">اجرای تست کامل</button>
+            <div id="test-all-result" class="result"></div>
+        </div>
+    </div>
+    
+    <script>
+        async function testHealth() {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                const data = await response.json();
+                document.getElementById('health-result').innerHTML = 
+                    `<strong>✅ سلامت سیستم:</strong><br>` +
+                    `وضعیت: ${data.status}<br>` +
+                    `سرویس‌ها: ${data.services}<br>` +
+                    `NLPها: ${data.nlp_endpoints}<br>` +
+                    `سرویس واقعی: ${data.real_services ? 'بله' : 'خیر'}`;
+            } catch (error) {
+                document.getElementById('health-result').innerHTML = 
+                    `<strong>❌ خطا:</strong> ${error.message}`;
+            }
+        }
+        
+        async function getServices() {
+            try {
+                const response = await fetch('http://localhost:5000/services');
+                const data = await response.json();
+                
+                document.getElementById('services-result').innerHTML = 
+                    `<strong>✅ تعداد سرویس‌ها:</strong> ${data.total} (واقعی: ${data.real_services ? 'بله' : 'خیر'})`;
+                
+                let html = '<h3>لیست ۳۲ سرویس:</h3>';
+                data.services.forEach(service => {
+                    html += `
+                        <div class="service-item">
+                            <div>
+                                <strong>${service.id}. ${service.name}</strong><br>
+                                <small>دسته: ${service.category} | پورت: ${service.port}</small>
+                            </div>
+                            <div>
+                                <span class="status-${service.status}">${service.status === 'active' ? '✅ فعال' : '❌ غیرفعال'}</span><br>
+                                <small>${service.endpoints} endpoint</small>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('services-list').innerHTML = html;
+            } catch (error) {
+                document.getElementById('services-result').innerHTML = 
+                    `<strong>❌ خطا:</strong> ${error.message}`;
+            }
+        }
+        
+        async function countServices() {
+            try {
+                const response = await fetch('http://localhost:5000/services/count');
+                const data = await response.json();
+                
+                let html = `<strong>📊 تعداد سرویس‌ها:</strong> ${data.total_services}<br><br>`;
+                html += `<strong>توزیع بر اساس دسته:</strong><br>`;
+                
+                for (const [category, count] of Object.entries(data.by_category)) {
+                    html += `• ${category}: ${count} سرویس<br>`;
+                }
+                
+                document.getElementById('count-result').innerHTML = html;
+            } catch (error) {
+                document.getElementById('count-result').innerHTML = 
+                    `<strong>❌ خطا:</strong> ${error.message}`;
+            }
+        }
+        
+        async function testAll() {
+            try {
+                const response = await fetch('http://localhost:5000/api/test-all');
+                const data = await response.json();
+                
+                document.getElementById('test-all-result').innerHTML = 
+                    `<strong>✅ تست کامل انجام شد:</strong><br>` +
+                    `تعداد سرویس‌ها: ${data.total_services}<br>` +
+                    `سرویس‌های فعال: ${data.active_services}<br>` +
+                    `کل endpointها: ${data.total_endpoints}<br>` +
+                    `NLP endpointها: ${data.nlp_endpoints}<br>` +
+                    `نتیجه: ${data.result}`;
+            } catch (error) {
+                document.getElementById('test-all-result').innerHTML = 
+                    `<strong>❌ خطا:</strong> ${error.message}`;
+            }
+        }
+        
+        // اجرای خودکار تست سلامت
+        window.onload = testHealth;
+    </script>
+</body>
+</html>

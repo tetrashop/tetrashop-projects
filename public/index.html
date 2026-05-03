@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TetraBrain Orchestrator | دستیار هوشمند یکپارچه</title>
+    <style>
+        body {
+            font-family: 'Vazirmatn', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #f1f5f9;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .badge {
+            background: #10b981;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 20px;
+            border: none;
+            background: #334155;
+            color: white;
+            font-family: inherit;
+        }
+        button {
+            background: #3b82f6;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+            font-family: inherit;
+        }
+        button:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+        .result-box {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        audio {
+            width: 100%;
+            margin-top: 12px;
+        }
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f1f5f9;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 12px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .flex {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        hr {
+            border-color: #334155;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧠 TetraBrain Orchestrator <span class="badge">نسخه یکپارچه</span></h1>
+    <p>پردازش هوشمند متن و تصویر → خلاصه‌سازی → تبدیل به گفتار فارسی</p>
+    <hr>
+
+    <div class="flex">
+        <button id="textTabBtn">📝 ورودی متن</button>
+        <button id="fileTabBtn">🖼️ ورودی فایل</button>
+    </div>
+
+    <!-- بخش ورودی متن -->
+    <div id="textPanel">
+        <textarea id="textInput" rows="4" placeholder="متن خود را اینجا بنویسید..."></textarea>
+        <button id="submitTextBtn">🚀 پردازش متن</button>
+    </div>
+
+    <!-- بخش ورودی فایل -->
+    <div id="filePanel" style="display: none;">
+        <input type="file" id="fileInput" accept="image/*,application/pdf,text/plain">
+        <button id="submitFileBtn">📤 آپلود و پردازش</button>
+    </div>
+
+    <div id="loading" class="loader"></div>
+
+    <div id="resultArea" class="result-box" style="display: none;">
+        <h3>📊 نتیجه پردازش</h3>
+        <div id="resultContent"></div>
+        <div id="audioPlayer"></div>
+    </div>
+</div>
+
+<script>
+    const textPanel = document.getElementById('textPanel');
+    const filePanel = document.getElementById('filePanel');
+    const textTabBtn = document.getElementById('textTabBtn');
+    const fileTabBtn = document.getElementById('fileTabBtn');
+    const submitTextBtn = document.getElementById('submitTextBtn');
+    const submitFileBtn = document.getElementById('submitFileBtn');
+    const textInput = document.getElementById('textInput');
+    const fileInput = document.getElementById('fileInput');
+    const resultArea = document.getElementById('resultArea');
+    const resultContent = document.getElementById('resultContent');
+    const audioPlayerDiv = document.getElementById('audioPlayer');
+    const loading = document.getElementById('loading');
+
+    textTabBtn.addEventListener('click', () => {
+        textPanel.style.display = 'block';
+        filePanel.style.display = 'none';
+    });
+    fileTabBtn.addEventListener('click', () => {
+        textPanel.style.display = 'none';
+        filePanel.style.display = 'block';
+    });
+
+    async function callOrchestrator(body, isFile = false) {
+        loading.style.display = 'inline-block';
+        resultArea.style.display = 'none';
+        try {
+            let response;
+            if (isFile) {
+                const formData = new FormData();
+                formData.append('file', body);
+                response = await fetch('/api/orchestrator/process', {
+                    method: 'POST',
+                    body: formData
+                });
+            } else {
+                response = await fetch('/api/orchestrator/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: body })
+                });
+            }
+            const data = await response.json();
+            if (data.success) {
+                displayResult(data.result);
+            } else {
+                resultContent.innerHTML = `<span style="color:#f87171;">❌ خطا: ${data.error || 'پردازش ناموفق'}</span>`;
+                resultArea.style.display = 'block';
+            }
+        } catch (err) {
+            resultContent.innerHTML = `<span style="color:#f87171;">❌ خطای شبکه: ${err.message}</span>`;
+            resultArea.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    function displayResult(result) {
+        let html = '';
+        if (result.extractedText) {
+            html += `<p><strong>📄 متن استخراج‌شده:</strong><br>${result.extractedText}</p>`;
+        }
+        if (result.analysis) {
+            html += `<p><strong>📝 خلاصه:</strong><br>${result.analysis.summary || 'بدون خلاصه'}</p>`;
+            if (result.analysis.sentiment) {
+                html += `<p><strong>🎭 احساس:</strong> ${result.analysis.sentiment}</p>`;
+            }
+        }
+        if (result.audioUrl) {
+            audioPlayerDiv.innerHTML = `<audio controls src="${result.audioUrl}"></audio><br><small>🔊 کتاب صوتی تولید شد</small>`;
+        } else {
+            audioPlayerDiv.innerHTML = '';
+        }
+        resultContent.innerHTML = html || '<p>✅ پردازش با موفقیت انجام شد (خروجی خاصی موجود نیست)</p>';
+        resultArea.style.display = 'block';
+    }
+
+    submitTextBtn.addEventListener('click', () => {
+        const text = textInput.value.trim();
+        if (!text) {
+            alert('لطفاً متن را وارد کنید');
+            return;
+        }
+        callOrchestrator(text, false);
+    });
+
+    submitFileBtn.addEventListener('click', () => {
+        if (!fileInput.files.length) {
+            alert('لطفاً یک فایل انتخاب کنید');
+            return;
+        }
+        callOrchestrator(fileInput.files[0], true);
+    });
+</script>
+</body>
+</html>

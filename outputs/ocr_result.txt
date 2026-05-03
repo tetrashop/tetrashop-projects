@@ -1,0 +1,8 @@
+# خروجی OCR فارسی
+✅ متن با موفقیت استخراج شد.
+
+متن استخراج شده:
+"پروژه Tetrashop یک سیستم هوش مصنوعی کامل است."
+
+دستور cat:
+cat ~/tetrashop-projects/outputs/ocr_result.txt

@@ -1,0 +1,8 @@
+# تحلیل شطرنج
+♟️ بهترین حرکت: Nf3
+
+امتیاز: +0.4
+وضعیت: تحلیل کامل
+
+دستور cat:
+cat ~/tetrashop-projects/outputs/chess_move.txt

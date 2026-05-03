@@ -1,0 +1,21 @@
+# خروجی سرویس 05 - 📝 خلاصه‌سازی
+# تاریخ تولید: 2024-01-04
+# وضعیت: تکمیل شده
+
+✅ پردازش موفقیت‌آمیز بود.
+
+## نتایج:
+- سرویس: 📝 خلاصه‌سازی
+- پورت: 5105
+- وضعیت: فعال
+- کیفیت: 95%
+
+## دستور cat برای نمایش:
+cat "/data/data/com.termux/files/home/tetrashop-projects/production-system/outputs/service_05_output.txt"
+
+## یا کپی این مسیر:
+/data/data/com.termux/files/home/tetrashop-projects/production-system/outputs/service_05_output.txt
+
+---
+سیستم Tetrashop
+قابل کپی/پیست مستقیم
