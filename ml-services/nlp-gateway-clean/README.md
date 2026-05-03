@@ -11,9 +11,9 @@
 - Other
 
 ## 🧪 چالش‌ها و راه‌حل‌ها
-- **Integration:** Merged into TetraShop monorepo with unified dashboard.
-- **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
-- **Cross-platform:** Tested on Termux (Android) environment.
+- **مدل‌های سبک:** استفاده از کتابخانه‌های سمت کلاینت برای تحلیل احساسات.
+- **زمان پاسخ:** بهینه‌سازی با کش و پردازش موازی.
+- **نمایش نتایج:** برگرداندن خروجی قابل فهم برای کاربر فارسی‌زبان.
 
 ## 🚀 راه‌اندازی و اجرا
 ```bash
@@ -22,12 +22,16 @@ cd ml-services/nlp-gateway-clean
 ```
 
 ## 📈 دستاوردها
-- Fully operational within the TetraShop ecosystem.
-- Demo available in the main storefront.
+- سرویس تحلیل احساسات متن فارسی با دقت قابل قبول.
+- دارای API و دموی تعاملی در فروشگاه.
 
----
+## 💰 خرید از طریق ربات بله
 
-*This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+این محصول از طریق ربات پرداخت **TetraShop** در پیام‌رسان بله قابل خریداری است.
+- **نام ربات:** @Tetrashopbot
+- **روش پرداخت:** کیف پول بله (Wallet ID: WALLET-YHmDnapsnsVghjHX)
+- **نحوه خرید:** پس از استارت ربات، محصول را انتخاب کرده و فاکتور پرداخت را دریافت نمایید.
+- **پس از پرداخت موفق:** لینک دانلود یا فایل محصول به‌صورت خودکار ارسال می‌شود.
 
 ---
 

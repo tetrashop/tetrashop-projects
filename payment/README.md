@@ -11,9 +11,9 @@
 - Other
 
 ## 🧪 چالش‌ها و راه‌حل‌ها
-- **Integration:** Merged into TetraShop monorepo with unified dashboard.
-- **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
-- **Cross-platform:** Tested on Termux (Android) environment.
+- **شبیه‌سازی داده‌ها:** تولید اعداد تصادفی برای نمایش نمودار.
+- **یکپارچگی با فروشگاه:** اتصال به سبد خرید و نمایش قیمت‌ها.
+- **آمادگی برای درگاه واقعی:** ساختار ماژولار برای جایگزینی با API بانکی.
 
 ## 🚀 راه‌اندازی و اجرا
 ```bash
@@ -22,12 +22,16 @@ cd payment
 ```
 
 ## 📈 دستاوردها
-- Fully operational within the TetraShop ecosystem.
-- Demo available in the main storefront.
+- داشبورد مالی نمونه با نمودارهای دینامیک.
+- آماده برای اتصال به درگاه پرداخت واقعی.
 
----
+## 💰 خرید از طریق ربات بله
 
-*This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+این محصول از طریق ربات پرداخت **TetraShop** در پیام‌رسان بله قابل خریداری است.
+- **نام ربات:** @Tetrashopbot
+- **روش پرداخت:** کیف پول بله (Wallet ID: WALLET-YHmDnapsnsVghjHX)
+- **نحوه خرید:** پس از استارت ربات، محصول را انتخاب کرده و فاکتور پرداخت را دریافت نمایید.
+- **پس از پرداخت موفق:** لینک دانلود یا فایل محصول به‌صورت خودکار ارسال می‌شود.
 
 ---
 
