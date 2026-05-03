@@ -4,7 +4,6 @@ const nextConfig = {
     if (!isServer) {
       config.watchOptions = { ignored: ['/data/**', '/**/node_modules'] };
     }
-    // غیرفعال کردن کش برای جلوگیری از کرش
     config.cache = false;
     return config;
   },

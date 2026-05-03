@@ -1,30 +1,34 @@
 # Gateway
 
-**Type:** Node.js
-**Description:** Gateway یکپارچه برای ۲۳ سرویس ابری TetraSaaS
+**نوع:** Node.js
+**دسته:** platform
+**توضیح:** محصول دیجیتال از مجموعهٔ TetraShop.
 
-## ✨ Features
-- Web server / API endpoint
+## ✨ ویژگی‌ها
+- ابزار دیجیتال سفارشی
 
-
-## 🛠️ Technologies
+## 🛠️ فناوری‌ها
 - Node.js
 
-## 🧪 Challenges & Solutions
+## 🧪 چالش‌ها و راه‌حل‌ها
 - **Integration:** Merged into TetraShop monorepo with unified dashboard.
 - **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
 - **Cross-platform:** Tested on Termux (Android) environment.
 
-## 🚀 Setup & Run
+## 🚀 راه‌اندازی و اجرا
 ```bash
-cd Gateway
-npm install && npm start
+cd gateway
+npm start
 ```
 
-## 📈 Achievements
+## 📈 دستاوردها
 - Fully operational within the TetraShop ecosystem.
 - Demo available in the main storefront.
 
 ---
 
 *This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+
+---
+
+*این README توسط سیستم خودکار TetraShop بروزرسانی شده است.*

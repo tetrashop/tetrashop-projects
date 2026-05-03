@@ -1,29 +1,34 @@
 # Quantum-Writer
 
-**Type:** General
-**Description:** Digital product of TetraShop ecosystem.
+**نوع:** Other
+**دسته:** ai
+**توضیح:** محصول دیجیتال از مجموعهٔ TetraShop.
 
-## ✨ Features
-- Custom digital tool
+## ✨ ویژگی‌ها
+- ابزار دیجیتال سفارشی
 
-## 🛠️ Technologies
+## 🛠️ فناوری‌ها
+- Other
 
-
-## 🧪 Challenges & Solutions
+## 🧪 چالش‌ها و راه‌حل‌ها
 - **Integration:** Merged into TetraShop monorepo with unified dashboard.
 - **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
 - **Cross-platform:** Tested on Termux (Android) environment.
 
-## 🚀 Setup & Run
+## 🚀 راه‌اندازی و اجرا
 ```bash
-cd Quantum-Writer
-See main file.
+cd quantum-writer
+مشاهده فایل اصلی
 ```
 
-## 📈 Achievements
+## 📈 دستاوردها
 - Fully operational within the TetraShop ecosystem.
 - Demo available in the main storefront.
 
 ---
 
 *This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+
+---
+
+*این README توسط سیستم خودکار TetraShop بروزرسانی شده است.*

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function reply(msg: string): string {
+function reply(msg: string) {
   const m = msg.toLowerCase();
   if (m.includes('محصول')) return 'محصولات: ساعت هوشمند، هدفون، کتاب، ماگ و شارژر.';
   if (m.includes('قیمت')) return 'قیمت‌ها از ۱۹۵,۰۰۰ تومان شروع می‌شود.';
@@ -8,20 +8,20 @@ function reply(msg: string): string {
   return 'سلام! من ربات پشتیبانی فروشگاه هستم. چطور می‌توانم کمک کنم؟';
 }
 
-export default function BotDemo({ productId }: { productId: string }) {
-  const [chat, setChat] = useState<{ type: 'user'|'bot', text: string }[]>([]);
+export default function BotDemo() {
+  const [chat, setChat] = useState<{ type: 'user' | 'bot'; text: string }[]>([]);
   const [input, setInput] = useState('');
 
   const send = () => {
     if (!input.trim()) return;
     const user = input.trim();
-    setChat([...chat, { type: 'user', text: user }]);
+    setChat(prev => [...prev, { type: 'user', text: user }]);
     setInput('');
     setTimeout(() => setChat(prev => [...prev, { type: 'bot', text: reply(user) }]), 500);
   };
 
   return (
-    <div className="border rounded-2xl p-4 bg-gray-50 max-w-md mx-auto">
+    <div className="max-w-md mx-auto p-4 bg-gray-50 rounded-2xl border">
       <div className="h-80 overflow-y-auto mb-4 space-y-2 p-2">
         {chat.map((m, i) => (
           <div key={i} className={`flex ${m.type === 'user' ? 'justify-end' : ''}`}>

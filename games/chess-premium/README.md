@@ -1,30 +1,34 @@
 # Chess-Premium
 
-**Type:** Node.js
-**Description:** Digital product of TetraShop ecosystem.
+**نوع:** Node.js
+**دسته:** game
+**توضیح:** محصول دیجیتال از مجموعهٔ TetraShop.
 
-## ✨ Features
-- Web server / API endpoint
+## ✨ ویژگی‌ها
+- ابزار دیجیتال سفارشی
 
-
-## 🛠️ Technologies
+## 🛠️ فناوری‌ها
 - Node.js
 
-## 🧪 Challenges & Solutions
+## 🧪 چالش‌ها و راه‌حل‌ها
 - **Integration:** Merged into TetraShop monorepo with unified dashboard.
 - **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
 - **Cross-platform:** Tested on Termux (Android) environment.
 
-## 🚀 Setup & Run
+## 🚀 راه‌اندازی و اجرا
 ```bash
-cd Chess-Premium
-npm install && npm start
+cd games/chess-premium
+npm start
 ```
 
-## 📈 Achievements
+## 📈 دستاوردها
 - Fully operational within the TetraShop ecosystem.
 - Demo available in the main storefront.
 
 ---
 
 *This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+
+---
+
+*این README توسط سیستم خودکار TetraShop بروزرسانی شده است.*

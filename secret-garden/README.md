@@ -1,33 +1,30 @@
 # Wish-Garden
 
-**Type:** General
-**Description:** Digital product of TetraShop ecosystem.
+**نوع:** Other
+**دسته:** platform
+**توضیح:** محصول دیجیتال از مجموعهٔ TetraShop.
 
-## ✨ Features
-- Custom digital tool
+## ✨ ویژگی‌ها
+- ابزار دیجیتال سفارشی
 
-## 🛠️ Technologies
+## 🛠️ فناوری‌ها
+- Other
 
+## 🧪 چالش‌ها و راه‌حل‌ها
+- **معماری ماژولار:** طراحی سرویس‌ها به‌صورت مستقل و قابل ترکیب.
+- **مدیریت خطاها:** پیاده‌سازی یک سیستم متمرکز برای لاگ و مانیتورینگ.
+- **استقرار:** پیکربندی برای دیپلوی روی Vercel و Cloudflare Pages.
 
-## 🧪 Challenges & Solutions
-- **Integration:** Merged into TetraShop monorepo with unified dashboard.
-- **Deployment:** Configured for cloud deployment (Vercel/Cloudflare Pages).
-- **Cross-platform:** Tested on Termux (Android) environment.
-
-## 🚀 Setup & Run
+## 🚀 راه‌اندازی و اجرا
 ```bash
-cd Wish-Garden
-See main file.
+cd wish-garden
+مشاهده فایل اصلی
 ```
 
-## 📈 Achievements
-- Fully operational within the TetraShop ecosystem.
-- Demo available in the main storefront.
+## 📈 دستاوردها
+- پلتفرم مدیریتی با داشبورد و آمار لحظه‌ای.
+- کاملاً ماژولار و قابل گسترش برای پروژه‌های دیگر.
 
 ---
 
-*This README was auto-updated by TetraShop CI. Previous content preserved in history.*
-
----
-
-*This README was auto-updated by TetraShop CI. Previous content preserved in history.*
+*این README توسط سیستم خودکار TetraShop بروزرسانی شده است.*

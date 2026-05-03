@@ -1,6 +1,6 @@
-export default function PlatformDemo({ productId }: { productId: string }) {
+export default function PlatformDemo() {
   return (
-    <div className="p-4 bg-white rounded-2xl shadow">
+    <div className="p-4 bg-white rounded-2xl shadow overflow-y-auto">
       <h3 className="text-xl font-bold mb-4">⚙️ پنل مدیریت</h3>
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-blue-100 p-4 rounded-xl text-center"><p className="text-sm">کاربران</p><p className="text-2xl font-bold">۱۲۰</p></div>
