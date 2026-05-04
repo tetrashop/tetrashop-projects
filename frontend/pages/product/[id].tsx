@@ -9,7 +9,6 @@ export default function ProductDetail() {
   const { id } = router.query;
   const product = fakeProducts.find(p => p.id === Number(id));
   const addItem = useCartStore(s => s.addItem);
-
   if (!product) return <div className="p-8 text-center text-red-500">محصول پیدا نشد</div>;
   return (
     <>

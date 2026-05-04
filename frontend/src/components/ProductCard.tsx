@@ -7,9 +7,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore(s => s.addItem);
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl p-4 flex flex-col items-center text-center">
-      <Link href={`/product/${product.id}`}>
-        <img src={product.image} alt={product.name} className="w-40 h-40 object-cover rounded-xl mb-4 cursor-pointer" />
-      </Link>
+      <Link href={`/product/${product.id}`}><img src={product.image} alt={product.name} className="w-40 h-40 object-cover rounded-xl mb-4 cursor-pointer" /></Link>
       <h3 className="text-lg font-bold text-gray-800 mb-1">{product.name}</h3>
       <p className="text-sm text-gray-500 mb-2">{product.description}</p>
       <span className="text-xl font-bold text-emerald-600 mb-3">{formatPrice(product.price)} تومان</span>

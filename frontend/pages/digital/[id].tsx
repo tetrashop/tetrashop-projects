@@ -12,7 +12,6 @@ export default function DigitalProductDetail() {
   const { id } = router.query;
   const product = (digitalProducts as Array<any>).find(p => p.id === id);
   const addItem = useCartStore(s => s.addItem);
-
   if (!product) return <div className="p-8 text-center text-red-500">محصول یافت نشد</div>;
   return (
     <>

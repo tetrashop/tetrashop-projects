@@ -1,16 +1,79 @@
 # Tetrashop Health Check
 
-**Type:** Python
-**Category:** bot
+## 📊 وضعیت توسعه
+- **پیشرفت کلی:** 90٪
+- **موارد تکمیل‌شده:**
+  - ایجاد فایل اصلی پروژه
+  - مستندسازی README
+  - دموی تعاملی در فروشگاه TetraShop
+  - قابلیت خرید از طریق ربات بله (پرداخت با کیف پول)
 
-## 🧪 Challenges & Solutions
-- در حال تکمیل
+- **موارد باقی‌مانده:**
+- تست عملکرد واقعی با webhook بله
+- افزودن قابلیت‌های پیشرفته چت
 
-## 📈 Achievements
-- در حال تکمیل
+---
 
-## 💰 خرید از طریق ربات بله
-این محصول از طریق ربات @Tetrashopbot با کیف پول بله قابل خرید است.
-- Wallet ID: WALLET-YHmDnapsnsVghjHX
-- وب‌هوک: https://tetrashop-projects.vercel.app/api/bot
+## 🔧 چالش‌ها و راهکارهای فنی (Scientific Approach)
 
+### ۱. رفع خطای Hydration Mismatch
+- **مشکل:** تابع `toLocaleString()` در سرور و کلاینت خروجی متفاوت داشت.
+- **راه‌حل:** تعریف تابع `formatPrice` با `Intl.NumberFormat('fa-IR')` برای یکسان‌سازی.
+
+### ۲. رفع خطای Watchpack (EACCES) در Termux
+- **مشکل:** Next.js در Termux خطای `EACCES: permission denied, watch '/data'` می‌داد.
+- **راه‌حل:** تنظیم `watchOptions.ignored` و استفاده از `--webpack` به‌جای Turbopack.
+
+### ۳. ناسازگاری ESM / CommonJS
+- **مشکل:** `package.json` با `"type": "module"` با ماژول‌های CommonJS تداخل داشت.
+- **راه‌حل:** تبدیل همه پیکربندی‌ها به `export default` و استفاده از پسوند `.cjs` برای اسکریپت‌های موقت.
+
+### ۴. اشغال پورت ۳۰۰۱
+- **مشکل:** خطای `EADDRINUSE`.
+- **راه‌حل:** تغییر پورت پیش‌فرض به ۳۰۰۲ و کشتن پروسه‌های قدیمی با `pkill -9 node`.
+
+### ۵. مشکل زیرماژول‌های گیت
+- **مشکل:** `fatal: not a git repository: apps/frontend/...`
+- **راه‌حل:** غیرفعال‌سازی و حذف ساب‌ماژول‌های خراب.
+
+### ۶. یکپارچه‌سازی محصولات دیجیتال
+- **چالش:** ۳۰+ پروژه باید به‌عنوان محصول نمایش داده شوند.
+- **راه‌حل:** اسکریپت خودکار `build-inventory.cjs` و فایل `digitalProducts.json`.
+
+### ۷. دموهای تعاملی پایدار
+- **چالش:** دموها اسکرول نمی‌شدند، نام‌ها ناسازگار بودند.
+- **راه‌حل:** استفاده از ۵ دموی استاندارد با نام‌های PascalCase و `overflow-y-auto`.
+
+---
+
+## 🛒 ارتباط با ربات بله و پرداخت
+
+- **نام ربات:** @Tetrashopbot
+- **کیف پول:** `WALLET-YHmDnapsnsVghjHX`
+- **نحوه پرداخت:** کاربر از طریق منوی inline محصول را انتخاب کرده و فاکتور دریافت می‌کند. پس از پرداخت، لینک دانلود ارسال می‌شود.
+- **تنظیمات webhook:** `https://tetrashop-projects.vercel.app/api/bot`
+- **وضعیت فعلی:** کد کامل است و پس از رفع ۵۰۳ موقت بله، webhook فعال خواهد شد.
+
+---
+
+## 🖥️ معماری بهینه‌شده
+
+- **Frontend:** Next.js 16 + Tailwind CSS + Zustand
+- **Backend (API):** Serverless Functions روی Vercel (Python)
+- **دموها:** React Functional Components با بارگذاری پویا
+- **مدیریت حالت:** Zustand برای سبد خرید
+- **محصولات:** تعریف‌شده در `digitalProducts.json` (تولید خودکار)
+
+---
+
+## 🚀 راه‌اندازی و اجرا
+
+```bash
+cd bots
+python tetrashop_health_check.py
+```
+
+---
+
+**آخرین بروزرسانی:** خرداد ۱۴۰۵  
+*این مستند به‌صورت خودکار توسط سیستم TetraShop تهیه شده است.*
