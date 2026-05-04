@@ -2,7 +2,7 @@
   {
     "id": "bots-bale-tetrashop-py",
     "name": "Bale Tetrashop",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -11,7 +11,7 @@
   {
     "id": "bots-bale-bot-py",
     "name": "Bale-Bot",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -20,7 +20,7 @@
   {
     "id": "bots-atlas-bot-py",
     "name": "Atlas Bot",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -29,7 +29,7 @@
   {
     "id": "bots-tetrashop-py",
     "name": "Tetrashop",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -38,7 +38,7 @@
   {
     "id": "bots-tetrashop-bridge-py",
     "name": "Tetrashop Bridge",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -47,7 +47,7 @@
   {
     "id": "bots-tetrashop-health-check-py",
     "name": "Tetrashop Health Check",
-    "description": "Bots",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -56,7 +56,7 @@
   {
     "id": "ml-services-nlp-gateway-clean",
     "name": "Nlp-Gateway-Clean",
-    "description": "Nlp-Gateway-Clean",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -65,7 +65,7 @@
   {
     "id": "ml-services-nlp-project-fixed",
     "name": "Nlp-Project-Fixed",
-    "description": "Nlp-Project-Fixed",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -74,7 +74,7 @@
   {
     "id": "ml-services-ocr-service",
     "name": "Ocr-Service",
-    "description": "Ocr-Service",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -83,7 +83,7 @@
   {
     "id": "games-chess-engine",
     "name": "Chess-Engine",
-    "description": "Chess-Engine",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "game",
@@ -92,8 +92,8 @@
   {
     "id": "games-chess-integrated",
     "name": "Chess-Integrated",
-    "description": "Chess-Integrated",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "game",
     "image": "https://picsum.photos/seed/67616d65/400/400"
@@ -101,8 +101,8 @@
   {
     "id": "games-chess-premium",
     "name": "Chess-Premium",
-    "description": "Chess-Premium",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "game",
     "image": "https://picsum.photos/seed/67616d65/400/400"
@@ -110,7 +110,7 @@
   {
     "id": "speech-recognition",
     "name": "Speech-Recognition",
-    "description": "Speech-Recognition",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -119,7 +119,7 @@
   {
     "id": "writer",
     "name": "Writer",
-    "description": "Writer",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -128,25 +128,16 @@
   {
     "id": "voice-recognition",
     "name": "Voice-Recognition",
-    "description": "Voice-Recognition",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
     "image": "https://picsum.photos/seed/766f6963/400/400"
   },
   {
-    "id": "tetrashop-vercel",
-    "name": "tetrashop-vercel",
-    "description": "Digital product (not found on disk)",
-    "type": "Unknown",
-    "price": 0,
-    "category": "platform",
-    "image": ""
-  },
-  {
     "id": "tetrashop-production",
     "name": "Tetrashop-Production",
-    "description": "Tetrashop-Production",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -155,7 +146,7 @@
   {
     "id": "tetra-saas-platform",
     "name": "Tetra-Saas-Platform",
-    "description": "Tetra-Saas-Platform",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -164,8 +155,8 @@
   {
     "id": "tetra-error-system",
     "name": "Tetra-Error-System",
-    "description": "Tetra-Error-System",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "platform",
     "image": "https://picsum.photos/seed/74657472/400/400"
@@ -173,7 +164,7 @@
   {
     "id": "user-management",
     "name": "User-Management",
-    "description": "User-Management",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -182,7 +173,7 @@
   {
     "id": "payment",
     "name": "Payment",
-    "description": "Payment",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "finance",
@@ -191,7 +182,7 @@
   {
     "id": "api",
     "name": "Api",
-    "description": "Api",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -200,8 +191,8 @@
   {
     "id": "gateway",
     "name": "Gateway",
-    "description": "Gateway",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "platform",
     "image": "https://picsum.photos/seed/67617465/400/400"
@@ -209,7 +200,7 @@
   {
     "id": "services",
     "name": "Services",
-    "description": "Services",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -218,7 +209,7 @@
   {
     "id": "cms",
     "name": "Cms",
-    "description": "Cms",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -227,7 +218,7 @@
   {
     "id": "admin",
     "name": "Admin",
-    "description": "Admin",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -236,8 +227,8 @@
   {
     "id": "dashboard",
     "name": "Dashboard",
-    "description": "Dashboard",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "platform",
     "image": "https://picsum.photos/seed/64617368/400/400"
@@ -245,8 +236,8 @@
   {
     "id": "client-sdk",
     "name": "Client-Sdk",
-    "description": "Client-Sdk",
-    "type": "Node.js",
+    "description": "Digital product of TetraShop ecosystem.",
+    "type": "Other",
     "price": 99000,
     "category": "platform",
     "image": "https://picsum.photos/seed/636c6965/400/400"
@@ -254,7 +245,7 @@
   {
     "id": "cloud-server",
     "name": "Cloud-Server",
-    "description": "Cloud-Server",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -263,7 +254,7 @@
   {
     "id": "quantum-calligraphy-advanced",
     "name": "Quantum-Calligraphy-Advanced",
-    "description": "Quantum-Calligraphy-Advanced",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -272,7 +263,7 @@
   {
     "id": "quantum-writer",
     "name": "Quantum-Writer",
-    "description": "Quantum-Writer",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -281,7 +272,7 @@
   {
     "id": "common-rhetoric-pro",
     "name": "Common-Rhetoric-Pro",
-    "description": "Common-Rhetoric-Pro",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -290,7 +281,7 @@
   {
     "id": "aman-secret-cluster",
     "name": "Aman-Secret-Cluster",
-    "description": "Aman-Secret-Cluster",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -299,7 +290,7 @@
   {
     "id": "secret-garden",
     "name": "Secret-Garden",
-    "description": "Wish-Garden",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -308,7 +299,7 @@
   {
     "id": "wish-garden",
     "name": "Wish-Garden",
-    "description": "Wish-Garden",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -317,7 +308,7 @@
   {
     "id": "infrastructure",
     "name": "Infrastructure",
-    "description": "Infrastructure",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -326,7 +317,7 @@
   {
     "id": "algorithms",
     "name": "Algorithms",
-    "description": "Algorithms",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -335,7 +326,7 @@
   {
     "id": "apps",
     "name": "Apps",
-    "description": "Apps",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -344,19 +335,10 @@
   {
     "id": "modules",
     "name": "Modules",
-    "description": "Modules",
+    "description": "Digital product of TetraShop ecosystem.",
     "type": "Other",
     "price": 99000,
     "category": "platform",
     "image": "https://picsum.photos/seed/6d6f6475/400/400"
-  },
-  {
-    "id": "2d-to-3d-real",
-    "name": "2d-to-3d-real",
-    "description": "Digital product (not found on disk)",
-    "type": "Unknown",
-    "price": 0,
-    "category": "game",
-    "image": ""
   }
 ]

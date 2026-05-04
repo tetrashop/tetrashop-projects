@@ -187,16 +187,8 @@ api/bot/ (Vercel)
 
 ## ۷. اسکریپت‌های خودکار (Automation)
 
+- **`tetrashop-ultimate.sh`** – اسکریپت جامعی که تمام باگ‌ها را رفع کرده، فایل‌ها را می‌سازد و پروژه را آماده می‌کند.
 - **`final_full.sh`** – نصب پکیج‌ها، تولید محصولات دیجیتال، ساخت دموها، رفع خطاهای پیکربندی و اجرای پروژه.
-- **`master-setup.sh`** – نسخهٔ کامل‌تر با قابلیت resume.
-- **`tetrashop-complete.cjs`** – اسکریپت جامع Node.js برای تکمیل خودکار همهٔ فایل‌ها و رفع باگ‌ها.
-
-برای اجرای یک‌بارهٔ همهٔ مراحل:
-```bash
-cd ~/tetrashop-projects/frontend
-chmod +x final_full.sh
-./final_full.sh
-```
 
 ---
 
