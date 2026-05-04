@@ -1,5 +1,4 @@
 import os
-
 WALLET_ID = "WALLET-YHmDnapsnsVghjHX"
 BOT_TOKEN = "152652039:shHdzxVcnxF8KV0zWN7uBI8wmMJHzOBdcmU"
 BOT_USERNAME = "Tetrashopbot"
