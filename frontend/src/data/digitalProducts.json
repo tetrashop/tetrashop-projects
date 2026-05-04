@@ -2,7 +2,7 @@
   {
     "id": "bots-bale-tetrashop-py",
     "name": "Bale Tetrashop",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -11,7 +11,7 @@
   {
     "id": "bots-bale-bot-py",
     "name": "Bale-Bot",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -20,7 +20,7 @@
   {
     "id": "bots-atlas-bot-py",
     "name": "Atlas Bot",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -29,7 +29,7 @@
   {
     "id": "bots-tetrashop-py",
     "name": "Tetrashop",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -38,7 +38,7 @@
   {
     "id": "bots-tetrashop-bridge-py",
     "name": "Tetrashop Bridge",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -47,7 +47,7 @@
   {
     "id": "bots-tetrashop-health-check-py",
     "name": "Tetrashop Health Check",
-    "description": "**Type:** Python",
+    "description": "Bots",
     "type": "Python",
     "price": 99000,
     "category": "bot",
@@ -56,7 +56,7 @@
   {
     "id": "ml-services-nlp-gateway-clean",
     "name": "Nlp-Gateway-Clean",
-    "description": "**Type:** Other",
+    "description": "Nlp-Gateway-Clean",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -65,7 +65,7 @@
   {
     "id": "ml-services-nlp-project-fixed",
     "name": "Nlp-Project-Fixed",
-    "description": "**Type:** Other",
+    "description": "Nlp-Project-Fixed",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -74,7 +74,7 @@
   {
     "id": "ml-services-ocr-service",
     "name": "Ocr-Service",
-    "description": "**Type:** Other",
+    "description": "Ocr-Service",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -83,7 +83,7 @@
   {
     "id": "games-chess-engine",
     "name": "Chess-Engine",
-    "description": "**Type:** Other",
+    "description": "Chess-Engine",
     "type": "Other",
     "price": 99000,
     "category": "game",
@@ -92,7 +92,7 @@
   {
     "id": "games-chess-integrated",
     "name": "Chess-Integrated",
-    "description": "**Type:** Node.js",
+    "description": "Chess-Integrated",
     "type": "Node.js",
     "price": 99000,
     "category": "game",
@@ -101,7 +101,7 @@
   {
     "id": "games-chess-premium",
     "name": "Chess-Premium",
-    "description": "**Type:** Node.js",
+    "description": "Chess-Premium",
     "type": "Node.js",
     "price": 99000,
     "category": "game",
@@ -110,7 +110,7 @@
   {
     "id": "speech-recognition",
     "name": "Speech-Recognition",
-    "description": "**Type:** Other",
+    "description": "Speech-Recognition",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -119,7 +119,7 @@
   {
     "id": "writer",
     "name": "Writer",
-    "description": "**Type:** Other",
+    "description": "Writer",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -128,7 +128,7 @@
   {
     "id": "voice-recognition",
     "name": "Voice-Recognition",
-    "description": "**Type:** Other",
+    "description": "Voice-Recognition",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -137,7 +137,7 @@
   {
     "id": "tetrashop-vercel",
     "name": "tetrashop-vercel",
-    "description": "Digital product (not found)",
+    "description": "Digital product (not found on disk)",
     "type": "Unknown",
     "price": 0,
     "category": "platform",
@@ -146,7 +146,7 @@
   {
     "id": "tetrashop-production",
     "name": "Tetrashop-Production",
-    "description": "**Type:** Other",
+    "description": "Tetrashop-Production",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -155,7 +155,7 @@
   {
     "id": "tetra-saas-platform",
     "name": "Tetra-Saas-Platform",
-    "description": "**Type:** Other",
+    "description": "Tetra-Saas-Platform",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -164,7 +164,7 @@
   {
     "id": "tetra-error-system",
     "name": "Tetra-Error-System",
-    "description": "**Type:** Node.js",
+    "description": "Tetra-Error-System",
     "type": "Node.js",
     "price": 99000,
     "category": "platform",
@@ -173,7 +173,7 @@
   {
     "id": "user-management",
     "name": "User-Management",
-    "description": "**Type:** Other",
+    "description": "User-Management",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -182,7 +182,7 @@
   {
     "id": "payment",
     "name": "Payment",
-    "description": "**Type:** Other",
+    "description": "Payment",
     "type": "Other",
     "price": 99000,
     "category": "finance",
@@ -191,7 +191,7 @@
   {
     "id": "api",
     "name": "Api",
-    "description": "**Type:** Other",
+    "description": "Api",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -200,7 +200,7 @@
   {
     "id": "gateway",
     "name": "Gateway",
-    "description": "**Type:** Node.js",
+    "description": "Gateway",
     "type": "Node.js",
     "price": 99000,
     "category": "platform",
@@ -209,7 +209,7 @@
   {
     "id": "services",
     "name": "Services",
-    "description": "**Type:** Other",
+    "description": "Services",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -218,7 +218,7 @@
   {
     "id": "cms",
     "name": "Cms",
-    "description": "**Type:** Other",
+    "description": "Cms",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -227,7 +227,7 @@
   {
     "id": "admin",
     "name": "Admin",
-    "description": "**Type:** Other",
+    "description": "Admin",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -236,7 +236,7 @@
   {
     "id": "dashboard",
     "name": "Dashboard",
-    "description": "**Type:** Node.js",
+    "description": "Dashboard",
     "type": "Node.js",
     "price": 99000,
     "category": "platform",
@@ -245,7 +245,7 @@
   {
     "id": "client-sdk",
     "name": "Client-Sdk",
-    "description": "**Type:** Node.js",
+    "description": "Client-Sdk",
     "type": "Node.js",
     "price": 99000,
     "category": "platform",
@@ -254,7 +254,7 @@
   {
     "id": "cloud-server",
     "name": "Cloud-Server",
-    "description": "**Type:** Other",
+    "description": "Cloud-Server",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -263,7 +263,7 @@
   {
     "id": "quantum-calligraphy-advanced",
     "name": "Quantum-Calligraphy-Advanced",
-    "description": "**Type:** Other",
+    "description": "Quantum-Calligraphy-Advanced",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -272,7 +272,7 @@
   {
     "id": "quantum-writer",
     "name": "Quantum-Writer",
-    "description": "**Type:** Other",
+    "description": "Quantum-Writer",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -281,7 +281,7 @@
   {
     "id": "common-rhetoric-pro",
     "name": "Common-Rhetoric-Pro",
-    "description": "**Type:** Other",
+    "description": "Common-Rhetoric-Pro",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -290,7 +290,7 @@
   {
     "id": "aman-secret-cluster",
     "name": "Aman-Secret-Cluster",
-    "description": "**Type:** Other",
+    "description": "Aman-Secret-Cluster",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -299,7 +299,7 @@
   {
     "id": "secret-garden",
     "name": "Secret-Garden",
-    "description": "**Type:** Other",
+    "description": "Wish-Garden",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -308,7 +308,7 @@
   {
     "id": "wish-garden",
     "name": "Wish-Garden",
-    "description": "**Type:** Other",
+    "description": "Wish-Garden",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -317,7 +317,7 @@
   {
     "id": "infrastructure",
     "name": "Infrastructure",
-    "description": "**Type:** Other",
+    "description": "Infrastructure",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -326,7 +326,7 @@
   {
     "id": "algorithms",
     "name": "Algorithms",
-    "description": "**Type:** Other",
+    "description": "Algorithms",
     "type": "Other",
     "price": 99000,
     "category": "ai",
@@ -335,7 +335,7 @@
   {
     "id": "apps",
     "name": "Apps",
-    "description": "**Type:** Other",
+    "description": "Apps",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -344,7 +344,7 @@
   {
     "id": "modules",
     "name": "Modules",
-    "description": "**Type:** Other",
+    "description": "Modules",
     "type": "Other",
     "price": 99000,
     "category": "platform",
@@ -353,7 +353,7 @@
   {
     "id": "2d-to-3d-real",
     "name": "2d-to-3d-real",
-    "description": "Digital product (not found)",
+    "description": "Digital product (not found on disk)",
     "type": "Unknown",
     "price": 0,
     "category": "game",

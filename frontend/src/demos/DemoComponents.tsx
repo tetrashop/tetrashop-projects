@@ -1,15 +1,14 @@
-import BotDemo from './BotDemo';
-import ChessDemo from './ChessDemo';
-import AiDemo from './AiDemo';
-import FinanceDemo from './FinanceDemo';
-import PlatformDemo from './PlatformDemo';
+import BotDemo from './BotDemo.tsx';
+import ChessDemo from './ChessDemo.tsx';
+import AiDemo from './AiDemo.tsx';
+import FinanceDemo from './FinanceDemo.tsx';
+import PlatformDemo from './PlatformDemo.tsx';
 import digitalProducts from '../data/digitalProducts.json';
 
-export default function DemoComponent({ productId }: { productId: string }) {
-  const product = (digitalProducts as Array<{ id: string; category: string }>).find(p => p.id === productId);
+export default function DemoComponent({ productId }) {
+  const product = digitalProducts.find(p => p.id === productId);
   if (!product) return <p className="text-red-500 text-center mt-4">محصول یافت نشد.</p>;
   const cat = product.category;
-
   if (cat === 'bot') return <BotDemo />;
   if (cat === 'game') return <ChessDemo />;
   if (cat === 'ai') return <AiDemo />;

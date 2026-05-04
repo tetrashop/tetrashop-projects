@@ -99,7 +99,7 @@ tetrashop-projects/
 
 ### ۴.۸ اتصال به درگاه پرداخت واقعی (جدید)
 - **چالش:** فروش واقعی محصولات دیجیتال نیازمند درگاه پرداخت بود.
-- **راه‌حل:** طراحی و پیاده‌سازی یک **ربات اختصاصی بله** با قابلیت اتصال به کیف پول بله (`WALLET-YHmDnapsnsVghjHX`). این ربات محصولات را از `digitalProducts.json` می‌خواند، فاکتور صادر می‌کند و پس از پرداخت موفق، لینک دانلود را ارائه می‌دهد. تمام کدها در پوشه `bale-payment-bot` موجود است.
+- **راه‌حل:** طراحی و پیاده‌سازی یک **ربات اختصاصی بله** با قابلیت اتصال به کیف پول بله (`WALLET-YHmDnapsnsVghjHX`). این ربات محصولات را از `digitalProducts.json` می‌خواند، فاکتور صادر می‌کند و پس از پرداخت موفق، لینک دانلود را ارائه می‌دهد. تمام کدها در پوشه `bale-payment-bot` و `api/bot/` (نسخهٔ Vercel) موجود است.
 
 ---
 
@@ -125,15 +125,15 @@ npm run build
 npm start
 ```
 
-### اجرای ربات پرداخت بله
+### اجرای ربات پرداخت بله (وب‌هوک روی Vercel)
+ربات به‌صورت خودکار از طریق `https://tetrashop-projects.vercel.app/api/bot` اجرا می‌شود.  
+تنظیمات webhook در BotFather قبلاً انجام شده است.  
+برای تست لوکال:
 ```bash
 cd ~/tetrashop-projects/bale-payment-bot
 pip install -r requirements.txt
-bash run.sh
-# یا مستقیماً:
 python bot.py
 ```
-ربات از طریق @Tetrashopbot در پیام‌رسان بله در دسترس خواهد بود.
 
 ---
 
@@ -141,25 +141,46 @@ python bot.py
 
 ```
 frontend/
-├── pages/                     # صفحات فروشگاه
+├── pages/
+│   ├── index.tsx                  # صفحهٔ اصلی محصولات فیزیکی
+│   ├── product/[id].tsx           # جزئیات محصول فیزیکی
+│   ├── digital-products.tsx       # لیست محصولات دیجیتال
+│   ├── digital/[id].tsx           # جزئیات محصول دیجیتال + دمو
+│   └── _app.tsx                   # تنظیمات سراسری (استایل‌ها)
 ├── src/
-│   ├── components/            # کامپوننت‌های مشترک
-│   ├── demos/                 # دموهای تعاملی (Bot, Chess, AI, Finance, Platform)
-│   ├── data/                  # داده‌های محصولات (JSON)
-│   ├── store/                 # Zustand store
-│   ├── types/                 # تایپ‌اسکریپت
-│   └── utils/                 # فرمت‌کننده قیمت
+│   ├── components/
+│   │   ├── ProductCard.tsx        # کارت محصول فیزیکی
+│   │   ├── Navbar.tsx             # نوار ناوبری
+│   │   └── CartSidebar.tsx        # سبد خرید کشویی
+│   ├── demos/
+│   │   ├── BotDemo.tsx            # دموی ربات
+│   │   ├── ChessDemo.tsx          # دموی شطرنج
+│   │   ├── AiDemo.tsx             # دموی تحلیل احساسات
+│   │   ├── FinanceDemo.tsx        # دموی مالی
+│   │   ├── PlatformDemo.tsx       # دموی پلتفرم مدیریتی
+│   │   └── DemoComponents.tsx     # نگاشت ID محصول به دمو
+│   ├── data/
+│   │   ├── products.ts            # محصولات فیزیکی
+│   │   └── digitalProducts.json   # محصولات دیجیتال (تولید خودکار)
+│   ├── store/
+│   │   └── cartStore.ts           # Zustand store سبد خرید
+│   ├── types/
+│   │   └── product.ts             # تایپ‌های مشترک
+│   └── utils/
+│       └── formatPrice.ts         # فرمت‌کنندهٔ قیمت با Intl
 ├── tailwind.config.js
 ├── next.config.mjs
 └── package.json
 
 bale-payment-bot/
-├── bot.py                     # کد اصلی ربات بله
-├── config.py                  # تنظیمات (توکن، کیف پول)
-├── products.py                # مدیریت محصولات
-├── payment.py                 # مدیریت پرداخت
-├── requirements.txt           # وابستگی‌های Python
-└── README.md
+├── bot.py                         # ربات اصلی (لوکال)
+├── config.py                      # تنظیمات
+├── products.py, payment.py
+└── requirements.txt
+
+api/bot/ (Vercel)
+├── webhook.py                     # هندلر webhook
+└── config.py, products.py, payment.py
 ```
 
 ---
@@ -168,10 +189,9 @@ bale-payment-bot/
 
 - **`final_full.sh`** – نصب پکیج‌ها، تولید محصولات دیجیتال، ساخت دموها، رفع خطاهای پیکربندی و اجرای پروژه.
 - **`master-setup.sh`** – نسخهٔ کامل‌تر با قابلیت resume.
-- **`build-demos.cjs`** – تولید خودکار دموهای تعاملی.
-- **`gen-readme.cjs`** – ساخت/بروزرسانی READMEهای تحلیلی.
+- **`tetrashop-complete.cjs`** – اسکریپت جامع Node.js برای تکمیل خودکار همهٔ فایل‌ها و رفع باگ‌ها.
 
-برای اجرای یک‌بارهٔ همهٔ مراحل (بدون ربات):
+برای اجرای یک‌بارهٔ همهٔ مراحل:
 ```bash
 cd ~/tetrashop-projects/frontend
 chmod +x final_full.sh
@@ -190,7 +210,7 @@ chmod +x final_full.sh
 3. دریافت فاکتور و پرداخت با کیف پول بله
 4. دریافت خودکار لینک دانلود پس از پرداخت موفق
 
-**توجه:** قیمت‌ها به ریال محاسبه می‌شوند و از فایل `digitalProducts.json` خوانده می‌شوند.
+**تنظیمات webhook:** `https://tetrashop-projects.vercel.app/api/bot`
 
 ---
 
@@ -229,24 +249,3 @@ chmod +x final_full.sh
 **توسعه‌دهنده:** رامین اجلال  
 
 *این مستند به‌عنوان یک گزارش علمی-فنّی از روند توسعهٔ فروشگاه TetraShop تهیه شده و تمام چالش‌های فنّی به‌همراه راه‌حل‌ها و مستندات تک‌تک پروژه‌های دیجیتال را پوشش می‌دهد. اکنون با پشتیبانی از پرداخت واقعی از طریق بله.*
-
-
-## 💳 پرداخت واقعی با ربات بله
-
-از نسخه ۲.۱، فروشگاه TetraShop به **ربات پرداخت بله** مجهز شده است.  
-این ربات با اتصال به کیف پول بله (`WALLET-YHmDnapsnsVghjHX`) امکان فروش واقعی محصولات دیجیتال را فراهم می‌کند.
-
-### 🛠️ جزئیات فنی
-- **کد ربات:** در پوشه `bale-payment-bot/` (نسخه لوکال) و همچنین `frontend/api/bot/webhook.py` (نسخه سرورلس برای Vercel) قرار دارد.
-- **وب‌هوک:** تنظیم شده روی `https://tetrashop-projects.vercel.app/api/bot`
-- **نحوه اجرا:** ربات روی Vercel به‌صورت ۲۴/۷ اجرا می‌شود و نیاز به سرور جداگانه ندارد.
-- **پرداخت:** از API کیف پول بله برای صدور فاکتور و تأیید تراکنش استفاده می‌کند.
-- **تحویل محصول:** پس از پرداخت موفق، لینک دانلود به کاربر ارسال می‌شود (قابل تنظیم).
-
-### 🚀 نحوه استفاده کاربران
-1. در بله، ربات @Tetrashopbot را استارت کنید.
-2. روی دکمه «🛍️ محصولات دیجیتال» کلیک کنید.
-3. محصول مورد نظر را انتخاب کرده و فاکتور پرداخت را دریافت نمایید.
-4. پس از پرداخت، محصول به‌صورت خودکار تحویل داده می‌شود.
-
-> **توسعه‌دهنده:** رامین اجلال | **آخرین بروزرسانی:** خرداد ۱۴۰۵
