@@ -1,6 +1,4 @@
-import { Product } from '../types/product';
-
-export const fakeProducts: Product[] = [
+export const fakeProducts = [
   { id: 1, name: 'هدفون بی‌سیم مدل X1', description: 'کیفیت صدای بالا، باتری ۲۰ ساعته', price: 3500000, image: 'https://picsum.photos/seed/headphone/400/400', category: 'electronics' },
   { id: 2, name: 'کوله‌پشتی لپ‌تاپ', description: 'ضدآب، جادار، مناسب سایز ۱۵.۶ اینچ', price: 1250000, image: 'https://picsum.photos/seed/backpack/400/400', category: 'accessories' },
   { id: 3, name: 'ماگ سرامیکی طرح‌دار', description: 'ظرفیت ۳۵۰ میلی‌لیتر، قابل شستشو در ماشین', price: 280000, image: 'https://picsum.photos/seed/mug/400/400', category: 'home' },
