@@ -9,3 +9,4 @@ packages/
 .vscode/
 .vercel
 .env*.local
+tetrashop-vercel_broken/
