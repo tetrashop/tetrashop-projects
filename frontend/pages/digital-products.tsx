@@ -4,8 +4,6 @@ const products = [
   { id: '1', name: 'ربات بله', type: 'Bot', price: 99000, image: 'https://picsum.photos/400/300' },
   { id: '2', name: 'موتور شطرنج', type: 'Game', price: 129000, image: 'https://picsum.photos/400/301' },
   { id: '3', name: 'تحلیل احساسات', type: 'AI', price: 89000, image: 'https://picsum.photos/400/302' },
-  { id: '4', name: 'سیستم خطاها', type: 'Platform', price: 199000, image: 'https://picsum.photos/400/303' },
-  { id: '5', name: 'بازی‌های المپیک', type: 'Game', price: 149000, image: 'https://picsum.photos/400/304' },
 ];
 
 export default function DigitalProducts() {
