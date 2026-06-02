@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { Product } from '../types/product';
 import { formatPrice } from '../utils/formatPrice';
 import { useCartStore } from '../store/cartStore';
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }) {
   const addItem = useCartStore(s => s.addItem);
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl p-4 flex flex-col items-center text-center">

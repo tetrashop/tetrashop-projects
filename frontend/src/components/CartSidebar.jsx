@@ -1,7 +1,7 @@
 import { useCartStore } from '../store/cartStore';
 import { formatPrice } from '../utils/formatPrice';
 
-export default function CartSidebar({ onClose }: { onClose: () => void }) {
+export default function CartSidebar({ onClose }) {
   const items = useCartStore(s => s.items);
   const totalPrice = useCartStore(s => s.totalPrice());
   const removeItem = useCartStore(s => s.removeItem);
