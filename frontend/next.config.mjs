@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
-  typescript: { ignoreBuildErrors: true },
-  webpack: (config) => {
-    config.cache = false;
-    return config;
-  },
+  reactStrictMode: true,
 };
 export default nextConfig;
