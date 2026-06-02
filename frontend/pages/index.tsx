@@ -1,17 +1,20 @@
-import { fakeProducts } from '../src/data/products';
-import ProductCard from '../src/components/ProductCard';
-import Navbar from '../src/components/Navbar';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">فروشگاه تتــــرا</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {fakeProducts.map(p => <ProductCard key={p.id} product={p} />)}
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-8" dir="rtl">
+      <div className="text-center">
+        <h1 className="text-5xl font-bold text-emerald-600 mb-4">🛍️ TetraShop</h1>
+        <p className="text-gray-600 text-lg mb-8">فروشگاه محصولات فیزیکی و دیجیتال</p>
+        <div className="space-x-4 space-x-reverse">
+          <Link href="/digital-products" className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl text-lg transition-colors">
+            محصولات دیجیتال
+          </Link>
+          <a href="/dashboard.html" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl text-lg transition-colors inline-block">
+            پنل مدیریت
+          </a>
         </div>
       </div>
-    </>
+    </div>
   );
 }

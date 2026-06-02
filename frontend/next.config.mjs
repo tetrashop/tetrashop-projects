@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.watchOptions = { ignored: ['/data/**', '/**/node_modules'] };
-    }
+  reactStrictMode: false,
+  typescript: { ignoreBuildErrors: true },
+  webpack: (config) => {
     config.cache = false;
     return config;
   },

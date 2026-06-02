@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت TetraShop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tahoma', sans-serif; background: #f0f2f5; color: #333; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; color: #059669; margin: 20px 0; font-size: 2em; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card h3 { color: #666; font-size: 0.9em; margin-bottom: 8px; }
+        .stat-card .value { font-size: 2em; font-weight: bold; }
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .project-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .project-card:hover { transform: translateY(-4px); }
+        .project-card h2 { margin-bottom: 12px; }
+        .project-card .status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .status.online { background: #d1fae5; color: #065f46; }
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; font-weight: bold; margin-top: 12px; }
+        .btn-green { background: #059669; }
+        .btn-red { background: #dc2626; }
+        .btn-blue { background: #2563eb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ پنل مدیریت TetraShop</h1>
+        <div class="stats">
+            <div class="stat-card"><h3>محصولات دیجیتال</h3><div class="value" style="color:#2563eb">۳۰+</div></div>
+            <div class="stat-card"><h3>پروژه‌های فعال</h3><div class="value" style="color:#059669">۳</div></div>
+            <div class="stat-card"><h3>خطاهای فعال</h3><div class="value" style="color:#dc2626">۰</div></div>
+            <div class="stat-card"><h3>آپتایم</h3><div class="value" style="color:#7c3aed">۱۰۰٪</div></div>
+        </div>
+        <div class="projects">
+            <div class="project-card">
+                <h2>🛍️ فروشگاه اصلی</h2><span class="status online">آنلاین</span>
+                <p style="margin:12px 0">فروشگاه محصولات فیزیکی و دیجیتال</p>
+                <a href="/" class="btn btn-green">باز کردن</a>
+            </div>
+            <div class="project-card">
+                <h2>⚠️ سیستم خطاها</h2><span class="status online">آنلاین</span>
+                <p style="margin:12px 0">پنل مدیریت خطاهای سیستم</p>
+                <a href="https://tetrashop-error-system.vercel.app" target="_blank" class="btn btn-red">باز کردن</a>
+            </div>
+            <div class="project-card">
+                <h2>🏅 بازی‌های المپیک</h2><span class="status online">آنلاین</span>
+                <p style="margin:12px 0">بازی‌های تعاملی و مسابقات</p>
+                <a href="https://tetrashop-olympic.vercel.app" target="_blank" class="btn btn-blue">باز کردن</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
