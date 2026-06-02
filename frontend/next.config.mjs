@@ -6,5 +6,8 @@ const nextConfig = {
     config.cache = false;
     return config;
   },
+  experimental: {
+    turbopack: false,
+  },
 };
 export default nextConfig;
