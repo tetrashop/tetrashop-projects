@@ -2,3 +2,4 @@ _archive/
 .git/
 .gitignore
 .gitmodules
+.vercelignore
