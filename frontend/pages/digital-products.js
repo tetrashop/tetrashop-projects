@@ -1,18 +1,21 @@
+import Link from 'next/link';
+
+const products = [
+  { id: 1, name: 'ربات بله', price: 99000 },
+  { id: 2, name: 'موتور شطرنج', price: 129000 },
+  { id: 3, name: 'تحلیل احساسات', price: 89000 },
+];
+
 export default function DigitalProducts() {
-  const items = [
-    { id: 1, name: 'ربات بله', price: 99000 },
-    { id: 2, name: 'موتور شطرنج', price: 129000 },
-    { id: 3, name: 'تحلیل احساسات', price: 89000 },
-  ];
   return (
     <div style={{ fontFamily: 'Tahoma', maxWidth: 700, margin: '0 auto', padding: 20 }}>
       <h1 style={{ textAlign: 'center' }}>محصولات دیجیتال</h1>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, justifyContent: 'center', marginTop: 30 }}>
-        {items.map(item => (
-          <div key={item.id} style={{ background: '#fff', borderRadius: 16, padding: 20, boxShadow: '0 2px 10px rgba(0,0,0,0.1)', textAlign: 'center', minWidth: 180 }}>
-            <h3>{item.name}</h3>
-            <p style={{ color: '#059669', fontWeight: 'bold' }}>{item.price.toLocaleString()} تومان</p>
-            <a href={`/digital/${item.id}`} style={{ color: '#2563eb' }}>مشاهده</a>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 30 }}>
+        {products.map(p => (
+          <div key={p.id} style={{ background: 'white', borderRadius: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', padding: 20, textAlign: 'center' }}>
+            <h3>{p.name}</h3>
+            <p style={{ fontWeight: 'bold', color: '#059669' }}>{p.price.toLocaleString()} تومان</p>
+            <Link href={`/digital/${p.id}`} style={{ color: '#2563eb' }}>مشاهده</Link>
           </div>
         ))}
       </div>
