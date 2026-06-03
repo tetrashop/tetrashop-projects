@@ -5,7 +5,7 @@ export default function DigitalProducts() {
     { id: 3, name: 'تحلیل احساسات', price: 89000 },
   ];
   return (
-    <div style={{ fontFamily: 'Tahoma', maxWidth: 700, margin: '0 auto', padding: 20 }}>
+    <div style={{ fontFamily: 'Tahoma, sans-serif', maxWidth: 700, margin: '0 auto', padding: 20 }}>
       <h1 style={{ textAlign: 'center' }}>محصولات دیجیتال</h1>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20, marginTop: 30 }}>
         {items.map(item => (
