@@ -1,4 +1,8 @@
 {
   "framework": "nextjs",
-  "outputDirectory": ".next"
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/dashboard", "destination": "/dashboard.html" }
+  ]
 }
