@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>تحلیل احساسات – TetraShop</title>
+    <style>
+        body { font-family: Tahoma; text-align: center; padding: 40px; background: #f9fafb; }
+        textarea { width: 80%; height: 100px; padding: 10px; border-radius: 8px; }
+        button { padding: 10px 20px; background: #7c3aed; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧠 تحلیل احساسات</h1>
+    <textarea id="text" placeholder="متن فارسی را وارد کنید..."></textarea>
+    <br>
+    <button onclick="analyze()">تحلیل</button>
+    <p id="result"></p>
+    <script>
+        function analyze() {
+            const text = document.getElementById('text').value;
+            const sentiment = Math.random() > 0.5 ? 'مثبت 😊' : 'منفی 😞';
+            document.getElementById('result').innerText = `احساس: ${sentiment}`;
+        }
+    </script>
+</body>
+</html>
