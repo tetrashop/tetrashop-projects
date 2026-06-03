@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>لاگ زنده</title>
-<style>body{font-family:Tahoma;background:#1e293b;color:#e2e8f0;padding:20px}h1{color:#22c55e}#log{background:#0f172a;padding:16px;border-radius:12px;height:70vh;overflow-y:auto;font-size:14px}.entry{border-bottom:1px solid #334155;padding:4px 0}.time{color:#fbbf24}a{color:#38bdf8;display:block;text-align:center;margin-top:16px}</style></head><body>
+<style>body{font-family:Tahoma;background:#1e293b;color:#e2e8f0;padding:20px}h1{color:#22c55e}#log{background:#0f172a;padding:16px;border-radius:12px;height:70vh;overflow-y:auto;font-size:14px}.entry{border-bottom:1px solid #334155;padding:4px 0}.time{color:#fbbf24}a{color:#38bdf8}</style></head><body>
 <h1>📊 لاگ زنده</h1><div id="log"></div><a href="/">🏠 بازگشت</a>
-<script>setInterval(async()=>{let r=await fetch('/api/status');let d=await r.json();let t=new Date(d.time).toLocaleTimeString('fa-IR');document.getElementById('log').innerHTML+=`<div class="entry"><span class="time">${t}</span> | وضعیت: ${d.status} | آپتایم: ${d.uptime}s | حافظه: ${d.memory} MB</div>`},2000)</script>
+<script>setInterval(async()=>{let r=await fetch('/api/status');let d=await r.json();let t=new Date(d.time).toLocaleTimeString('fa-IR');document.getElementById('log').innerHTML+=`<div class="entry"><span class="time">${t}</span> | ${d.status}</div>`},2000)</script>
 </body></html>
