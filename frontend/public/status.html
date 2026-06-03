@@ -2,43 +2,29 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لاگ زنده TetraShop</title>
     <style>
         body { font-family: 'Courier New', monospace; background: #1e293b; color: #e2e8f0; padding: 20px; }
         h1 { color: #22c55e; text-align: center; }
         #log { background: #0f172a; padding: 16px; border-radius: 12px; height: 70vh; overflow-y: auto; white-space: pre-wrap; font-size: 14px; }
-        .entry { margin-bottom: 8px; border-bottom: 1px solid #334155; padding-bottom: 4px; }
+        .entry { margin-bottom: 8px; border-bottom: 1px solid #334155; }
         .time { color: #fbbf24; }
-        .key { color: #60a5fa; }
-        .val { color: #f472b6; }
         a { color: #38bdf8; display: block; text-align: center; margin-top: 16px; }
     </style>
 </head>
 <body>
-    <h1>📊 لاگ زنده TetraShop (هر ۲ ثانیه)</h1>
+    <h1>📊 لاگ زنده (هر ۲ ثانیه)</h1>
     <div id="log"></div>
     <a href="/">🏠 بازگشت به فروشگاه</a>
-
     <script>
-        const logDiv = document.getElementById('log');
         async function fetchStatus() {
-            try {
-                const res = await fetch('/api/status');
-                const data = await res.json();
-                const now = new Date().toLocaleTimeString('fa-IR');
-                let html = `<div class="entry"><span class="time">${now}</span> | `;
-                html += `<span class="key">وضعیت:</span> <span class="val">${data.status}</span> | `;
-                html += `<span class="key">آپتایم:</span> <span class="val">${Math.floor(data.uptime)}s</span> | `;
-                html += `<span class="key">حافظه:</span> <span class="val">${Math.round(data.memory.heapUsed / 1024 / 1024)} MB</span>`;
-                html += `</div>`;
-                logDiv.innerHTML = html + logDiv.innerHTML;
-            } catch (e) {
-                logDiv.innerHTML = `<div class="entry">⚠️ خطا در دریافت لاگ</div>` + logDiv.innerHTML;
-            }
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            const now = new Date(data.timestamp).toLocaleTimeString('fa-IR');
+            document.getElementById('log').innerHTML += `<div class="entry"><span class="time">${now}</span> | وضعیت: ${data.status} | آپتایم: ${Math.floor(data.uptime)}s | حافظه: ${(data.memory.heapUsed/1024/1024).toFixed(1)} MB</div>`;
         }
-        fetchStatus();
         setInterval(fetchStatus, 2000);
+        fetchStatus();
     </script>
 </body>
 </html>
