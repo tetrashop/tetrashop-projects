@@ -1,5 +1,0 @@
-<!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>ربات بله</title>
-<style>body{font-family:Tahoma;text-align:center;padding:40px}.chat{max-width:400px;margin:0 auto;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);padding:20px}.msg{padding:10px;border-radius:12px;margin:10px 0;text-align:right}.bot{background:#f3f4f6;text-align:left}input{width:70%;padding:8px;border:1px solid #ccc;border-radius:8px}button{padding:8px 16px;background:#2563eb;color:white;border:none;border-radius:8px}</style></head><body>
-<h1>🤖 ربات بله</h1><div class="chat" id="chat"></div><div style="margin-top:10px"><input id="msg" placeholder="پیام..."><button onclick="send()">ارسال</button></div>
-<script>function send(){const m=document.getElementById('msg').value.trim();if(!m)return;document.getElementById('chat').innerHTML+=`<div class="msg">${m}</div>`;setTimeout(()=>{document.getElementById('chat').innerHTML+=`<div class="msg bot">پاسخ خودکار: سلام!</div>`},500);document.getElementById('msg').value=''}</script>
-</body></html>

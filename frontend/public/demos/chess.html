@@ -1,5 +1,0 @@
-<!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>شطرنج</title>
-<style>body{font-family:Tahoma;text-align:center;padding:20px}.board{display:grid;grid-template-columns:repeat(8,40px);gap:0;margin:20px auto;width:320px}.cell{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:28px}.light{background:#f0d9b5}.dark{background:#b58863}</style></head><body>
-<h1>♟️ شطرنج</h1><div class="board" id="board"></div>
-<script>const p=['♜♞♝♛♚♝♞♜','♟♟♟♟♟♟♟♟','','','','','♙♙♙♙♙♙♙♙','♖♘♗♕♔♗♘♖'];const b=document.getElementById('board');for(let r=0;r<8;r++)for(let c=0;c<8;c++){const cell=document.createElement('div');cell.className=`cell ${(r+c)%2===0?'light':'dark'}`;cell.textContent=p[r]?p[r][c]||'':'';b.appendChild(cell)}</script>
-</body></html>
