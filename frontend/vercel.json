@@ -1,8 +1,6 @@
 {
   "framework": "nextjs",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/dashboard", "destination": "/dashboard.html" }
-  ]
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next"
 }

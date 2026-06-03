@@ -6,9 +6,9 @@ export default function DigitalProduct() {
 
   return (
     <div style={{ fontFamily: 'Tahoma', textAlign: 'center', padding: 60 }}>
-      <h1>محصول دیجیتال #{id}</h1>
-      <p>جزئیات محصول به‌زودی اضافه خواهد شد.</p>
-      <a href="/" style={{ color: '#2563eb' }}>بازگشت به فروشگاه</a>
+      <h1>محصول #{id}</h1>
+      <p>جزئیات به‌زودی</p>
+      <a href="/" style={{ color: '#2563eb' }}>بازگشت</a>
     </div>
   );
 }
