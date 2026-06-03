@@ -1,15 +1,13 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 export default function DigitalProduct() {
   const router = useRouter();
   const { id } = router.query;
-
   return (
-    <div style={{ fontFamily: 'Tahoma', textAlign: 'center', padding: '4rem' }}>
+    <div style={{ fontFamily: 'Tahoma', textAlign: 'center', padding: 60 }}>
       <h1>محصول #{id}</h1>
-      <p>جزئیات و دموی این محصول به‌زودی اضافه می‌شود.</p>
-      <Link href="/" style={{ color: '#2563eb' }}>بازگشت به فروشگاه</Link>
+      <p>جزئیات به‌زودی</p>
+      <a href="/" style={{ color: '#2563eb' }}>بازگشت</a>
     </div>
   );
 }
