@@ -1,1 +1,10 @@
-{ "framework": "nextjs" }
+{
+  "framework": "nextjs",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/status", "destination": "/api/status" },
+    { "source": "/status.html", "destination": "/status.html" },
+    { "source": "/dashboard.html", "destination": "/dashboard.html" },
+    { "source": "/(.*)", "destination": "/$1" }
+  ]
+}
