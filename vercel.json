@@ -1,6 +1,11 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null,
-  "functions": null
+  "functions": {
+    "api/bot/webhook.py": {
+      "runtime": "python3.9",
+      "includeFiles": "api/bot/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/bot", "destination": "/api/bot/webhook.py" }
+  ]
 }
