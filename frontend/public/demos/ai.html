@@ -1,4 +1,326 @@
-<!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>تحلیل احساسات</title>
-<style>body{font-family:Tahoma;text-align:center;padding:40px;background:#f9fafb}textarea{width:80%;height:100px;padding:10px;border-radius:8px}button{padding:10px 20px;background:#7c3aed;color:white;border:none;border-radius:8px;margin-top:10px}</style></head><body>
-<h1>🧠 تحلیل احساسات</h1><textarea id="text" placeholder="متن فارسی..."></textarea><br><button onclick="document.getElementById('result').innerText=Math.random()>0.5?'مثبت 😊':'منفی 😞'">تحلیل</button><p id="result"></p>
-</body></html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل احساسات – TetraShop</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --positive: #059669;
+            --negative: #dc2626;
+            --neutral: #f59e0b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e5e7eb 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin: 20px 0 10px;
+            font-size: 2em;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: #6d28d9; transform: translateY(-1px); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover { background: #f5f3ff; }
+        .btn-example {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .btn-example:hover { background: #f9fafb; }
+        .result {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result.show { display: block; }
+        .sentiment-bar {
+            display: flex;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .sentiment-bar .pos { background: var(--positive); transition: width 0.5s; }
+        .sentiment-bar .neg { background: var(--negative); transition: width 0.5s; }
+        .sentiment-bar .neu { background: var(--neutral); transition: width 0.5s; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+        .stat .label { font-size: 0.8em; color: var(--text-light); }
+        .stat .value { font-size: 1.5em; font-weight: bold; margin-top: 5px; }
+        .pos-text { color: var(--positive); }
+        .neg-text { color: var(--negative); }
+        .neu-text { color: var(--neutral); }
+        .overall {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .keywords {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .keyword {
+            background: #f3f4f6;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        .history {
+            margin-top: 20px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .history-item .text { flex: 1; font-size: 0.9em; }
+        .history-item .tag {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .tag-pos { background: #d1fae5; color: var(--positive); }
+        .tag-neg { background: #fee2e2; color: var(--negative); }
+        .tag-neu { background: #fef3c7; color: #92400e; }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .back-link a { color: var(--primary); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 تحلیل احساسات فارسی</h1>
+        <p class="subtitle">متن خود را وارد کنید تا احساسات آن تحلیل شود</p>
+
+        <div class="card">
+            <textarea id="textInput" placeholder="متن فارسی خود را اینجا بنویسید... مثال: امروز هوا خیلی خوب و عالی بود، از خریدم راضی هستم."></textarea>
+            <div class="btn-row">
+                <button class="btn btn-primary" onclick="analyze()">🔍 تحلیل کن</button>
+                <button class="btn btn-outline" onclick="clearAll()">🗑️ پاک کردن</button>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-example" onclick="setExample('امروز روز فوق‌العاده‌ای بود! همه چیز عالی پیش رفت و من خیلی خوشحالم.')">😊 مثال مثبت</button>
+                <button class="btn btn-example" onclick="setExample('متاسفانه امروز روز خیلی بدی بود. همه چیز خراب شد و من ناراحت و عصبانی هستم.')">😞 مثال منفی</button>
+                <button class="btn btn-example" onclick="setExample('هوا امروز معتدل بود. من به محل کار رفتم و برگشتم.')">😐 مثال خنثی</button>
+            </div>
+
+            <div class="result" id="result">
+                <div class="sentiment-bar">
+                    <div class="pos" id="barPos" style="width: 0%"></div>
+                    <div class="neg" id="barNeg" style="width: 0%"></div>
+                    <div class="neu" id="barNeu" style="width: 0%"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="label">مثبت</div>
+                        <div class="value pos-text" id="posPct">۰٪</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">منفی</div>
+                        <div class="value neg-text" id="negPct">۰٪</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">خنثی</div>
+                        <div class="value neu-text" id="neuPct">۰٪</div>
+                    </div>
+                </div>
+                <div class="overall" id="overall"></div>
+                <div class="keywords" id="keywords"></div>
+            </div>
+        </div>
+
+        <div class="card history">
+            <h3 style="margin-bottom:15px;">📋 تاریخچه تحلیل‌ها</h3>
+            <div id="historyList"><p style="color:var(--text-light);text-align:center;">هنوز تحلیلی انجام نشده است.</p></div>
+        </div>
+
+        <div class="back-link">
+            <a href="/">🏠 بازگشت به فروشگاه</a>
+        </div>
+    </div>
+
+    <script>
+        // دیکشنری کلمات فارسی
+        const positiveWords = [
+            'خوب', 'عالی', 'فوق‌العاده', 'شاد', 'خوشحال', 'ممنون', 'متشکر', 'دوست', 'زیبا',
+            'قشنگ', 'راضی', 'موفق', 'پیروز', 'سلامت', 'آرام', 'لذت', 'خوش', 'بهترین',
+            'محبوب', 'دلپذیر', 'جذاب', 'کاربردی', 'راحت', 'سریع', 'قوی', 'محکم'
+        ];
+        const negativeWords = [
+            'بد', 'ضعیف', 'ناراحت', 'عصبانی', 'متنفر', 'خسته', 'ناامید', 'زشت', 'خراب',
+            'افتضاح', 'وحشتناک', 'درد', 'مشکل', 'سخت', 'کند', 'گران', 'بی‌فایده',
+            'ناقص', 'معیوب', 'اشتباه', 'گمراه', 'خطرناک', 'آزار', 'رنج', 'غم'
+        ];
+
+        let history = [];
+
+        function analyze() {
+            const text = document.getElementById('textInput').value.trim();
+            if (!text) { alert('لطفاً متنی وارد کنید.'); return; }
+
+            const words = text.replace(/[،,.:;!?؟\n]/g, ' ').split(/\s+/).filter(w => w.length > 0);
+            let posCount = 0, negCount = 0;
+            const foundKeywords = [];
+
+            words.forEach(word => {
+                const w = word.toLowerCase();
+                if (positiveWords.includes(w)) { posCount++; foundKeywords.push({ word, type: 'pos' }); }
+                if (negativeWords.includes(w)) { negCount++; foundKeywords.push({ word, type: 'neg' }); }
+            });
+
+            const total = posCount + negCount || 1; // جلوگیری از تقسیم بر صفر
+            const posPct = Math.round((posCount / total) * 100) || 0;
+            const negPct = Math.round((negCount / total) * 100) || 0;
+            const neuPct = 100 - posPct - negPct;
+
+            // نمایش نتیجه
+            document.getElementById('result').classList.add('show');
+            document.getElementById('barPos').style.width = posPct + '%';
+            document.getElementById('barNeg').style.width = negPct + '%';
+            document.getElementById('barNeu').style.width = neuPct + '%';
+            document.getElementById('posPct').textContent = posPct + '٪';
+            document.getElementById('negPct').textContent = negPct + '٪';
+            document.getElementById('neuPct').textContent = neuPct + '٪';
+
+            // نظر کلی
+            const overall = document.getElementById('overall');
+            if (posPct > 50) overall.innerHTML = '<span class="pos-text">😊 احساس کلی: مثبت</span>';
+            else if (negPct > 50) overall.innerHTML = '<span class="neg-text">😞 احساس کلی: منفی</span>';
+            else overall.innerHTML = '<span class="neu-text">😐 احساس کلی: خنثی</span>';
+
+            // کلمات کلیدی
+            const kwDiv = document.getElementById('keywords');
+            kwDiv.innerHTML = '';
+            foundKeywords.forEach(k => {
+                const span = document.createElement('span');
+                span.className = 'keyword';
+                span.textContent = k.word;
+                span.style.color = k.type === 'pos' ? 'var(--positive)' : 'var(--negative)';
+                kwDiv.appendChild(span);
+            });
+            if (foundKeywords.length === 0) kwDiv.innerHTML = '<span class="keyword">کلمه کلیدی یافت نشد</span>';
+
+            // افزودن به تاریخچه
+            const tag = posPct > 50 ? 'pos' : negPct > 50 ? 'neg' : 'neu';
+            const tagLabel = tag === 'pos' ? 'مثبت' : tag === 'neg' ? 'منفی' : 'خنثی';
+            history.unshift({ text: text.substring(0, 80), tag, tagLabel });
+            if (history.length > 10) history.pop();
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (history.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-light);text-align:center;">هنوز تحلیلی انجام نشده است.</p>';
+                return;
+            }
+            list.innerHTML = history.map(h =>
+                '<div class="history-item"><span class="text">' + h.text + '</span><span class="tag tag-' + h.tag + '">' + h.tagLabel + '</span></div>'
+            ).join('');
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('barPos').style.width = '0%';
+            document.getElementById('barNeg').style.width = '0%';
+            document.getElementById('barNeu').style.width = '0%';
+        }
+
+        function setExample(text) {
+            document.getElementById('textInput').value = text;
+            analyze();
+        }
+    </script>
+</body>
+</html>
