@@ -1,4 +1,115 @@
-<!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>المپیک</title>
-<style>body{font-family:Tahoma;text-align:center;padding:40px}.game{background:white;border-radius:12px;padding:20px;margin:10px;display:inline-block;width:150px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}</style></head><body>
-<h1>🏅 بازی‌های المپیک</h1><div class="game">🏃 دو سرعت<br>۸ بازیکن<br>زنده</div>
-</body></html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المپیک – TetraShop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma; background: linear-gradient(135deg, #1e3a8a, #3b82f6); min-height: 100vh; padding: 20px; color: white; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 2.5em; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .subtitle { text-align: center; opacity: 0.9; margin-bottom: 25px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 20px; color: #1f2937; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .card h2 { color: #1e3a8a; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .event-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e5e7eb; flex-wrap: wrap; gap: 8px; }
+        .event-item:last-child { border-bottom: none; }
+        .event-name { font-weight: bold; flex: 1; min-width: 130px; }
+        .event-score { font-size: 1.2em; font-weight: bold; color: #2563eb; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+        .badge-live { background: #dcfce7; color: #059669; }
+        .badge-upcoming { background: #fef3c7; color: #92400e; }
+        .badge-finished { background: #e5e7eb; color: #6b7280; }
+        .medal-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .medal-table th { background: #1e3a8a; color: white; padding: 10px; font-size: 0.9em; }
+        .medal-table td { padding: 10px; text-align: center; border-bottom: 1px solid #e5e7eb; }
+        .medal-table tr:nth-child(even) { background: #f9fafb; }
+        .medal-table .gold { color: #f59e0b; font-weight: bold; }
+        .medal-table .silver { color: #9ca3af; font-weight: bold; }
+        .medal-table .bronze { color: #d97706; font-weight: bold; }
+        .update-feed { margin-top: 15px; max-height: 200px; overflow-y: auto; }
+        .update-item { padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9em; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        .last-update { text-align: center; margin-top: 15px; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+        .back-link { text-align: center; margin-top: 20px; }
+        .back-link a { color: #fbbf24; text-decoration: none; font-weight: bold; }
+        .live-dot { display: inline-block; width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: pulse 1s infinite; margin-left: 5px; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏅 المپیک TetraShop</h1>
+        <p class="subtitle">بازی‌های تعاملی و مسابقات ورزشی – نتایج زنده</p>
+
+        <div class="grid">
+            <!-- رویدادهای زنده -->
+            <div class="card">
+                <h2>📋 رویدادها<span class="live-dot"></span></h2>
+                <div id="eventsList">در حال بارگذاری...</div>
+            </div>
+
+            <!-- جدول مدال‌ها -->
+            <div class="card">
+                <h2>🏆 جدول مدال‌ها</h2>
+                <table class="medal-table">
+                    <thead><tr><th>کشور</th><th>🥇 طلا</th><th>🥈 نقره</th><th>🥉 برنز</th><th>کل</th></tr></thead>
+                    <tbody id="medalBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- آخرین اخبار -->
+        <div class="card" style="margin-top:20px;">
+            <h2>📡 آخرین اخبار</h2>
+            <div class="update-feed" id="updatesFeed"></div>
+        </div>
+
+        <p class="last-update" id="lastUpdate">آخرین بروزرسانی: --</p>
+        <div class="back-link"><a href="/">🏠 بازگشت به فروشگاه</a></div>
+    </div>
+
+    <script>
+        async function fetchOlympicData() {
+            try {
+                const res = await fetch('/api/olympic');
+                const data = await res.json();
+
+                // رویدادها
+                const eventsList = document.getElementById('eventsList');
+                eventsList.innerHTML = data.events.map(e => `
+                    <div class="event-item">
+                        <span class="event-name">${e.name}</span>
+                        <span class="badge badge-${e.status}">${e.status === 'live' ? '🟢 زنده' : e.status === 'upcoming' ? '🟡 پیش‌رو' : '⚫ پایان‌یافته'}</span>
+                        ${e.status === 'live' || e.status === 'finished' ? `<span class="event-score">${e.score1 || 0} - ${e.score2 || 0}</span>` : ''}
+                        <span style="color:#6b7280;font-size:0.8em;">${e.time}</span>
+                    </div>
+                `).join('');
+
+                // جدول مدال‌ها
+                document.getElementById('medalBody').innerHTML = data.medals.map((m, i) => `
+                    <tr>
+                        <td>${m.country}</td>
+                        <td class="gold">${m.gold}</td>
+                        <td class="silver">${m.silver}</td>
+                        <td class="bronze">${m.bronze}</td>
+                        <td><strong>${m.gold + m.silver + m.bronze}</strong></td>
+                    </tr>
+                `).join('');
+
+                // آخرین اخبار
+                document.getElementById('updatesFeed').innerHTML = data.updates.map(u => `<div class="update-item">📌 ${u}</div>`).join('');
+
+                document.getElementById('lastUpdate').textContent = 'آخرین بروزرسانی: ' + data.lastUpdate;
+            } catch(e) {
+                document.getElementById('eventsList').innerHTML = '<p style="color:#dc2626;">⚠️ خطا در دریافت داده‌ها</p>';
+            }
+        }
+
+        fetchOlympicData();
+        setInterval(fetchOlympicData, 5000);
+    </script>
+</body>
+</html>
