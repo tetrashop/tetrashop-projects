@@ -1,4 +1,185 @@
-<!DOCTYPE html><html lang="fa"><head><meta charset="UTF-8"><title>سیستم خطا</title>
-<style>body{font-family:Tahoma;text-align:center;padding:40px}table{margin:0 auto;border-collapse:collapse}td{border:1px solid #ccc;padding:8px}</style></head><body>
-<h1>⚠️ سیستم خطا</h1><table><tr><td>API</td><td>Connection timeout</td><td>فعال</td></tr></table>
-</body></html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم تحلیل خطا – TetraShop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; color: #dc2626; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #6b7280; margin-bottom: 25px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stat-card .num { font-size: 2.2em; font-weight: bold; }
+        .stat-card .label { color: #6b7280; font-size: 0.9em; margin-top: 5px; }
+        .red { color: #dc2626; }
+        .green { color: #059669; }
+        .yellow { color: #f59e0b; }
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 18px; border: 2px solid #d1d5db; border-radius: 20px; cursor: pointer; background: white; font-weight: bold; transition: all 0.2s; font-family: inherit; }
+        .filter-btn.active { background: #dc2626; color: white; border-color: #dc2626; }
+        .filter-btn:hover { border-color: #dc2626; }
+        .search-input { flex: 1; min-width: 200px; padding: 8px 16px; border: 2px solid #d1d5db; border-radius: 20px; font-size: 0.9em; font-family: inherit; }
+        .error-list { display: flex; flex-direction: column; gap: 12px; }
+        .error-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .error-card .info { flex: 1; min-width: 200px; }
+        .error-card .type { font-weight: bold; font-size: 0.85em; padding: 3px 10px; border-radius: 12px; }
+        .type-API { background: #dbeafe; color: #2563eb; }
+        .type-UI { background: #fef3c7; color: #92400e; }
+        .type-Webhook { background: #ede9fe; color: #7c3aed; }
+        .type-Database { background: #fee2e2; color: #dc2626; }
+        .type-Auth { background: #d1fae5; color: #059669; }
+        .type-Network { background: #e0e7ff; color: #3730a3; }
+        .error-card .message { margin-top: 6px; color: #4b5563; }
+        .error-card .meta { font-size: 0.8em; color: #9ca3af; margin-top: 4px; }
+        .error-card .actions { display: flex; gap: 8px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: inherit; transition: all 0.2s; }
+        .btn-resolve { background: #059669; color: white; }
+        .btn-detail { background: #2563eb; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.75em; font-weight: bold; }
+        .badge-active { background: #fee2e2; color: #dc2626; }
+        .badge-resolved { background: #d1fae5; color: #059669; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: white; border-radius: 16px; padding: 30px; max-width: 500px; width: 90%; }
+        .modal-content h3 { margin-bottom: 15px; color: #dc2626; }
+        .close-btn { float: left; background: none; border: none; font-size: 1.5em; cursor: pointer; color: #6b7280; }
+        .back-link { text-align: center; margin-top: 25px; }
+        .back-link a { color: #2563eb; text-decoration: none; }
+        @media (max-width: 600px) { .error-card { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ سیستم تحلیل خطا</h1>
+        <p class="subtitle">پنل مدیریت و پایش خطاهای سیستم به‌صورت زنده</p>
+
+        <div class="stats" id="stats">
+            <div class="stat-card"><div class="num red" id="totalErrors">--</div><div class="label">کل خطاها</div></div>
+            <div class="stat-card"><div class="num red" id="activeErrors">--</div><div class="label">فعال</div></div>
+            <div class="stat-card"><div class="num green" id="resolvedErrors">--</div><div class="label">رفع‌شده</div></div>
+            <div class="stat-card"><div class="num yellow" id="pendingErrors">--</div><div class="label">در انتظار</div></div>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">همه</button>
+            <button class="filter-btn" data-filter="active">فعال</button>
+            <button class="filter-btn" data-filter="resolved">رفع‌شده</button>
+            <button class="filter-btn" data-filter="pending">در انتظار</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 جستجو در خطاها...">
+        </div>
+
+        <div class="error-list" id="errorList"></div>
+
+        <div class="back-link"><a href="/">🏠 بازگشت به فروشگاه</a></div>
+    </div>
+
+    <!-- مودال جزئیات -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3 id="modalTitle">جزئیات خطا</h3>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        let allErrors = [];
+        let currentFilter = 'all';
+
+        async function fetchErrors() {
+            try {
+                const res = await fetch('/api/errors');
+                const data = await res.json();
+                allErrors = data.errors;
+                updateStats(data);
+                renderErrors();
+            } catch (e) {
+                document.getElementById('errorList').innerHTML = '<p style="text-align:center;color:#dc2626;">⚠️ خطا در دریافت داده‌ها</p>';
+            }
+        }
+
+        function updateStats(data) {
+            document.getElementById('totalErrors').textContent = data.total;
+            document.getElementById('activeErrors').textContent = data.errors.filter(e => e.status === 'active').length;
+            document.getElementById('resolvedErrors').textContent = data.errors.filter(e => e.status === 'resolved').length;
+            document.getElementById('pendingErrors').textContent = data.errors.filter(e => e.status === 'pending').length;
+        }
+
+        function renderErrors() {
+            const list = document.getElementById('errorList');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = allErrors;
+
+            if (currentFilter !== 'all') filtered = filtered.filter(e => e.status === currentFilter);
+            if (search) filtered = filtered.filter(e => e.message.toLowerCase().includes(search) || e.type.toLowerCase().includes(search) || e.service.toLowerCase().includes(search));
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<p style="text-align:center;color:#6b7280;">هیچ خطایی یافت نشد.</p>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(e => `
+                <div class="error-card">
+                    <div class="info">
+                        <span class="type type-${e.type}">${e.type}</span>
+                        <span class="badge badge-${e.status}">${e.status === 'active' ? 'فعال' : e.status === 'resolved' ? 'رفع‌شده' : 'در انتظار'}</span>
+                        <div class="message">${e.message}</div>
+                        <div class="meta">🕒 ${new Date(e.time).toLocaleString('fa-IR')} | سرویس: ${e.service} | شدت: ${e.severity}</div>
+                    </div>
+                    <div class="actions">
+                        ${e.status !== 'resolved' ? `<button class="btn btn-resolve" onclick="resolveError(${e.id})">✅ رفع</button>` : ''}
+                        <button class="btn btn-detail" onclick="showDetail(${e.id})">📋 جزئیات</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function resolveError(id) {
+            try {
+                await fetch('/api/errors', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
+                fetchErrors();
+            } catch (e) {}
+        }
+
+        function showDetail(id) {
+            const error = allErrors.find(e => e.id === id);
+            if (!error) return;
+            document.getElementById('modalTitle').textContent = `جزئیات خطا #${id}`;
+            document.getElementById('modalBody').innerHTML = `
+                <p><strong>نوع:</strong> ${error.type}</p>
+                <p><strong>پیام:</strong> ${error.message}</p>
+                <p><strong>وضعیت:</strong> ${error.status === 'active' ? 'فعال' : error.status === 'resolved' ? 'رفع‌شده' : 'در انتظار'}</p>
+                <p><strong>سرویس:</strong> ${error.service}</p>
+                <p><strong>شدت:</strong> ${error.severity}</p>
+                <p><strong>زمان:</strong> ${new Date(error.time).toLocaleString('fa-IR')}</p>
+            `;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
+
+        // فیلترها
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderErrors();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', renderErrors);
+
+        // بستن مودال با کلیک خارج
+        document.getElementById('detailModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal(); });
+
+        fetchErrors();
+        setInterval(fetchErrors, 10000);
+    </script>
+</body>
+</html>
