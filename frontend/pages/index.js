@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <section style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '4rem 2rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>به فروشگاه TetraShop خوش آمدید</h1>
+        <h1 style={{ fontSize: '3rem' }}>به فروشگاه TetraShop خوش آمدید</h1>
         <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>محصولات فیزیکی و دیجیتال با بهترین کیفیت</p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
           <a href="/products" style={{ background: 'white', color: '#059669', padding: '0.8rem 2rem', borderRadius: '2rem', textDecoration: 'none', fontWeight: 'bold' }}>محصولات فیزیکی</a>
