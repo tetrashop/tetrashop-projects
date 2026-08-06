@@ -1,11 +1,7 @@
-// پیاده‌سازی ساده JWT – در محیط Vercel با کلید مخفی واقعی جایگزین شود
-const SECRET = process.env.JWT_SECRET || 'tetrashop-secret-key-change-in-production';
-
 export function generateToken(user) {
-  // استفاده از jsonwebtoken در محیط واقعی – اینجا یک شبیه‌ساز ساده برای لوکال
   try {
     const jwt = require('jsonwebtoken');
-    return jwt.sign({ username: user.username }, SECRET, { expiresIn: '1h' });
+    return jwt.sign({ username: user.username }, process.env.JWT_SECRET || 'tetrashop-secret-key', { expiresIn: '1h' });
   } catch (e) {
     // fallback ساده (فقط برای تست لوکال)
     const payload = { username: user.username, exp: Date.now() + 3600000 };
@@ -16,7 +12,7 @@ export function generateToken(user) {
 export function verifyToken(token) {
   try {
     const jwt = require('jsonwebtoken');
-    return jwt.verify(token, SECRET);
+    return jwt.verify(token, process.env.JWT_SECRET || 'tetrashop-secret-key');
   } catch (e) {
     try {
       const payload = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'));

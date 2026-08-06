@@ -9,35 +9,31 @@ export default function AdminLayout({ children }) {
     router.push('/admin/login');
   };
 
+  const navItems = [
+    { href: '/admin/dashboard', label: '📊 داشبورد' },
+    { href: '/admin/dashboard#errors', label: '⚠️ خطاها' },
+    { href: '/admin/dashboard#olympic', label: '🏅 المپیک' },
+    { href: '/admin/dashboard#finance', label: '💰 مالی' },
+    { href: '/admin/dashboard#products', label: '📦 محصولات' },
+    { href: '/', label: '🏠 فروشگاه' },
+  ];
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Tahoma, sans-serif' }}>
-      {/* سایدبار */}
       <aside style={{ width: '260px', background: '#1e293b', color: 'white', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
         <h2 style={{ color: '#22c55e', marginBottom: '2rem', textAlign: 'center' }}>🛡️ پنل مدیریت</h2>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          <a href="/admin/dashboard" style={linkStyle}>📊 داشبورد</a>
-          <a href="/admin/dashboard#errors" style={linkStyle}>⚠️ خطاها</a>
-          <a href="/admin/dashboard#olympic" style={linkStyle}>🏅 المپیک</a>
-          <a href="/admin/dashboard#finance" style={linkStyle}>💰 مالی</a>
-          <a href="/admin/dashboard#products" style={linkStyle}>📦 محصولات</a>
-          <a href="/" style={linkStyle}>🏠 فروشگاه</a>
-          <button onClick={logout} style={{ ...linkStyle, background: '#dc2626', border: 'none', cursor: 'pointer', textAlign: 'right' }}>🚪 خروج</button>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {navItems.map(item => (
+            <a key={item.href} href={item.href} style={{ color: 'white', textDecoration: 'none', padding: '0.7rem 1rem', borderRadius: '8px', background: router.pathname === item.href ? '#334155' : 'transparent', transition: 'background 0.2s' }}>
+              {item.label}
+            </a>
+          ))}
+          <button onClick={logout} style={{ marginTop: '1rem', padding: '0.7rem 1rem', background: '#dc2626', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', textAlign: 'right', fontWeight: 'bold' }}>🚪 خروج</button>
         </nav>
       </aside>
-
-      {/* محتوای اصلی */}
       <main style={{ flex: 1, padding: '2rem', background: '#f5f5f5', overflowY: 'auto' }}>
         {children}
       </main>
     </div>
   );
 }
-
-const linkStyle = {
-  color: 'white',
-  textDecoration: 'none',
-  padding: '0.6rem 1rem',
-  borderRadius: '8px',
-  transition: 'background 0.2s',
-  display: 'block',
-};
