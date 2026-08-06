@@ -1,19 +1,9 @@
 import { generateToken } from '../../../src/utils/auth';
-
-const MOCK_USERS = [
-  { username: 'admin', password: 'admin123' },
-  { username: 'ramin', password: 'tetrashop2025' },
-];
-
+const USERS = [{ username: 'admin', password: 'admin123' }];
 export default function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
   const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ error: 'نام کاربری و رمز عبور الزامی است' });
-
-  const user = MOCK_USERS.find(u => u.username === username && u.password === password);
+  const user = USERS.find(u => u.username === username && u.password === password);
   if (!user) return res.status(401).json({ error: 'نام کاربری یا رمز عبور اشتباه است' });
-
-  const token = generateToken(user);
-  res.status(200).json({ token, username: user.username, message: 'ورود موفقیت‌آمیز بود' });
+  res.status(200).json({ token: generateToken(user), username: user.username });
 }
