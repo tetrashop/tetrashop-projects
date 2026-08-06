@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 export default function About() {
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto', padding: '2rem', background: 'white', borderRadius: '16px', boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}>

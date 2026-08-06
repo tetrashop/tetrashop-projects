@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 import Link from 'next/link';
 export default function NotFound() {
   return (

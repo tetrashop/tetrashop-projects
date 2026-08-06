@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 export default function DigitalProducts() {
   const items = [
     { id: 'bot', name: 'ربات بله', price: 99000, demo: '/demos/bot.html' },

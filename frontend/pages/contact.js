@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 import { useState } from 'react';
 
 export default function Contact() {

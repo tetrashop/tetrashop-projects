@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 import { useState, useEffect } from 'react';
 export default function Faq() {
   const [faqs, setFaqs] = useState([]);

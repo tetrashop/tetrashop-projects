@@ -1,3 +1,4 @@
+import Layout from '../src/components/Layout';
 import { fakeProducts } from '../src/data/products';
 import ProductCard from '../src/components/ProductCard';
 
