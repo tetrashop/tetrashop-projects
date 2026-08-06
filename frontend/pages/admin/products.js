@@ -9,9 +9,7 @@ export default function AdminProducts() {
   const [editing, setEditing] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useEffect(() => { fetchProducts(); }, []);
 
   const fetchProducts = async () => {
     const res = await fetch('/api/admin/products');
@@ -24,25 +22,16 @@ export default function AdminProducts() {
     setMessage('');
     const method = editing ? 'PUT' : 'POST';
     try {
-      const res = await fetch('/api/admin/products', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch('/api/admin/products', { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setMessage(editing ? '✅ محصول ویرایش شد' : '✅ محصول جدید اضافه شد');
       resetForm();
       fetchProducts();
-    } catch (err) {
-      setMessage('❌ ' + err.message);
-    }
+    } catch (err) { setMessage('❌ ' + err.message); }
   };
 
-  const resetForm = () => {
-    setForm({ id: null, name: '', price: '', image: '', category: 'general', stock: '', description: '' });
-    setEditing(false);
-  };
+  const resetForm = () => { setForm({ id: null, name: '', price: '', image: '', category: 'general', stock: '', description: '' }); setEditing(false); };
 
   const editProduct = (product) => {
     setForm({ ...product, price: product.price.toString(), stock: product.stock?.toString() || '' });
@@ -51,25 +40,15 @@ export default function AdminProducts() {
 
   const deleteProduct = async (id) => {
     if (!confirm('آیا مطمئن هستید؟')) return;
-    await fetch('/api/admin/products', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    });
+    await fetch('/api/admin/products', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) });
     fetchProducts();
   };
 
   return (
     <AdminLayout>
       <h1>📦 مدیریت محصولات</h1>
+      {message && <div style={{ padding: 12, background: message.includes('✅') ? '#d1fae5' : '#fee2e2', borderRadius: 8, marginBottom: 15, textAlign: 'center' }}>{message}</div>}
 
-      {message && (
-        <div style={{ padding: 12, background: message.includes('✅') ? '#d1fae5' : '#fee2e2', borderRadius: 8, marginBottom: 15, textAlign: 'center' }}>
-          {message}
-        </div>
-      )}
-
-      {/* فرم افزودن/ویرایش */}
       <div style={{ background: 'white', borderRadius: 12, padding: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', marginBottom: 30 }}>
         <h3>{editing ? 'ویرایش محصول' : 'افزودن محصول جدید'}</h3>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 10 }}>
@@ -88,19 +67,12 @@ export default function AdminProducts() {
           </div>
           <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} placeholder="توضیحات" rows={2} style={{ padding: 10, border: '2px solid #e5e7eb', borderRadius: 8, resize: 'vertical' }} />
           <div style={{ display: 'flex', gap: 10 }}>
-            <button type="submit" style={{ padding: 10, background: '#059669', color: 'white', border: 'none', borderRadius: 8, fontWeight: 'bold', cursor: 'pointer', flex: 1 }}>
-              {editing ? '💾 ذخیره تغییرات' : '➕ افزودن محصول'}
-            </button>
-            {editing && (
-              <button type="button" onClick={resetForm} style={{ padding: 10, background: '#6b7280', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
-                لغو
-              </button>
-            )}
+            <button type="submit" style={{ padding: 10, background: '#059669', color: 'white', border: 'none', borderRadius: 8, fontWeight: 'bold', cursor: 'pointer', flex: 1 }}>{editing ? '💾 ذخیره' : '➕ افزودن'}</button>
+            {editing && <button type="button" onClick={resetForm} style={{ padding: 10, background: '#6b7280', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer' }}>لغو</button>}
           </div>
         </form>
       </div>
 
-      {/* جدول محصولات */}
       <div style={{ background: 'white', borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', overflow: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>

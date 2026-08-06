@@ -6,6 +6,5 @@ export default function handler(req, res) {
     { currency: 'ETH', symbol: 'Ξ', name: 'اتریوم', balance: '0.52', icon: '🔷', type: 'crypto', address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7', change24h: '+3.1%' },
     { currency: 'TON', symbol: '💎', name: 'تون کوین', balance: '25', icon: '💠', type: 'crypto', address: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7Jy4K9wS5dP3pLMg', change24h: '-1.5%' },
   ];
-
   res.status(200).json({ wallets });
 }
