@@ -31,18 +31,18 @@ export default function Login() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }}>
-      <div style={{ background: 'white', borderRadius: '20px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', padding: '2.5rem', width: '400px', maxWidth: '90%' }}>
-        <h1 style={{ textAlign: 'center', color: '#059669', marginBottom: '1.5rem' }}>🔐 ورود مدیر</h1>
-        {error && <p style={{ color: '#dc2626', textAlign: 'center', marginBottom: '1rem', background: '#fee2e2', padding: '0.5rem', borderRadius: '8px' }}>{error}</p>}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <input value={username} onChange={e => setUsername(e.target.value)} placeholder="نام کاربری" required style={{ padding: '0.8rem', border: '2px solid #e5e7eb', borderRadius: '12px', fontSize: '1rem', outline: 'none' }} />
-          <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="رمز عبور" required style={{ padding: '0.8rem', border: '2px solid #e5e7eb', borderRadius: '12px', fontSize: '1rem', outline: 'none' }} />
-          <button type="submit" disabled={loading} style={{ padding: '0.8rem', background: loading ? '#9ca3af' : '#059669', color: 'white', border: 'none', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem' }}>
+      <div style={{ background: 'white', borderRadius: 20, padding: 40, width: 380, maxWidth: '90%' }}>
+        <h1 style={{ textAlign: 'center', color: '#059669', marginBottom: 20 }}>🔐 ورود به پنل مدیریت</h1>
+        {error && <p style={{ color: '#dc2626', background: '#fee2e2', padding: 10, borderRadius: 8, marginBottom: 15, textAlign: 'center' }}>{error}</p>}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+          <input value={username} onChange={e => setUsername(e.target.value)} placeholder="نام کاربری" required style={{ padding: 12, border: '2px solid #e5e7eb', borderRadius: 12 }} />
+          <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="رمز عبور" required style={{ padding: 12, border: '2px solid #e5e7eb', borderRadius: 12 }} />
+          <button type="submit" disabled={loading} style={{ padding: 12, background: loading ? '#9ca3af' : '#059669', color: 'white', border: 'none', borderRadius: 12, cursor: 'pointer', fontWeight: 'bold' }}>
             {loading ? 'در حال ورود...' : 'ورود'}
           </button>
         </form>
-        <p style={{ textAlign: 'center', marginTop: '1rem', color: '#6b7280', fontSize: '0.85rem' }}>
-          کاربری پیش‌فرض: admin / admin123
+        <p style={{ textAlign: 'center', marginTop: 15, color: '#6b7280', fontSize: 14 }}>
+          اطلاعات پیش‌فرض: admin / admin123
         </p>
       </div>
     </div>
