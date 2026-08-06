@@ -8,22 +8,45 @@ export default function AdminWallet() {
   const [transactions, setTransactions] = useState([]);
   const [form, setForm] = useState({ type: 'deposit', currency: 'IRR', amount: '' });
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = () => {
+    fetch('/api/wallet/balance')
+      .then(r => r.json())
+      .then(d => setWallets(d.wallets || []))
+      .catch(() => {});
+    fetch('/api/wallet/history?limit=15')
+      .then(r => r.json())
+      .then(d => setTransactions(d.transactions || []))
+      .catch(() => {});
+  };
 
   useEffect(() => {
-    fetch('/api/wallet/balance').then(r => r.json()).then(d => setWallets(d.wallets || [])).catch(() => {});
-    fetch('/api/wallet/history?limit=15').then(r => r.json()).then(d => setTransactions(d.transactions || [])).catch(() => {});
+    fetchData();
+    const interval = setInterval(fetchData, 15000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    setLoading(true);
     try {
-      const res = await fetch('/api/wallet/transaction', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      const res = await fetch('/api/wallet/transaction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) throw new Error(data.error || 'خطا در ثبت تراکنش');
       setMessage('✅ ' + data.message);
       setForm({ ...form, amount: '' });
-    } catch (err) { setMessage('❌ ' + err.message); }
+      fetchData();
+    } catch (err) {
+      setMessage('❌ ' + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,17 +71,19 @@ export default function AdminWallet() {
         <h2>💳 تراکنش جدید</h2>
         <form onSubmit={handleSubmit} style={{ background: 'white', borderRadius: 12, padding: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', maxWidth: 500, display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ display: 'flex', gap: 12 }}>
-            <select value={form.type} onChange={e => setForm({...form, type: e.target.value})} style={selectStyle}>
+            <select value={form.type} onChange={e => setForm({...form, type: e.target.value})} style={{ flex: 1, padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 }}>
               <option value="deposit">💰 واریز</option>
               <option value="withdraw">💸 برداشت</option>
               <option value="transfer">🔄 انتقال</option>
             </select>
-            <select value={form.currency} onChange={e => setForm({...form, currency: e.target.value})} style={selectStyle}>
+            <select value={form.currency} onChange={e => setForm({...form, currency: e.target.value})} style={{ flex: 1, padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 }}>
               {wallets.map(w => <option key={w.currency} value={w.currency}>{w.currency}</option>)}
             </select>
           </div>
           <input type="text" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} placeholder="مقدار" required style={{ padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 }} />
-          <button type="submit" style={{ padding: 12, background: '#059669', color: 'white', border: 'none', borderRadius: 8, fontWeight: 'bold', cursor: 'pointer' }}>ثبت تراکنش</button>
+          <button type="submit" disabled={loading} style={{ padding: 12, background: loading ? '#9ca3af' : '#059669', color: 'white', border: 'none', borderRadius: 8, fontWeight: 'bold', cursor: loading ? 'not-allowed' : 'pointer' }}>
+            {loading ? '⏳ در حال ثبت...' : 'ثبت تراکنش'}
+          </button>
         </form>
       </section>
 
@@ -94,4 +119,3 @@ export default function AdminWallet() {
     </AdminLayout>
   );
 }
-const selectStyle = { flex: 1, padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 };
