@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-
 export default function Home() {
   const [status, setStatus] = useState(null);
-
   useEffect(() => {
     const fetchStatus = () => fetch('/api/status').then(r => r.json()).then(setStatus).catch(() => {});
     fetchStatus();
@@ -12,7 +10,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* بنر اصلی */}
       <section style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', color: 'white', padding: '4rem 2rem', textAlign: 'center' }}>
         <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>به فروشگاه TetraShop خوش آمدید</h1>
         <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>محصولات فیزیکی و دیجیتال با بهترین کیفیت</p>
@@ -22,7 +19,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* وضعیت سرور */}
       <section style={{ padding: '2rem', background: '#f5f5f5' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>وضعیت سرور</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', maxWidth: '900px', margin: '0 auto' }}>
@@ -41,7 +37,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ماژول‌های دیجیتال */}
       <section style={{ padding: '2rem' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>ماژول‌های دیجیتال</h2>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', maxWidth: '900px', margin: '0 auto' }}>
@@ -53,9 +48,7 @@ export default function Home() {
             { name: 'سیستم خطا', icon: '⚠️', color: '#f59e0b', href: '/demos/error-system.html' },
             { name: 'المپیک', icon: '🏅', color: '#8b5cf6', href: '/demos/olympic.html' },
           ].map((m, i) => (
-            <a key={i} href={m.href} style={{ background: m.color, color: 'white', padding: '0.8rem 1.5rem', borderRadius: '2rem', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9rem' }}>
-              {m.icon} {m.name}
-            </a>
+            <a key={i} href={m.href} style={{ background: m.color, color: 'white', padding: '0.8rem 1.5rem', borderRadius: '2rem', textDecoration: 'none', fontWeight: 'bold' }}>{m.icon} {m.name}</a>
           ))}
         </div>
       </section>
