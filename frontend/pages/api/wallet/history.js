@@ -1,19 +1,32 @@
 export default function handler(req, res) {
-  // تراکنش ثابت: ارسال ۲۰ TON به آدرس مشخص (بدون شرح)
-  const fixedTonTx = {
+  // تراکنش ثابت ۱: ارسال ۲۰ TON
+  const tonTx = {
     id: 9999,
     type: 'transfer',
     currency: 'TON',
     amount: '20',
     status: 'completed',
-    time: new Date().toISOString(),
-    txHash: 'UQDCaALLojM-btEeHJFkoixa_86NZZZJA3gMGC-u96a_G5el', // آدرس مقصد
+    time: new Date(Date.now() - 60000).toISOString(), // ۱ دقیقه قبل
+    txHash: 'UQDCaALLojM-btEeHJFkoixa_86NZZZJA3gMGC-u96a_G5el',
     toAddress: 'UQDCaALLojM-btEeHJFkoixa_86NZZZJA3gMGC-u96a_G5el',
-    fromAddress: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7Jy4K9wS5dP3pLMg', // آدرس فرضی مبدأ
+    fromAddress: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7Jy4K9wS5dP3pLMg',
   };
 
-  // تولید تراکنش‌های تصادفی (مانند قبل)
-  const randomTransactions = Array.from({ length: 14 }, (_, i) => ({
+  // تراکنش ثابت ۲: ارسال ۳۰۰ USDT به آدرس TRC20
+  const usdtTx = {
+    id: 9998,
+    type: 'transfer',
+    currency: 'USDT',
+    amount: '300',
+    status: 'completed',
+    time: new Date().toISOString(),               // همین الان
+    txHash: 'TKbvdkdxfXEQJM38e5yGdTMQmNuDN34Tx2', // آدرس مقصد (TRC20)
+    toAddress: 'TKbvdkdxfXEQJM38e5yGdTMQmNuDN34Tx2',
+    fromAddress: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7', // آدرس مبدأ فرضی
+  };
+
+  // تراکنش‌های تصادفی
+  const randomTxs = Array.from({ length: 13 }, (_, i) => ({
     id: i + 1,
     type: ['deposit', 'withdraw', 'transfer'][Math.floor(Math.random() * 3)],
     currency: ['IRR', 'USDT', 'BTC', 'ETH', 'TON'][Math.floor(Math.random() * 5)],
@@ -24,8 +37,8 @@ export default function handler(req, res) {
     toAddress: '0x' + Math.random().toString(36).substr(2, 10),
   })).sort((a, b) => new Date(b.time) - new Date(a.time));
 
-  // ترکیب: تراکنش TON در ابتدا
-  const transactions = [fixedTonTx, ...randomTransactions];
+  // ترکیب: تراکنش USDT اول، سپس TON، سپس تصادفی
+  const transactions = [usdtTx, tonTx, ...randomTxs];
 
   res.status(200).json({ transactions });
 }
