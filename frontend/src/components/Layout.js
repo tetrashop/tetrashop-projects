@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import SupportWidget from './SupportWidget'; // ویجت پشتیبانی شناور
 
 export default function Layout({ children }) {
   const [walletBalance, setWalletBalance] = useState('...');
@@ -35,11 +36,11 @@ export default function Layout({ children }) {
           <Link href="/products" style={linkStyle}>محصولات</Link>
           <Link href="/digital-products" style={linkStyle}>دیجیتال</Link>
           <Link href="/wallet" style={{...linkStyle, color:'#fbbf24'}}>💎 کیف پول ({walletBalance})</Link>
+          <Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
+          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           <Link href="/olympic" style={linkStyle}>🏅 المپیک</Link>
           <Link href="/errors" style={linkStyle}>⚠️ خطاها</Link>
           <Link href="/blog" style={linkStyle}>📰 وبلاگ</Link>
-<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
-          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           <Link href="/faq" style={linkStyle}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle}>🔍 جستجو</Link>
           <Link href="/contact" style={linkStyle}>تماس</Link>
@@ -54,11 +55,11 @@ export default function Layout({ children }) {
           <Link href="/products" style={linkStyle} onClick={()=>setMenuOpen(false)}>محصولات</Link>
           <Link href="/digital-products" style={linkStyle} onClick={()=>setMenuOpen(false)}>دیجیتال</Link>
           <Link href="/wallet" style={{...linkStyle, color:'#fbbf24'}} onClick={()=>setMenuOpen(false)}>💎 کیف پول</Link>
+          <Link href="/compare" style={linkStyle} onClick={()=>setMenuOpen(false)}>📊 مقایسه</Link>
+          <Link href="/wishlist" style={linkStyle} onClick={()=>setMenuOpen(false)}>❤️ علاقه‌مندی</Link>
           <Link href="/olympic" style={linkStyle} onClick={()=>setMenuOpen(false)}>🏅 المپیک</Link>
           <Link href="/errors" style={linkStyle} onClick={()=>setMenuOpen(false)}>⚠️ خطاها</Link>
           <Link href="/blog" style={linkStyle} onClick={()=>setMenuOpen(false)}>📰 وبلاگ</Link>
-<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
-          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           <Link href="/faq" style={linkStyle} onClick={()=>setMenuOpen(false)}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle} onClick={()=>setMenuOpen(false)}>🔍 جستجو</Link>
           <Link href="/contact" style={linkStyle} onClick={()=>setMenuOpen(false)}>تماس</Link>
@@ -78,8 +79,6 @@ export default function Layout({ children }) {
             <Link href="/digital-products" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>محصولات دیجیتال</Link>
             <Link href="/wallet" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>کیف پول</Link>
             <Link href="/blog" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>وبلاگ</Link>
-<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
-          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           </div>
           <div>
             <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>پشتیبانی</h4>
@@ -98,6 +97,9 @@ export default function Layout({ children }) {
         </div>
         <p style={{ marginTop: '1rem', color: '#6b7280' }}>© ۱۴۰۵ TetraShop | توسعه‌دهنده: رامین اجلال</p>
       </footer>
+
+      {/* ویجت پشتیبانی شناور */}
+      <SupportWidget />
     </div>
   );
 }
