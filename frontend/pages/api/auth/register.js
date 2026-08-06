@@ -1,6 +1,7 @@
-// ثبت‌نام ساده – فقط برای محیط توسعه
-const MOCK_USERS = [
-  { username: 'admin', password: 'admin123' },
+// ذخیره‌سازی ساده در حافظه (در محیط واقعی باید از پایگاه داده استفاده شود)
+const users = [
+  { username: 'admin', password: 'admin123', role: 'admin' },
+  { username: 'manager', password: 'manager123', role: 'manager' },
 ];
 
 export default function handler(req, res) {
@@ -8,8 +9,15 @@ export default function handler(req, res) {
 
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'نام کاربری و رمز عبور الزامی است' });
+  if (password.length < 4) return res.status(400).json({ error: 'رمز عبور حداقل ۴ کاراکتر باشد' });
 
-  // در محیط واقعی باید کاربر در دیتابیس ذخیره شود
-  MOCK_USERS.push({ username, password });
-  res.status(200).json({ success: true, message: 'کاربر با موفقیت ثبت‌نام شد' });
+  // بررسی تکراری بودن
+  if (users.find(u => u.username === username)) {
+    return res.status(409).json({ error: 'این نام کاربری قبلاً ثبت شده است' });
+  }
+
+  const newUser = { username, password, role: 'user' };
+  users.push(newUser);
+
+  res.status(201).json({ success: true, message: 'ثبت‌نام با موفقیت انجام شد' });
 }
