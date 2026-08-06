@@ -1,4 +1,5 @@
-import blogPosts from '../../../../data/blogPosts.json';
+import blogPosts from '../../../data/blogPosts.json';
+
 export default function handler(req, res) {
   const { slug } = req.query;
   const post = blogPosts.find(p => p.slug === slug);
