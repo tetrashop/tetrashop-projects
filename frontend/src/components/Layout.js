@@ -43,6 +43,7 @@ export default function Layout({ children }) {
           <Link href="/blog" style={linkStyle}>📰 وبلاگ</Link>
           <Link href="/faq" style={linkStyle}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle}>🔍 جستجو</Link>
+          <Link href="/status-page" style={linkStyle}>📊 وضعیت</Link>
           <Link href="/contact" style={linkStyle}>تماس</Link>
           <Link href="/about" style={linkStyle}>درباره</Link>
           <a href="/dashboard.html" style={linkStyle}>📊 داشبورد</a>
@@ -62,6 +63,7 @@ export default function Layout({ children }) {
           <Link href="/blog" style={linkStyle} onClick={()=>setMenuOpen(false)}>📰 وبلاگ</Link>
           <Link href="/faq" style={linkStyle} onClick={()=>setMenuOpen(false)}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle} onClick={()=>setMenuOpen(false)}>🔍 جستجو</Link>
+          <Link href="/status-page" style={linkStyle}>📊 وضعیت</Link>
           <Link href="/contact" style={linkStyle} onClick={()=>setMenuOpen(false)}>تماس</Link>
           <Link href="/about" style={linkStyle} onClick={()=>setMenuOpen(false)}>درباره</Link>
           <a href="/dashboard.html" style={linkStyle} onClick={()=>setMenuOpen(false)}>📊 داشبورد</a>
@@ -82,6 +84,7 @@ export default function Layout({ children }) {
           </div>
           <div>
             <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>پشتیبانی</h4>
+          <Link href="/status-page" style={linkStyle}>📊 وضعیت</Link>
             <Link href="/contact" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>تماس با ما</Link>
             <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>درباره ما</Link>
             <Link href="/faq" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>سوالات متداول</Link>
