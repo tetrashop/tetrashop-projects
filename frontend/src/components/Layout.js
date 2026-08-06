@@ -38,6 +38,8 @@ export default function Layout({ children }) {
           <Link href="/olympic" style={linkStyle}>🏅 المپیک</Link>
           <Link href="/errors" style={linkStyle}>⚠️ خطاها</Link>
           <Link href="/blog" style={linkStyle}>📰 وبلاگ</Link>
+<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
+          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           <Link href="/faq" style={linkStyle}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle}>🔍 جستجو</Link>
           <Link href="/contact" style={linkStyle}>تماس</Link>
@@ -55,6 +57,8 @@ export default function Layout({ children }) {
           <Link href="/olympic" style={linkStyle} onClick={()=>setMenuOpen(false)}>🏅 المپیک</Link>
           <Link href="/errors" style={linkStyle} onClick={()=>setMenuOpen(false)}>⚠️ خطاها</Link>
           <Link href="/blog" style={linkStyle} onClick={()=>setMenuOpen(false)}>📰 وبلاگ</Link>
+<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
+          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           <Link href="/faq" style={linkStyle} onClick={()=>setMenuOpen(false)}>❓ سوالات</Link>
           <Link href="/search" style={linkStyle} onClick={()=>setMenuOpen(false)}>🔍 جستجو</Link>
           <Link href="/contact" style={linkStyle} onClick={()=>setMenuOpen(false)}>تماس</Link>
@@ -74,6 +78,8 @@ export default function Layout({ children }) {
             <Link href="/digital-products" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>محصولات دیجیتال</Link>
             <Link href="/wallet" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>کیف پول</Link>
             <Link href="/blog" style={{ color: '#9ca3af', textDecoration: 'none', display: 'block' }}>وبلاگ</Link>
+<Link href="/compare" style={linkStyle}>📊 مقایسه</Link>
+          <Link href="/wishlist" style={linkStyle}>❤️ علاقه‌مندی</Link>
           </div>
           <div>
             <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>پشتیبانی</h4>
