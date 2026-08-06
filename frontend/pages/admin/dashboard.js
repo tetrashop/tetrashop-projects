@@ -7,6 +7,7 @@ export default function Dashboard() {
   const [olympic, setOlympic] = useState(null);
   const [finance, setFinance] = useState(null);
   const [products, setProducts] = useState([]);
+  const [walletBalance, setWalletBalance] = useState(null);
 
   useEffect(() => {
     // وضعیت سرور
@@ -29,7 +30,15 @@ export default function Dashboard() {
     fetchFinance();
     const financeInterval = setInterval(fetchFinance, 10000);
 
-    // محصولات (داده استاتیک)
+    // کیف پول
+    const fetchWallet = () => fetch('/api/wallet/balance').then(r => r.json()).then(data => {
+      const irrWallet = data.wallets?.find(w => w.currency === 'IRR');
+      setWalletBalance(irrWallet?.balance || '0');
+    }).catch(() => {});
+    fetchWallet();
+    const walletInterval = setInterval(fetchWallet, 15000);
+
+    // محصولات
     import('../../src/data/products').then(m => setProducts(m.fakeProducts)).catch(() => {});
 
     return () => {
@@ -37,6 +46,7 @@ export default function Dashboard() {
       clearInterval(errorsInterval);
       clearInterval(olympicInterval);
       clearInterval(financeInterval);
+      clearInterval(walletInterval);
     };
   }, []);
 
@@ -51,23 +61,23 @@ export default function Dashboard() {
     <AdminLayout>
       <h1 style={{ color: '#333', marginBottom: '2rem' }}>📊 داشبورد مدیریت</h1>
 
-      {/* بخش وضعیت سرور */}
-      <section style={{ marginBottom: '2rem' }}>
-        <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.2rem', marginBottom: '1rem' }}>⚡ وضعیت سرور</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem' }}>
-          {[
-            { label: 'وضعیت', value: status ? status.status : '...', color: status?.status === 'online' ? '#059669' : '#dc2626' },
-            { label: 'آپتایم', value: status ? Math.floor(status.uptime) + 's' : '...', color: '#2563eb' },
-            { label: 'حافظه', value: status ? status.memory + ' MB' : '...', color: '#7c3aed' },
-            { label: 'زمان', value: status ? new Date(status.time).toLocaleTimeString('fa-IR') : '...', color: '#333' },
-          ].map((card, i) => (
-            <div key={i} style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>{card.label}</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: card.color }}>{card.value}</div>
+      {/* کارت‌های خلاصه */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        {[
+          { label: 'وضعیت سرور', value: status ? status.status : '...', color: status?.status === 'online' ? '#059669' : '#dc2626', icon: '⚡' },
+          { label: 'موجودی کیف پول', value: walletBalance ? walletBalance + ' ﷼' : '...', color: '#059669', icon: '💎', href: '/admin/wallet' },
+          { label: 'خطاهای فعال', value: errors.filter(e => e.status === 'active').length + ' عدد', color: errors.filter(e => e.status === 'active').length > 0 ? '#dc2626' : '#059669', icon: '⚠️' },
+          { label: 'درآمد ماهانه', value: finance ? finance.revenue + ' ریال' : '...', color: '#7c3aed', icon: '💰' },
+        ].map((card, i) => (
+          <a key={i} href={card.href || '#'} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ background: 'white', borderRadius: '12px', padding: '1.3rem', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', textAlign: 'center', cursor: card.href ? 'pointer' : 'default', transition: 'transform 0.2s' }}>
+              <div style={{ fontSize: '1.5rem' }}>{card.icon}</div>
+              <div style={{ fontSize: '0.85rem', color: '#6b7280', marginTop: '0.5rem' }}>{card.label}</div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: card.color, marginTop: '0.3rem' }}>{card.value}</div>
             </div>
-          ))}
-        </div>
-      </section>
+          </a>
+        ))}
+      </div>
 
       {/* بخش خطاها */}
       <section id="errors" style={{ marginBottom: '2rem' }}>
@@ -76,11 +86,11 @@ export default function Dashboard() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
             <thead>
               <tr style={{ background: '#f9fafb', textAlign: 'right' }}>
-                <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#4b5563' }}>نوع</th>
-                <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#4b5563' }}>پیام</th>
-                <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#4b5563' }}>سرویس</th>
-                <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#4b5563' }}>وضعیت</th>
-                <th style={{ padding: '12px 16px', fontWeight: 'bold', color: '#4b5563' }}>عملیات</th>
+                <th style={{ padding: '12px 16px' }}>نوع</th>
+                <th style={{ padding: '12px 16px' }}>پیام</th>
+                <th style={{ padding: '12px 16px' }}>سرویس</th>
+                <th style={{ padding: '12px 16px' }}>وضعیت</th>
+                <th style={{ padding: '12px 16px' }}>عملیات</th>
               </tr>
             </thead>
             <tbody>
@@ -89,7 +99,11 @@ export default function Dashboard() {
                   <td style={{ padding: '10px 16px' }}><span style={{ background: '#dbeafe', color: '#2563eb', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>{err.type}</span></td>
                   <td style={{ padding: '10px 16px' }}>{err.message}</td>
                   <td style={{ padding: '10px 16px' }}>{err.service}</td>
-                  <td style={{ padding: '10px 16px' }}><span style={{ background: err.status === 'active' ? '#fee2e2' : '#d1fae5', color: err.status === 'active' ? '#dc2626' : '#059669', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>{err.status === 'active' ? 'فعال' : 'رفع‌شده'}</span></td>
+                  <td style={{ padding: '10px 16px' }}>
+                    <span style={{ background: err.status === 'active' ? '#fee2e2' : '#d1fae5', color: err.status === 'active' ? '#dc2626' : '#059669', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>
+                      {err.status === 'active' ? 'فعال' : 'رفع‌شده'}
+                    </span>
+                  </td>
                   <td style={{ padding: '10px 16px' }}>
                     {err.status === 'active' && (
                       <button onClick={() => resolveError(err.id)} style={{ padding: '4px 12px', background: '#059669', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}>رفع</button>
@@ -121,7 +135,11 @@ export default function Dashboard() {
                   {olympic.events.map(e => (
                     <tr key={e.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
                       <td style={{ padding: '10px 16px' }}>{e.name}</td>
-                      <td style={{ padding: '10px 16px' }}><span style={{ background: e.status === 'live' ? '#dcfce7' : e.status === 'upcoming' ? '#fef3c7' : '#f3f4f6', color: e.status === 'live' ? '#059669' : e.status === 'upcoming' ? '#92400e' : '#6b7280', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>{e.status === 'live' ? 'زنده' : e.status === 'upcoming' ? 'پیش‌رو' : 'پایان‌یافته'}</span></td>
+                      <td style={{ padding: '10px 16px' }}>
+                        <span style={{ background: e.status === 'live' ? '#dcfce7' : e.status === 'upcoming' ? '#fef3c7' : '#f3f4f6', color: e.status === 'live' ? '#059669' : e.status === 'upcoming' ? '#92400e' : '#6b7280', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>
+                          {e.status === 'live' ? 'زنده' : e.status === 'upcoming' ? 'پیش‌رو' : 'پایان‌یافته'}
+                        </span>
+                      </td>
                       <td style={{ padding: '10px 16px' }}>{e.score1 !== undefined ? `${e.score1} - ${e.score2}` : '-'}</td>
                       <td style={{ padding: '10px 16px' }}>{e.time}</td>
                     </tr>
