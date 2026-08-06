@@ -11,11 +11,12 @@ export default function AdminLayout({ children }) {
   }, []);
   const logout = () => { localStorage.removeItem('token'); router.push('/admin/login'); };
   const nav = [
-    { href: '/admin/dashboard', label: '📊 داشبورد', icon: '📊' },
-    { href: '/admin/users', label: '👥 کاربران', icon: '👥' },
-    { href: '/admin/wallet', label: '💎 کیف پول', icon: '💎' },
-    { href: '/admin/settings', label: '⚙️ تنظیمات', icon: '⚙️' },
-    { href: '/', label: '🏠 فروشگاه', icon: '🏠' },
+    { href: '/admin/dashboard', label: '📊 داشبورد' },
+    { href: '/admin/analytics', label: '📈 آنالیتیکس' },
+    { href: '/admin/users', label: '👥 کاربران' },
+    { href: '/admin/wallet', label: '💎 کیف پول' },
+    { href: '/admin/settings', label: '⚙️ تنظیمات' },
+    { href: '/', label: '🏠 فروشگاه' },
   ];
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Tahoma' }}>
@@ -29,9 +30,9 @@ export default function AdminLayout({ children }) {
           {nav.map(item => (
             <a key={item.href} href={item.href} style={{
               color: 'white', textDecoration: 'none', padding: '10px 12px', borderRadius: 8,
-              background: router.pathname === item.href ? '#334155' : 'transparent', display: 'flex', alignItems: 'center', gap: 8
+              background: router.pathname === item.href ? '#334155' : 'transparent'
             }}>
-              {item.icon} {item.label}
+              {item.label}
             </a>
           ))}
           <button onClick={logout} style={{ marginTop: 20, padding: 10, background: '#dc2626', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 'bold' }}>🚪 خروج</button>
