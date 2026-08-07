@@ -14,6 +14,7 @@ export default function handler(req, res) {
     }
 
     const newOrder = {
+    commission: Math.round(total * 0.05),
       id: Date.now(),
       customer,
       email: email || '',
