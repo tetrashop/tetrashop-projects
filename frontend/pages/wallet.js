@@ -13,7 +13,7 @@ export default function WalletPage() {
     fetch('/api/wallet/real-balance')
       .then(r => r.json())
       .then(tonData => {
-        // ترکیب با سایر ارزها (شبیه‌سازی‌شده)
+        // دارایی‌های دیگر (شبیه‌سازی شده، ولی نمایش داده می‌شوند)
         const otherWallets = [
           { currency: 'IRR', symbol: '﷼', name: 'ریال ایران', balance: '12,500,000', icon: '🇮🇷', type: 'fiat', address: 'IRR-WALLET-001' },
           { currency: 'USDT', symbol: '₮', name: 'تتر (TRC20)', balance: '500.00', icon: '💎', type: 'crypto', address: 'TKbvdkdxfXEQJM38e5yGdTMQmNuDN34Tx2' },
@@ -22,10 +22,17 @@ export default function WalletPage() {
         ];
         setWallets([tonData, ...otherWallets]);
       })
-      .catch(() => {})
+      .catch(() => {
+        // در صورت خطا، حداقل دارایی‌های شبیه‌سازی را نشان بده
+        setWallets([
+          { currency: 'TON', symbol: '💎', name: 'تون کوین', balance: '0.00', icon: '💎', type: 'crypto', address: 'UQBgjRhKP_MEUN8pcfxTMmY-uj8RdRyb9yl_czQ6VcSRV3Ol' },
+          { currency: 'USDT', symbol: '₮', name: 'تتر (TRC20)', balance: '500.00', icon: '💎', type: 'crypto' },
+          { currency: 'BTC', symbol: '₿', name: 'بیت‌کوین', balance: '0.015', icon: '🪙', type: 'crypto' },
+        ]);
+      })
       .finally(() => setLoading(false));
 
-    // دریافت تاریخچه واقعی
+    // دریافت تاریخچه واقعی TON
     fetch('/api/wallet/real-history')
       .then(r => r.json())
       .then(d => setTransactions(d.transactions || []))
@@ -39,7 +46,7 @@ export default function WalletPage() {
       <div style={{ maxWidth: 1100, margin: '2rem auto', padding: '1rem' }}>
         <h1 style={{ textAlign: 'center', color: '#059669' }}>💎 کیف پول</h1>
         <p style={{ textAlign: 'center', color: '#6b7280', fontSize: 14 }}>
-          موجودی واقعی TON از شبکه دریافت می‌شود. برای مشاهده تراکنش‌های واقعی، آدرس عمومی کیف پول خود را در Vercel تنظیم کنید.
+          موجودی TON از شبکه واقعی دریافت می‌شود. سایر ارزها شبیه‌سازی هستند.
         </p>
 
         {/* دارایی‌ها */}
@@ -58,7 +65,7 @@ export default function WalletPage() {
                 <th style={{ padding: 12 }}>مقدار (TON)</th>
                 <th style={{ padding: 12 }}>وضعیت</th>
                 <th style={{ padding: 12 }}>زمان</th>
-                <th style={{ padding: 12 }}>هش تراکنش</th>
+                <th style={{ padding: 12 }}>هش</th>
               </tr>
             </thead>
             <tbody>
