@@ -1,17 +1,14 @@
 import { generateToken } from '../../../src/utils/auth';
-import { readCollection } from '../../../src/lib/fileStorage';
+import { readCollection } from '../../../src/lib/storage';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'نام کاربری و رمز عبور الزامی است' });
 
-  // کاربران از فایل خوانده می‌شوند
-  let users = readCollection('users');
-
-  // اگر هیچ کاربری وجود نداشت، کاربران پیش‌فرض را ایجاد کن
-  if (users.length === 0) {
+  let users = await readCollection('users');
+  if (!users || users.length === 0) {
     users = [
       { id: '1', username: 'admin', password: 'admin123', role: 'admin' },
       { id: '2', username: 'manager', password: 'manager123', role: 'manager' },

@@ -1,7 +1,7 @@
-import { readCollection, writeCollection, generateId } from '../../../src/lib/fileStorage';
+import { readCollection, writeCollection, generateId } from '../../../src/lib/storage';
 
-export default function handler(req, res) {
-  let orders = readCollection('orders');
+export default async function handler(req, res) {
+  let orders = await readCollection('orders');
 
   if (req.method === 'GET') {
     return res.status(200).json(orders);
@@ -14,7 +14,7 @@ export default function handler(req, res) {
     }
 
     const newOrder = {
-      id: generateId(),
+      id: await generateId(),
       customer,
       email: email || '',
       phone,
@@ -31,7 +31,7 @@ export default function handler(req, res) {
     };
 
     orders.push(newOrder);
-    writeCollection('orders', orders);
+    await writeCollection('orders', orders);
     return res.status(201).json({ success: true, orderId: newOrder.id });
   }
 
@@ -40,7 +40,7 @@ export default function handler(req, res) {
     const orderIndex = orders.findIndex(o => o.id === id);
     if (orderIndex === -1) return res.status(404).json({ error: 'سفارش یافت نشد' });
     orders[orderIndex].status = status;
-    writeCollection('orders', orders);
+    await writeCollection('orders', orders);
     return res.status(200).json(orders[orderIndex]);
   }
 

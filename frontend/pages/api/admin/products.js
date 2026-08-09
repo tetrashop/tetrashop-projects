@@ -1,7 +1,7 @@
-import { readCollection, writeCollection, generateId } from '../../../src/lib/fileStorage';
+import { readCollection, writeCollection, generateId } from '../../../src/lib/storage';
 
-export default function handler(req, res) {
-  let products = readCollection('products');
+export default async function handler(req, res) {
+  let products = await readCollection('products');
 
   if (req.method === 'GET') {
     return res.status(200).json(products);
@@ -12,7 +12,7 @@ export default function handler(req, res) {
     if (!name || !price) return res.status(400).json({ error: 'نام و قیمت الزامی است' });
 
     const newProduct = {
-      id: generateId(),
+      id: await generateId(),
       name,
       price: parseInt(price),
       image: image || `https://picsum.photos/seed/${Date.now()}/400/400`,
@@ -22,7 +22,7 @@ export default function handler(req, res) {
       createdAt: new Date().toISOString(),
     };
     products.push(newProduct);
-    writeCollection('products', products);
+    await writeCollection('products', products);
     return res.status(201).json(newProduct);
   }
 
@@ -39,14 +39,14 @@ export default function handler(req, res) {
     if (stock !== undefined) product.stock = parseInt(stock);
     if (description !== undefined) product.description = description;
     products[productIndex] = product;
-    writeCollection('products', products);
+    await writeCollection('products', products);
     return res.status(200).json(product);
   }
 
   if (req.method === 'DELETE') {
     const { id } = req.body;
     products = products.filter(p => p.id !== id);
-    writeCollection('products', products);
+    await writeCollection('products', products);
     return res.status(200).json({ success: true });
   }
 
