@@ -1,25 +1,25 @@
-import { generateToken, comparePassword } from '../../../src/utils/auth';
+import { generateToken } from '../../../src/utils/auth';
+import { readCollection } from '../../../src/lib/fileStorage';
 
-// کاربران نمونه (در واقعیت باید از پایگاه داده بیایند و رمزها هش شده باشند)
-const users = [
-  { username: 'admin', passwordHash: '$2a$10$placeholder', role: 'admin' }, // مقدار واقعی پس از هش شدن
-  { username: 'manager', passwordHash: '$2a$10$placeholder', role: 'manager' },
-];
-
-export default async function handler(req, res) {
+export default function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'نام کاربری و رمز عبور الزامی است' });
 
-  // برای سادگی، در این نسخه هنوز رمزها هش نشده‌اند (توسعه‌ی بعدی)
-  const user = users.find(u => u.username === username);
-  if (!user) return res.status(401).json({ error: 'نام کاربری یا رمز عبور اشتباه است' });
+  // کاربران از فایل خوانده می‌شوند
+  let users = readCollection('users');
 
-  // در نسخهٔ واقعی: const isValid = await comparePassword(password, user.passwordHash);
-  // فعلاً ساده:
-  const plainPasswords = { admin: 'admin123', manager: 'manager123' };
-  if (plainPasswords[username] !== password) return res.status(401).json({ error: 'نام کاربری یا رمز عبور اشتباه است' });
+  // اگر هیچ کاربری وجود نداشت، کاربران پیش‌فرض را ایجاد کن
+  if (users.length === 0) {
+    users = [
+      { id: '1', username: 'admin', password: 'admin123', role: 'admin' },
+      { id: '2', username: 'manager', password: 'manager123', role: 'manager' },
+    ];
+  }
+
+  const user = users.find(u => u.username === username && u.password === password);
+  if (!user) return res.status(401).json({ error: 'نام کاربری یا رمز عبور اشتباه است' });
 
   const token = generateToken(user);
   res.status(200).json({ token, username: user.username, role: user.role });
