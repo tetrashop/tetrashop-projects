@@ -1,17 +1,19 @@
-import { WALLET_ADDRESSES, TONCENTER_API_KEY } from '../../../src/utils/walletConfig';
+const TON_ADDRESS = process.env.NEXT_PUBLIC_TON_ADDRESS || 'UQBgjRhKP_MEUN8pcfxTMmY-uj8RdRyb9yl_czQ6VcSRV3Ol';
+const API_KEY = process.env.TONCENTER_API_KEY || '';
 
 export default async function handler(req, res) {
   try {
-    const tonAddress = WALLET_ADDRESSES.TON;
-    const apiKey = TONCENTER_API_KEY;
-    const url = `https://toncenter.com/api/v2/getAddressBalance?address=${tonAddress}`;
-    const headers = apiKey ? { 'X-API-Key': apiKey } : {};
+    const url = `https://toncenter.com/api/v2/getAddressBalance?address=${TON_ADDRESS}`;
+    const headers = API_KEY ? { 'X-API-Key': API_KEY } : {};
     const response = await fetch(url, { headers });
     const data = await response.json();
 
-    if (!data.ok) throw new Error(data.error || 'خطا در دریافت اطلاعات');
+    if (!data.ok) throw new Error(data.error || 'خطا در دریافت موجودی');
 
-    const balanceTON = (parseInt(data.result) / 1e9).toFixed(4);
+    // تبدیل نانوتون به TON
+    const balanceNano = parseInt(data.result);
+    const balanceTON = (balanceNano / 1e9).toFixed(4);
+
     res.status(200).json({
       currency: 'TON',
       symbol: '💎',
@@ -19,12 +21,12 @@ export default async function handler(req, res) {
       balance: balanceTON,
       icon: '💎',
       type: 'crypto',
-      address: tonAddress,
+      address: TON_ADDRESS,
       source: 'toncenter.com (real-time)',
       lastUpdated: new Date().toISOString(),
     });
   } catch (error) {
-    // Fallback در صورت خطا
+    // Fallback (اگر اینترنت نبود)
     res.status(200).json({
       currency: 'TON',
       symbol: '💎',
@@ -32,8 +34,8 @@ export default async function handler(req, res) {
       balance: '0.00',
       icon: '💎',
       type: 'crypto',
-      address: WALLET_ADDRESSES.TON,
-      source: 'fallback (simulated)',
+      address: TON_ADDRESS,
+      source: 'fallback (offline)',
       lastUpdated: new Date().toISOString(),
     });
   }

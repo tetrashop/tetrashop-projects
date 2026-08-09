@@ -6,8 +6,6 @@ export default function WalletPage() {
   const [wallets, setWallets] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
-  const [form, setForm] = useState({ toAddress: '', amount: '' });
 
   useEffect(() => {
     setLoading(true);
@@ -34,36 +32,15 @@ export default function WalletPage() {
       .catch(() => {});
   }, []);
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    try {
-      const res = await fetch('/api/wallet/send-real', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      setMessage((data.simulated ? '⚠️ ' : '✅ ') + data.message);
-      if (data.warning) setMessage(prev => prev + '\n' + data.warning);
-      setForm({ toAddress: '', amount: '' });
-    } catch (err) {
-      setMessage('❌ ' + err.message);
-    }
-  };
-
   if (loading) return <Layout><div style={{ textAlign: 'center', padding: 60 }}>در حال بارگذاری...</div></Layout>;
 
   return (
     <Layout>
       <div style={{ maxWidth: 1100, margin: '2rem auto', padding: '1rem' }}>
         <h1 style={{ textAlign: 'center', color: '#059669' }}>💎 کیف پول</h1>
-
-        {message && (
-          <div style={{ padding: 12, background: message.includes('⚠️') ? '#fef3c7' : message.includes('✅') ? '#d1fae5' : '#fee2e2', borderRadius: 8, marginBottom: 15, textAlign: 'center', whiteSpace: 'pre-line' }}>
-            {message}
-          </div>
-        )}
+        <p style={{ textAlign: 'center', color: '#6b7280', fontSize: 14 }}>
+          موجودی واقعی TON از شبکه دریافت می‌شود. برای مشاهده تراکنش‌های واقعی، آدرس عمومی کیف پول خود را در Vercel تنظیم کنید.
+        </p>
 
         {/* دارایی‌ها */}
         <h2>💰 دارایی‌ها</h2>
@@ -71,21 +48,8 @@ export default function WalletPage() {
           {wallets.map(w => <WalletCard key={w.currency} wallet={w} />)}
         </div>
 
-        {/* فرم ارسال (شبیه‌سازی) */}
-        <div style={{ background: 'white', borderRadius: 12, padding: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', maxWidth: 500, marginBottom: 30 }}>
-          <h2>💸 ارسال TON (آزمایشی)</h2>
-          <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 10 }}>
-            تراکنش‌ها تا زمانی که کلید خصوصی تنظیم نشده، شبیه‌سازی می‌شوند.
-          </p>
-          <form onSubmit={handleSend} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <input type="text" value={form.toAddress} onChange={e => setForm({...form, toAddress: e.target.value})} placeholder="آدرس مقصد TON" required style={{ padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 }} />
-            <input type="text" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} placeholder="مقدار (TON)" required style={{ padding: 10, border: '2px solid #e5e7eb', borderRadius: 8 }} />
-            <button type="submit" style={{ padding: 12, background: '#059669', color: 'white', border: 'none', borderRadius: 8, fontWeight: 'bold', cursor: 'pointer' }}>ارسال (شبیه‌سازی)</button>
-          </form>
-        </div>
-
         {/* تاریخچه */}
-        <h2>📋 تاریخچه تراکنش‌ها (واقعی)</h2>
+        <h2>📋 تاریخچه تراکنش‌ها</h2>
         <div style={{ background: 'white', borderRadius: 12, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', overflow: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
