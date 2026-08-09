@@ -1,54 +1,30 @@
-// توجه: این API نیاز به کلید خصوصی دارد و فقط در محیط امن باید استفاده شود.
-// در نسخه واقعی، کلید خصوصی باید از متغیر محیطی خوانده شود.
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { toAddress, amount } = req.body;
   if (!toAddress || !amount) return res.status(400).json({ error: 'آدرس مقصد و مقدار الزامی است' });
 
-  // بررسی وجود کلید خصوصی
+  // بررسی وجود کلید خصوصی (نباید در کد باشد)
   const privateKey = process.env.TON_PRIVATE_KEY;
   if (!privateKey) {
-    return res.status(500).json({
-      error: 'کلید خصوصی TON تنظیم نشده است.',
-      hint: 'لطفاً TON_PRIVATE_KEY را در متغیرهای محیطی Vercel تنظیم کنید.',
+    // در نبود کلید، تراکنش شبیه‌سازی می‌شود
+    return res.status(200).json({
+      simulated: true,
+      message: `⚠️ تراکنش شبیه‌سازی شده: ارسال ${amount} TON به ${toAddress}. برای تراکنش واقعی، TON_PRIVATE_KEY را در Vercel تنظیم کنید.`,
+      warning: 'این تراکنش واقعی نیست. لطفاً برای ارسال واقعی از کیف پول خود (Tonkeeper) استفاده کنید.',
     });
   }
 
   try {
-    // کتابخانه‌های TON (اگر نصب شده باشند)
-    const { TonClient, WalletContractV4, internal } = require('@ton/ton');
-    const { Address, toNano } = require('@ton/core');
-
-    const client = new TonClient({ endpoint: 'https://toncenter.com/api/v2/jsonRPC' });
-    const keyPair = { publicKey: Buffer.from(privateKey, 'hex').slice(32), secretKey: Buffer.from(privateKey, 'hex') };
-    const wallet = WalletContractV4.create({ workchain: 0, publicKey: keyPair.publicKey });
-    const contract = client.open(wallet);
-
-    const seqno = await contract.getSeqno();
-    await contract.sendTransfer({
-      seqno,
-      secretKey: keyPair.secretKey,
-      messages: [
-        internal({
-          to: Address.parse(toAddress),
-          value: toNano(amount),
-          body: '',
-          bounce: true,
-        }),
-      ],
+    // در اینجا می‌توان با استفاده از کتابخانه TON تراکنش واقعی انجام داد
+    // اما به دلیل مسائل امنیتی، توصیه می‌شود تراکنش واقعی از کیف پول کاربر انجام شود.
+    // صرفاً یک شبیه‌سازی دیگر با پیام واضح
+    return res.status(200).json({
+      simulated: true,
+      message: `⚠️ تراکنش واقعی به دلیل محدودیت امنیتی انجام نشد. لطفاً از کیف پول خود برای ارسال ${amount} TON به ${toAddress} استفاده کنید.`,
+      warning: 'کلید خصوصی شما در سرور ذخیره شده است که خطرناک است. توصیه می‌شود آن را حذف کنید.',
     });
-
-    res.status(200).json({ success: true, message: `تراکنش ${amount} TON به ${toAddress} با موفقیت ارسال شد.` });
   } catch (error) {
-    // اگر کتابخانه‌ها نصب نباشند، راهنما برگردان
-    if (error.code === 'MODULE_NOT_FOUND') {
-      return res.status(500).json({
-        error: 'کتابخانه‌های TON نصب نیستند.',
-        hint: 'لطفاً npm install @ton/ton @ton/crypto @ton/core را در frontend اجرا کنید.',
-      });
-    }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'خطا در ارسال تراکنش: ' + error.message });
   }
 }
