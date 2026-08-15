@@ -10,3 +10,4 @@ packages/
 .vercel
 .env*.local
 tetrashop-vercel_broken/
+.env*
