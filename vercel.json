@@ -1,14 +1,1 @@
-{
-  "functions": {
-    "api/bot/webhook.py": {
-      "runtime": "python3.9",
-      "includeFiles": "api/bot/**"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/bot",
-      "destination": "/api/bot/webhook.py"
-    }
-  ]
-}
+{"version":2,"builds":[{"src":"index.html","use":"@vercel/static"}],"routes":[{"src":"/(.*)","dest":"/$1"}]}
