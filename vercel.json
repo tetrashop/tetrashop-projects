@@ -6,6 +6,9 @@
     }
   },
   "rewrites": [
-    { "source": "/api/bot", "destination": "/api/bot/webhook.py" }
+    {
+      "source": "/api/bot",
+      "destination": "/api/bot/webhook.py"
+    }
   ]
 }
